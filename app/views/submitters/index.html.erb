@@ -1,0 +1,14 @@
+<h1>Listing Submitters</h1>
+
+<table>
+    <tr>
+        <th>Name</th>
+    </tr>
+    
+    <% @submitters.each do |submitter| %>
+        <tr>
+            <td><%= submitter.surname %> <%= submitter.name %></td>
+            <td><%= link_to 'Show', submitter_path(submitter) %></td>
+        </tr>
+    <% end %>
+</table>

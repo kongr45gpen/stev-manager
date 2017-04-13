@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  team: MyString
+  title: MyString
+  kind: MyString
+  other: MyText
+  proposed_space: MyText
+  proposed_time: MyText
+  submitter: one
+
+two:
+  team: MyString
+  title: MyString
+  kind: MyString
+  other: MyText
+  proposed_space: MyText
+  proposed_time: MyText
+  submitter: two

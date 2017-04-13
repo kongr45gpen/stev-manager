@@ -1,0 +1,13 @@
+<p>
+    <strong>Name:</strong>
+    <%= @submitter.surname %> <%= @submitter.name %>
+</p>
+
+<p>
+  <strong>Events:</strong>
+  <ul>
+    <% @submitter.events.each do |event| %>
+      <li><%= link_to event.title, event %></li>
+    <% end %>
+  </ul>
+</p>
