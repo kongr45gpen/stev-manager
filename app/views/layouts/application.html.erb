@@ -10,11 +10,26 @@
   </head>
 
   <body>
+    <%= navbar do %>
+        <%= navbar_group do %>
+          <%= navbar_header brand: 'Student Event Manager', brand_link: root_path  %>
+          <%= navbar_item "Home", root_path %>
+          <%= navbar_item "Events", events_path %>
+          <%= navbar_item "Admin", admin_root_path %>
+        <% end %>
+      <%= navbar_group align: 'right' do %>
+        <% if current_user.present? %>
+              <%= navbar_text 'Logged in with ' + current_user.email %>
+              <%= navbar_item "Logout", destroy_user_session_path, :method => :delete %>
+        <% else %>
+          <%= navbar_item "Log in", new_user_session_path %>
+        <% end %>
+      <% end %>
+    <% end %>
     <div class="container">
       <div class="page_header">
         <h1>Student Event Manager</h1>
       </div>
-      <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
       <p class="notice"><%= notice %></p>
       <p class="alert"><%= alert %></p>
       <%= yield %>
