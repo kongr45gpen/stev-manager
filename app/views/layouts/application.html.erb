@@ -4,11 +4,20 @@
     <title>StevManager</title>
     <%= csrf_meta_tags %>
 
+    <%= favicon_link_tag %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <%= yield %>
+    <div class="container">
+      <div class="page_header">
+        <h1>Student Event Manager</h1>
+      </div>
+      <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+      <%= yield %>
+    </div>
   </body>
 </html>

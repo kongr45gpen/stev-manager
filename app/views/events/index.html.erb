@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Events</h1>
 
 <table>
@@ -33,6 +31,34 @@
     <% end %>
   </tbody>
 </table>
+
+<% @events.each do |event| %>
+    <div class="media">
+      <div class="media-left">
+        <a href="<%= url_for event %> " class="media-object event-kind" data-kind="<%= event.kind %>">
+          <img src="<%= asset_path 'kinds/'+event.kind, type: :image %>" alt="<%= event.kind %>">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><%= link_to event.title, event %><br>
+        <small class="event-team"><%= event.team %>
+          <span class="label label-event-<%= event.kind %>"><%= event.kind %></span>
+        </small></h3>
+
+        <p><%= event.other %></p>
+        <ul class="list-unstyled">
+          <li><strong>Proposed space: </strong> <%= event.proposed_space %></li>
+          <li><strong>Proposed time: </strong> <%= event.proposed_time %></li>
+        </ul>
+
+        <small>
+          Contact: <%= link_to event.submitter.surname + ' ' + event.submitter.name, event.submitter %>
+          (<%= event.submitter.phone %>,
+          <a href="mailto:<%= event.submitter.email %>"><%= event.submitter.email %></a>)
+        </small>
+      </div>
+    </div>
+<% end %>
 
 <br>
 

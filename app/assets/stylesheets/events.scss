@@ -1,3 +1,48 @@
 // Place all the styles related to the Events controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$kindColors: (
+  music: #315277,
+  theatre: #307121,
+  photography: #295854,
+  sports: #4f3932,
+  other: #555555
+);
+
+.event-kind {
+  padding: 1em;
+  background-color: #333333;
+  border-radius: 5px;
+
+  img {
+    width: 64px;
+  }
+
+  @each $kind, $color in $kindColors {
+    &[data-kind=#{$kind}] {
+      background-color: $color;
+    }
+  }
+
+  &[data-kind="theatre"] img {
+    filter: invert(100%);
+  }
+
+  &[data-kind="photography"] img {
+    filter: invert(80%);
+  }
+}
+
+.event-team {
+  &:before {
+    content: "by ";
+    font-size-adjust: 0.4;
+  }
+}
+
+@each $kind, $color in $kindColors {
+  .label-event-#{$kind} {
+    background-color: saturate(lighten($color, 10%), 20%);
+  }
+}
