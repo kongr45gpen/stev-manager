@@ -12,4 +12,6 @@ ActiveAdmin.register Event do
 #   permitted
 # end
 
+  permit_params :team, :title, :kind, :other, :proposed_space, :proposed_time, :submitter_id
+
 end

@@ -10,6 +10,38 @@ ActiveAdmin.register_page "Dashboard" do
       end
     end
 
+    columns do
+      column do
+        panel "Recent Logins" do
+          ul do
+            User.order(last_sign_in_at: "ASC").where.not(last_sign_in_at: nil).limit(5).map do |user|
+              li link_to(user.email, admin_user_path(user)) + ' ' + time_ago_in_words(user.last_sign_in_at) + ' ago'
+            end
+          end
+        end
+      end
+
+      column do
+        panel "Comments" do
+          table_for ActiveAdmin::Comment.last(10) do
+            column "Commenter", :author
+            column "Resource", :resource
+            column "Body", :body
+          end
+        end
+      end
+
+      column do
+        panel "Events" do
+          ul do
+            Event.limit(20).map do |event|
+              li link_to(event.title, event_path(event))
+            end
+          end
+        end
+      end
+    end
+
     # Here is an example of a simple dashboard with columns and panels.
     #
     # columns do

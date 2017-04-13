@@ -1,38 +1,7 @@
 <h1>Events</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Team</th>
-      <th>Title</th>
-      <th>Kind</th>
-      <th>Other</th>
-      <th>Proposed space</th>
-      <th>Proposed time</th>
-      <th>Submitter</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @events.each do |event| %>
-      <tr>
-        <td><%= event.team %></td>
-        <td><%= event.title %></td>
-        <td><%= event.kind %></td>
-        <td><%= event.other %></td>
-        <td><%= event.proposed_space %></td>
-        <td><%= event.proposed_time %></td>
-        <td><%= event.submitter %></td>
-        <td><%= link_to 'Show', event %></td>
-        <td><%= link_to 'Edit', edit_event_path(event) %></td>
-        <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<% @events.each do |event| %>
+<% @events.each_with_index do |event, idx| %>
+    <hr>
     <div class="media">
       <div class="media-left">
         <a href="<%= url_for event %> " class="media-object event-kind" data-kind="<%= event.kind %>">
@@ -56,6 +25,10 @@
           (<%= event.submitter.phone %>,
           <a href="mailto:<%= event.submitter.email %>"><%= event.submitter.email %></a>)
         </small>
+      </div>
+      <div class="media-right event-no">
+        #<%= idx %>
+        <a href="<%= edit_admin_event_url(event) %>" class="btn btn-default">Edit</a>
       </div>
     </div>
 <% end %>
