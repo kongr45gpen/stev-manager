@@ -33,6 +33,7 @@ el:
   home: "Home"
   events: "Εκδηλώσεις"
   admin: "Διαχείριση"
+  schedule: "Πρόγραμμα"
   logout: "Αποσύνδεση"
   language: "Γλώσσα"
   en: "Αγγλικά"

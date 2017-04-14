@@ -7,6 +7,10 @@
     <%= favicon_link_tag %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <style type="text/css">
+      <%= if @theme then @theme.render end %>
+    </style>
   </head>
 
   <body>
@@ -16,6 +20,7 @@
           <%= navbar_item t(:home), root_path %>
           <%= navbar_item t(:events), events_path %>
           <%= navbar_item t(:admin), admin_root_path %>
+          <%= navbar_item t(:schedule), schedule_path %>
         <% end %>
       <%= navbar_group align: 'right' do %>
         <% if current_user.present? %>

@@ -1,0 +1,23 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\usepackage{polyglossia}
+\newfontfamily\greekfont[Script=Greek]{Times New Roman}
+\newfontfamily\greekfontsf[Script=Greek]{Arial}
+\newfontfamily\greekfonttt[Script=Greek]{Latin Modern Mono}
+\setdefaultlanguage{greek}
+\setotherlanguage{english}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+
+\begin{document}
+Welcome to \LaTeX!
+
+<% @events.each do |event| %>
+  \paragraph{<%= event.title %>}
+    <%== event.abstract.gsub('&','\\&') %>
+
+<% end %>
+\end{document}

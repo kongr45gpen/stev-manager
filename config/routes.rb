@@ -11,4 +11,7 @@ Rails.application.routes.draw do
   resources :events
 
   match '/set_locale', to: 'landing#user_set_locale', via: :post
+
+  get '/schedule', to: 'schedule#index'
+  get '/schedule/preview'
 end
