@@ -1,4 +1,6 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[14pt,oneside,showtrims,a4paper]{memoir}
+
+\pageaiv % A4 page
 
 \usepackage{fontspec}
 \setmainfont{Times New Roman}
@@ -10,14 +12,32 @@
 \setdefaultlanguage{greek}
 \setotherlanguage{english}
 
-\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+%\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{15pt}
+
+\newenvironment{stayonpage}
+{\par\nobreak\vfil\penalty0\vfilneg
+\vtop\bgroup}
+{\par\xdef\tpd{\the\prevdepth}\egroup
+\prevdepth=\tpd}
 
 \begin{document}
-Welcome to \LaTeX!
 
 <% @events.each do |event| %>
-  \paragraph{<%= event.title %>}
-    <%== event.abstract.gsub('&','\\&') %>
+  \begin{stayonpage}
+  \paragraph{} \hspace{0pt}
 
+    <%= event.team.texcape %>
+    \\
+    \textbf{<%= event.title.texcape %>}
+
+    <%= event.abstract.texcape %>
+
+    \textbf{Ημερομηνία:} <%= event.proposed_time.texcape %>\\
+    \textbf{Ώρα:} 09:30 \\
+    \textbf{Χώρος Διεξαγωγής:} <%= event.proposed_space.texcape %>
+  \end{stayonpage}
 <% end %>
 \end{document}
