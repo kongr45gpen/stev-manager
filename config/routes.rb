@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   
   resources :submitters
   resources :events
+
+  match '/set_locale', to: 'landing#user_set_locale', via: :post
 end

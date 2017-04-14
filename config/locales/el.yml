@@ -19,15 +19,21 @@
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
 
-en:
-  hello: "Hello world"
-  theatre: "Theatre"
-  music: "Music"
-  other: "Other"
-  sports: "Sports"
-  photography: "Photography"
-  edit: "Edit"
-  contact: "Contact"
-  language: "Language"
-  en: "English"
-  el: "Greek"
+el:
+  hello: "Γεια"
+  theatre: "Θέατρο"
+  music: "Μουσική"
+  other: "Άλλο"
+  sports: "Αθλητισμός"
+  photography: "Φωτογραφία"
+  edit: "Επεξεργασία"
+  contact: "Επικοινωνία"
+  proposed_space: "Προτεινόμενος χώρος διεξαγωγής"
+  proposed_time: "Προτεινόμενες ημερομηνίες"
+  home: "Home"
+  events: "Εκδηλώσεις"
+  admin: "Διαχείριση"
+  logout: "Αποσύνδεση"
+  language: "Γλώσσα"
+  en: "Αγγλικά"
+  el: "Ελληνικά"

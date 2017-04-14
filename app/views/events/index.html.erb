@@ -5,30 +5,30 @@
     <div class="media">
       <div class="media-left">
         <a href="<%= url_for event %> " class="media-object event-kind" data-kind="<%= event.kind %>">
-          <img src="<%= asset_path 'kinds/'+event.kind, type: :image %>" alt="<%= event.kind %>">
+          <img src="<%= asset_path 'kinds/'+event.kind, type: :image %>" alt="<%=t event.kind %>">
         </a>
       </div>
       <div class="media-body">
         <h3 class="media-heading"><%= link_to event.title, event %><br>
         <small class="event-team"><%= event.team %>
-          <span class="label label-event-<%= event.kind %>"><%= event.kind %></span>
+          <span class="label label-event-<%= event.kind %>"><%=t event.kind %></span>
         </small></h3>
 
         <p><%= event.other %></p>
         <ul class="list-unstyled">
-          <li><strong>Proposed space: </strong> <%= event.proposed_space %></li>
-          <li><strong>Proposed time: </strong> <%= event.proposed_time %></li>
+          <li><strong><%=t :proposed_space %>: </strong> <%= event.proposed_space %></li>
+          <li><strong><%=t :proposed_time %>: </strong> <%= event.proposed_time %></li>
         </ul>
 
         <small>
-          Contact: <%= link_to event.submitter.surname + ' ' + event.submitter.name, event.submitter %>
+          <%=t :contact %>: <%= link_to event.submitter.surname + ' ' + event.submitter.name, event.submitter %>
           (<%= event.submitter.phone %>,
           <a href="mailto:<%= event.submitter.email %>"><%= event.submitter.email %></a>)
         </small>
       </div>
       <div class="media-right event-no">
         #<%= idx %>
-        <a href="<%= edit_admin_event_url(event) %>" class="btn btn-default">Edit</a>
+        <a href="<%= edit_admin_event_url(event) %>" class="btn btn-default"><%=t :edit %></a>
       </div>
     </div>
 <% end %>
