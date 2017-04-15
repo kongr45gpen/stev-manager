@@ -11,7 +11,9 @@
       <div class="media-body">
         <h3 class="media-heading"><%= link_to event.title, event %><br>
         <small class="event-team"><%= event.team %>
-          <span class="label label-event-<%= event.kind %>"><%=t event.kind %></span>
+          <% event.fields.each do |kind| %>
+            <span class="label label-event-<%= kind %>"><%=t kind %></span>
+          <% end %>
         </small></h3>
 
         <p><%= event.other %></p>
