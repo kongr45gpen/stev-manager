@@ -1,6 +1,7 @@
 \documentclass[14pt,oneside,showtrims,a4paper]{memoir}
 
 \pageaiv % A4 page
+\pagestyle{empty} % No header/footer
 
 \usepackage{fontspec}
 \setmainfont{Times New Roman}
@@ -16,6 +17,10 @@
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{15pt}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{0pt}
+\setlength{\topmargin}{0cm}
+\setlength{\textheight}{24cm}
 
 \newenvironment{stayonpage}
 {\par\nobreak\vfil\penalty0\vfilneg
@@ -23,11 +28,23 @@
 {\par\xdef\tpd{\the\prevdepth}\egroup
 \prevdepth=\tpd}
 
+\newcommand\disappearingrule{%
+\par % make sure we end a paragraph
+\vskip5pt % space above the rule
+\leaders\vrule width \textwidth\vskip0.4pt % rule thickness is 0.4pt
+\nointerlineskip % disable interline glue here
+\vskip5pt % space below the rule
+}
+
 \begin{document}
 
-<% @events.each do |event| %>
+% hello
+
+<% @events.each_with_index do |event, idx| %>
   \begin{stayonpage}
-  \paragraph{} \hspace{0pt}
+    <% if idx != 0 %>
+      \paragraph{} \hspace{0pt}
+    <% end %>
 
     <%= event.team.texcape %>
     \\
@@ -39,5 +56,7 @@
     \textbf{Ώρα:} 09:30 \\
     \textbf{Χώρος Διεξαγωγής:} <%= event.proposed_space.texcape %>
   \end{stayonpage}
+
+    \disappearingrule
 <% end %>
 \end{document}

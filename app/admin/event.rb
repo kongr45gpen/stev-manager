@@ -12,10 +12,11 @@ ActiveAdmin.register Event do
 #   permitted
 # end
 
-  permit_params :team, :title, :kind, :other, :proposed_space, :proposed_time, :abstract, :submitter_id
+  permit_params :team, :title, :kind, :other, :proposed_space, :proposed_time, :abstract, :submitter_id, :fields
 
   form do |f|
     f.inputs 'Information' do
+      f.input :id, :input_html => { :disabled => true }
       f.input :title
       f.input :team
       # f.input :published_at, label: 'Publish Post At'
@@ -28,6 +29,7 @@ ActiveAdmin.register Event do
     # end
     f.inputs 'Details' do
       f.input :kind, as: :select, collection: ["theatre","music","photography","sports","other"]
+      f.input :fields,:as => :serialized_array, collection: ["theatre","music","photography","sports","other","toast"]
       f.input :other, :input_html => { :rows => 2  }
       f.input :abstract, :input_html => { :rows => 5  }
       f.input :proposed_space, :as => :string
