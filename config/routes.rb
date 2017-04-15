@@ -14,4 +14,7 @@ Rails.application.routes.draw do
 
   get '/schedule', to: 'schedule#index'
   get '/schedule/preview'
+
+  get '/import', to: 'import#index'
+  match '/import/process', to: 'import#upload', via: :post
 end

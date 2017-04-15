@@ -1,0 +1,22 @@
+<% require_dependency 'string' %>
+
+<h1>Process</h1>
+
+<table class="table">
+  <thead>
+  <tr>
+    <% @data.first.each_with_index do |attr, idx| %>
+        <th><%= idx %></th>
+    <% end %>
+  </tr>
+  </thead>
+  <tbody>
+  <% @data.each do |x| %>
+      <tr <%= if !x.first.to_s.is_i? then 'class=active' end %>>
+        <% x.each do |attr| %>
+            <td><%= attr.to_s.truncate(7) %></td>
+        <% end %>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

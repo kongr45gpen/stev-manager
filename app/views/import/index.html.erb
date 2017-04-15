@@ -1,0 +1,8 @@
+<h1>Import CSV file</h1>
+
+<div class="well" data-turbolinks="false">
+<%= bootstrap_form_tag(url: import_process_path, multipart: true) do |f| %>
+    <%= f.file_field 'submissions' %>
+    <%= f.submit "Import", class: "btn btn-primary" %>
+<% end %>
+</div>

@@ -21,6 +21,7 @@
           <%= navbar_item t(:events), events_path %>
           <%= navbar_item t(:admin), admin_root_path %>
           <%= navbar_item t(:schedule), schedule_path %>
+          <%= navbar_item t(:import), import_path %>
         <% end %>
       <%= navbar_group align: 'right' do %>
         <% if current_user.present? %>
