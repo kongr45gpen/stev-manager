@@ -72,10 +72,9 @@ ActiveAdmin.register Event do
       f.input :id, :input_html => { :disabled => true }
       f.input :title
       f.input :team
-      # f.input :published_at, label: 'Publish Post At'
     end
     f.inputs 'Details' do
-      f.input :kind, as: :select, collection: ["theatre","music","photography","sports","other"]
+      f.input :kind, as: :select, collection: ["theatre","music","photography","sports","other","concert"]
       f.input :fields,:as => :serialized_array, collection: ["theatre","music","photography","sports","other"]
       f.input :abstract, :input_html => { :rows => 5  }
     end
