@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170416082955) do
+ActiveRecord::Schema.define(version: 20170416213901) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -34,10 +34,16 @@ ActiveRecord::Schema.define(version: 20170416082955) do
     t.text     "proposed_space"
     t.text     "proposed_time"
     t.integer  "submitter_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.text     "abstract"
     t.string   "fields"
+    t.integer  "status",            default: 0
+    t.integer  "scheduled",         default: 0
+    t.boolean  "hidden",            default: false, null: false
+    t.string   "place_description"
+    t.boolean  "team_below",        default: false
+    t.text     "space"
     t.index ["submitter_id"], name: "index_events_on_submitter_id"
   end
 

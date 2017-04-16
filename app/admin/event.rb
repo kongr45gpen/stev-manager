@@ -18,7 +18,7 @@ ActiveAdmin.register Event do
 
   permit_params do
     permitted = [:team, :title, :kind, :other, :proposed_space, :proposed_time, :abstract,
-                 :submitter_id,
+                 :submitter_id, :status, :scheduled, :hidden, :place_description, :team_below, :space,
                  :submitter_attributes => [:id, :surname, :name, :phone, :email],
                  :repetitions_attributes => [:id, :date, :time, :end_date, :duration, :_destroy],
                  :fields => []]
@@ -58,6 +58,9 @@ ActiveAdmin.register Event do
     column :id
     selectable_column
     column :team
+    column(:status) {|event| status_tag(event.status, to_color(event.status), label: I18n.t(event.status)) }
+    column(:scheduled) {|event| status_tag(event.scheduled, to_color(event.scheduled), label: I18n.t(event.scheduled)) }
+    column :hidden
     column :title
     column :kind
     column :submitter
@@ -68,15 +71,31 @@ ActiveAdmin.register Event do
   end
 
   form do |f|
-    f.inputs 'Information' do
-      f.input :id, :input_html => { :disabled => true }
-      f.input :title
-      f.input :team
+    f.actions
+    f.panel 'Information' do
+    columns do
+      column do
+        f.inputs do
+          f.input :id, :input_html => { :disabled => true }
+          f.input :title
+          f.input :team
+        end
+      end
+      column do
+        f.inputs 'Status' do
+          f.input :hidden
+          f.input :status
+          f.input :scheduled
+        end
+      end
     end
+    end
+
     f.inputs 'Details' do
       f.input :kind, as: :select, collection: ["theatre","music","photography","sports","other","concert"]
       f.input :fields,:as => :serialized_array, collection: ["theatre","music","photography","sports","other"]
       f.input :abstract, :input_html => { :rows => 5  }
+      f.input :space, :input_html => { :rows => 1 }
     end
     f.panel 'Submission' do
       tabs do
@@ -104,6 +123,10 @@ ActiveAdmin.register Event do
         t.input :end_date
         t.input :duration, label: 'Duration in minutes'
       end
+    end
+    f.inputs 'Display Details' do
+      f.input :place_description, input_html: { placeholder: "Χώρος διεξαγωγής" }
+      f.input :team_below
     end
     f.actions
   end

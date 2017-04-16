@@ -41,3 +41,11 @@ en:
   date:
     formats:
       sched: "%B %d"
+  cancelled: "Cancelled"
+  pending: "Pending"
+  scheduling: "Scheduling"
+  confirmed: "Confirmed"
+  fresh: New
+  no_schedule: No
+  pending_schedule: Pending
+  scheduled: "Scheduled"
