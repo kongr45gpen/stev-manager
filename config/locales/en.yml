@@ -31,3 +31,12 @@ en:
   language: "Language"
   en: "English"
   el: "Greek"
+  times:
+    one: "once"
+    other: "%{count} times"
+  time:
+    formats:
+      sched: "%H:%M"
+  date:
+    formats:
+      sched: "%B %d"

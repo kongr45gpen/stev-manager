@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2017-04-16 11:29:55
+  time: false
+  end_date: 2017-04-16 11:29:55
+  duration: 9.99
+  event: one
+
+two:
+  date: 2017-04-16 11:29:55
+  time: false
+  end_date: 2017-04-16 11:29:55
+  duration: 9.99
+  event: two

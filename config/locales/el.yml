@@ -32,9 +32,55 @@ el:
   proposed_time: "Προτεινόμενες ημερομηνίες"
   home: "Home"
   events: "Εκδηλώσεις"
+  event: "Εκδήλωση"
   admin: "Διαχείριση"
   schedule: "Πρόγραμμα"
   logout: "Αποσύνδεση"
   language: "Γλώσσα"
   en: "Αγγλικά"
   el: "Ελληνικά"
+  show_time: "Εμφάνιση ώρας"
+  submitter_information: "Πληροφορίες επικοινωνίας"
+  repetitions: "Επαναλήψεις"
+  time:
+    formats:
+      sched: "%H:%M"
+  date:
+    formats:
+      sched: "%B %d"
+  times:
+    one: "%{count} φορά"
+    other: "%{count} φορές"
+  activerecord:
+    models:
+      repetition:
+        one: "Επανάληψη"
+        other: "Επαναλήψεις"
+      event:
+        one: "Εκδήλωση"
+        other: "Εκδηλώσεις"
+      submitter:
+        one: "Υποβολεύς"
+        other: "Υποβολείς"
+      repetition:
+        one: "Επανάληψη"
+        other: "Επαναλήψεις"
+    attributes:
+      event:
+        title: "Τίτλος"
+        team: "Ομάδα"
+        other: "Άλλο"
+        proposed_space: "Προτεινόμενος χώρος διεξαγωγής"
+        proposed_time: "Προτεινόμενες ημερομηνίες"
+        kind: "Είδος"
+        fields: "Τομείς δράσης"
+        submitter: "Δημιουργός"
+        abstract: "Περιγραφή"
+        repetitions: "Επαναλήψεις"
+      submitter:
+        name: "Όνομα"
+        surname: "Επώνυμο"
+        phone: "Τηλέφωνο"
+        property: "Ιδιότητα"
+        faculty: "Σχολή"
+        school: "Τμήμα"

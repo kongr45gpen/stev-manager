@@ -9,7 +9,7 @@
         </a>
       </div>
       <div class="media-body">
-        <h3 class="media-heading"><%= link_to event.title, event %><br>
+        <h3 class="media-heading"><%= link_to event.title, admin_event_path(event) %><br>
         <small class="event-team"><%= event.team %>
           <% event.fields.each do |kind| %>
             <span class="label label-event-<%= kind %>"><%=t kind %></span>
@@ -23,10 +23,37 @@
         </ul>
 
         <small>
-          <%=t :contact %>: <%= link_to event.submitter.surname + ' ' + event.submitter.name, event.submitter %>
-          (<%= event.submitter.phone %>,
-          <a href="mailto:<%= event.submitter.email %>"><%= event.submitter.email %></a>)
+          <% if event.submitter %>
+              <%=t :contact %>: <%= link_to event.submitter.full_name, admin_submitter_path(event.submitter) %>
+              (<%= event.submitter.phone %>,
+              <a href="mailto:<%= event.submitter.email %>"><%= event.submitter.email %></a>)
+          <% end %>
         </small>
+
+        <% if event.repetitions.any? %>
+          <div class="list-group">
+            <% event.repetitions.each_with_index do |repetition, idy| %>
+                <div class="list-group-item">
+                  <%= l repetition.date.to_date, format: :sched %>
+                  <% if repetition.end_date %>
+                    &mdash;
+                    <%= l repetition.end_date.to_date, format: :sched %>
+                  <% end %>
+
+                  <% if repetition.time %>
+                    <span class="badge"><%= l repetition.date.to_time, format: :sched %>
+                      <% if repetition.duration %>
+                        &mdash;
+                          <%= l ((repetition.date + repetition.duration.minutes).to_time), format: :sched %>
+                      <% end %>
+                    </span>
+                  <% elsif repetition.duration %>
+                    <span class="badge alert-info"><%= number_to_human(repetition.duration) %> mins</span>
+                  <% end %>
+                </div>
+            <% end %>
+          </div>
+        <% end %>
       </div>
       <div class="media-right event-no">
         #<%= idx %>
@@ -37,4 +64,4 @@
 
 <br>
 
-<%= link_to 'New Event', new_event_path %>
+<%= link_to 'New Event', new_admin_event_path %>

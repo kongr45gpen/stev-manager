@@ -1,6 +1,8 @@
 require_dependency 'string'
 
 class ImportController < ApplicationController
+  before_action :authenticate_user!
+
   def index
   end
 
@@ -14,27 +16,9 @@ class ImportController < ApplicationController
   private
 
   def parse(data)
-    surname = 7
-    name = 8
-    property = 9
-    faculty = 10
-    school = 11
-    phone = 12
-    email = 13
-    team = 14
-    title = 15
-    theatre = 16
-    music = 17
-    photography = 18
-    sports = 19
-    other = 20
-    other_text = 21
-    proposed_space = 22
-    proposed_time = 23
-
     Encoding.default_external = Encoding::UTF_8
 
-    @data.select {|x| x.first.to_s.is_i?}.each do |datum|
+    data.select {|x| x.first.to_s.is_i?}.each do |datum|
       @submitter = Submitter.new(
         surname: datum[7].to_s.force_encoding("utf-8"),
         name: datum[8].to_s.force_encoding("utf-8"),

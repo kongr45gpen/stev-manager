@@ -17,7 +17,54 @@ ActiveAdmin.register Event do
 
 
   permit_params do
-    permitted = [:team, :title, :kind, :other, :proposed_space, :proposed_time, :abstract, :submitter_attributes, :fields => []]
+    permitted = [:team, :title, :kind, :other, :proposed_space, :proposed_time, :abstract,
+                 :submitter_id,
+                 :submitter_attributes => [:id, :surname, :name, :phone, :email],
+                 :repetitions_attributes => [:id, :date, :time, :end_date, :duration, :_destroy],
+                 :fields => []]
+    permitted
+  end
+
+  includes :submitter, :repetitions
+
+  sidebar :repetitions, only: [:show, :edit] do
+    resource.repetitions.each do |repetition|
+      attributes_table_for repetition do
+        row :date
+        row :time
+        row :end_date
+        row :duration
+        row "Actions" do
+          a "Edit", href: admin_event_repetition_path(event, repetition)
+        end
+      end
+    end
+  end
+
+  sidebar :submitter_information, :only => [:show, :edit] do
+    attributes_table_for event.submitter do
+      row("Link") { auto_link event.submitter }
+      row :surname
+      row :name
+      row :property
+      row :faculty
+      row :school
+      row :phone
+      row :email
+    end
+  end
+
+  index do
+    column :id
+    selectable_column
+    column :team
+    column :title
+    column :kind
+    column :submitter
+    column :repetitions do |event|
+      link_to I18n.t(:times, count: event.repetitions.count), admin_event_repetitions_path(event)
+    end
+    actions
   end
 
   form do |f|
@@ -42,13 +89,21 @@ ActiveAdmin.register Event do
             end
         end
         tab 'Submitter' do
-          f.has_many :submitter, new_record: false, allow_destroy: false do |t|
+          f.has_many :submitter, heading: false, new_record: true, allow_destroy: false do |t|
             t.input :name, :as => :string
             t.input :surname, :as => :string
             t.input :phone
             t.input :email
           end
         end
+      end
+    end
+    f.inputs 'Repetitions' do
+      f.has_many :repetitions, new_record: true, allow_destroy: true do |t|
+        t.input :date, value: Date.today
+        t.input :time, label: I18n.t(:show_time)
+        t.input :end_date
+        t.input :duration, label: 'Duration in minutes'
       end
     end
     f.actions

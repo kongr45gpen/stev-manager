@@ -22,3 +22,5 @@
 
 *.pid
 *.pid.lock
+
+/config/personal.rb
