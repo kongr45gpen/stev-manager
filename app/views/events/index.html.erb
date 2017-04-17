@@ -58,6 +58,9 @@
                   <% end %>
                 </div>
             <% end %>
+            <div class="list-group-item list-group-item-primary">
+              <strong><%=t :dates %>:</strong> <%= format_many_repetitions event.repetitions, time: !repetitions_same_time?(event) %>
+            </div>
           </div>
         <% end %>
       </div>

@@ -1,5 +1,6 @@
 class ScheduleController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
+  include ScheduleHelper
 
   def index
     @events = Event.all
@@ -7,7 +8,7 @@ class ScheduleController < ApplicationController
 
   def preview
     events = Event.all
-    @source = ActionController::Base.new.render_to_string(
+    @source = ScheduleController.new.render_to_string(
         "schedule/index.tex.erb", locals: { :@events => events }
     )
 

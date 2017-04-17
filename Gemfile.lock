@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/activeadmin/activeadmin.git
-  revision: d4473e90787426833c8d261e8e9c864dd504e3ca
+  revision: b997a46a1372e797e6b90a822868254768d7ad1f
   specs:
     activeadmin (1.0.0.pre5)
       arbre (>= 1.1.1)
@@ -98,8 +98,8 @@ GEM
       actionpack (>= 3.2.13)
     formtastic_i18n (0.6.0)
     gem_config (0.3.1)
-    globalid (0.3.7)
-      activesupport (>= 4.1.0)
+    globalid (0.4.0)
+      activesupport (>= 4.2.0)
     has_scope (0.7.0)
       actionpack (>= 4.1, < 5.1)
       activesupport (>= 4.1, < 5.1)

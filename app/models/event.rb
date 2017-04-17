@@ -9,4 +9,8 @@ class Event < ApplicationRecord
 
   enum status: { cancelled: -1, fresh: 0, pending: 1, scheduling: 2, confirmed: 3  }
   enum scheduled: { no_schedule: 0, pending_schedule: 1, scheduled: 2 }
+
+  def place_description
+    (@place_description.nil? || @place_description.empty?) ? nil : @place_description
+  end
 end

@@ -56,7 +56,7 @@ el:
       sched: "%H:%M"
   date:
     formats:
-      sched: "%B %d"
+      sched: "%A %e %B"
   times:
     one: "%{count} φορά"
     other: "%{count} φορές"

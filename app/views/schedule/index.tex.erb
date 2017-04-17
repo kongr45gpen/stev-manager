@@ -46,15 +46,25 @@
       \paragraph{} \hspace{0pt}
     <% end %>
 
-    <%= event.team.texcape %>
-    \\
+    <% unless event.team.strip.empty? %>
+      <%= event.team.texcape %>
+      \\
+    <% end %>
     \textbf{<%= event.title.texcape %>}
 
-    <%= event.abstract.to_s.texcape %>
+    <%= (event.abstract || event.other).to_s.texcape %>
 
-    \textbf{Ημερομηνία:} <%= event.proposed_time.texcape %>\\
-    \textbf{Ώρα:} 09:30 \\
-    \textbf{Χώρος Διεξαγωγής:} <%= event.proposed_space.texcape %>
+    <% if event.repetitions.any? %>
+      \textbf{<%= many_repetitions?(event.repetitions) ? "Ημερομηνίες" : "Ημερομηνία" %>:}
+      <%= format_many_repetitions event.repetitions, time: repetitions_same_time?(event) %>
+    <% end %>
+    <% if repetitions_same_time?(event) && (time = common_time(event)) %>
+      \\ \textbf{Ώρα:} <%= time.mb_chars.capitalize.to_s %>
+    <% end %>
+    <% unless event.space.empty? %>
+      <% if defined?(time) and time %>\\<% end %>
+      \textbf{<%= (event.place_description || "Χώρος διεξαγωγής").texcape %>:} <%= event.space.texcape %>
+    <% end %>
   \end{stayonpage}
 
     \disappearingrule

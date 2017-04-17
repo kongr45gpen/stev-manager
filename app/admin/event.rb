@@ -118,8 +118,9 @@ ActiveAdmin.register Event do
     end
     f.inputs 'Repetitions' do
       f.has_many :repetitions, new_record: true, allow_destroy: true do |t|
+        # byebug
         t.input :date, value: Date.today
-        t.input :time, label: I18n.t(:show_time)
+        t.input :time, :as => :boolean, label: I18n.t(:show_time), :input_html => { checked: t.object.time? }
         t.input :end_date
         t.input :duration, label: 'Duration in minutes'
       end
