@@ -11,7 +11,10 @@ class ApplicationController < ActionController::Base
   end
 end
 
-class ActiveAdmin::Devise::SessionsController
+module ActiveAdmin
+module Device
+
+#class SessionsOPController < ::Devise::SessionsController
   def after_sign_in_path_for(resource)
     stored_location_for(resource) || events_path
   end
@@ -19,4 +22,6 @@ class ActiveAdmin::Devise::SessionsController
   def after_sign_out_path_for(resource)
     '/'
   end
+#end
+end
 end

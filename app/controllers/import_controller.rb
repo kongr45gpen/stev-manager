@@ -8,7 +8,7 @@ class ImportController < ApplicationController
 
   def upload
     uploaded_io = params[:submissions]
-    @data = CSV.parse(uploaded_io.read, encoding: "utf-8")
+    @data = CSV.parse(uploaded_io.read.force_encoding("utf-8"), encoding: "utf-8")
 
     parse @data
   end

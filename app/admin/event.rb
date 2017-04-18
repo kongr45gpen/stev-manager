@@ -98,16 +98,16 @@ ActiveAdmin.register Event do
       f.input :space, :input_html => { :rows => 1 }
     end
     f.panel 'Submission' do
-      tabs do
-        tab 'Proposal' do
-          f.inputs do
-            f.input :other, :input_html => { :rows => 2  }
+      columns do
+        column do
+          f.inputs 'Proposal' do
+            f.input :other, :input_html => { :rows => 4  }
             f.input :proposed_space, :as => :string
             f.input :proposed_time, :as => :string
             end
         end
-        tab 'Submitter' do
-          f.has_many :submitter, heading: false, new_record: true, allow_destroy: false do |t|
+        column do
+          f.has_many :submitter, new_record: true, allow_destroy: false do |t|
             t.input :name, :as => :string
             t.input :surname, :as => :string
             t.input :phone

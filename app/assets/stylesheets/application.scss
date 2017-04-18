@@ -18,21 +18,3 @@
 @import "bootswatch/yeti/variables";
 @import "bootstrap";
 @import "bootswatch/yeti/bootswatch";
-
-.translation_missing {
-
-  transition: 0.5s all;
-
-
-
-  &:hover {
-    background-color: fade-out(#91931a,0.5);
-    border-radius: 1px;
-    box-shadow: 2px 2px 2px 0 #27290c;
-
-    &:after {
-      content: ' ?';
-      opacity: 0.2;
-    }
-  }
-}
