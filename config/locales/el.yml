@@ -51,6 +51,7 @@ el:
   scheduling: "Scheduling"
   scheduled: "Scheduled"
   confirmed: "Confirmed"
+  see_events: "Δείτε τις εκδηλώσεις"
   time:
     formats:
       sched: "%H:%M"
