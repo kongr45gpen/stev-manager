@@ -75,6 +75,12 @@ el:
       repetition:
         one: "Επανάληψη"
         other: "Επαναλήψεις"
+      volunteer:
+        one: "Εθελοντής"
+        other: "Εθελοντές"
+      user:
+        one: "Διαχειριστής"
+        other: "Διαχειριστές"
     attributes:
       event:
         title: "Τίτλος"
@@ -100,3 +106,14 @@ el:
         property: "Ιδιότητα"
         faculty: "Σχολή"
         school: "Τμήμα"
+      volunteer:
+        name: "Όνομα"
+        surname: "Επώνυμο"
+        age: "Ηλικία"
+        phone: "Τηλέφωνο"
+        property: "Ιδιότητα"
+        school: "Τμήμα"
+        level: "Επίπεδο"
+        health: "Παρατηρήσεις Υγείας"
+        interests: "Ενδιαφέροντα"
+        subscription: "Ενημέρωση για μελλοντικές δράσεις"

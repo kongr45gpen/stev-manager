@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   #resources :submitters
   resources :events
 
+  get '/volunteers', to: 'volunteers#index'
+
   match '/set_locale', to: 'landing#user_set_locale', via: :post
 
   get '/schedule', to: 'schedule#index'
@@ -19,4 +21,5 @@ Rails.application.routes.draw do
 
   get '/import', to: 'import#index'
   match '/import/process', to: 'import#upload', via: :post
+  match '/import/process/volunteers', to: 'import#upload_volunteers', via: :post
 end

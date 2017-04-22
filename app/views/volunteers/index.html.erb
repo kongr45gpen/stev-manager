@@ -1,0 +1,30 @@
+<% @volunteers.each_with_index do |volunteer, idx| %>
+    <!--<hr>-->
+    <div class="media">
+      <div class="media-left volunteer-icon" title="<%= volunteer.school %>">
+        <span style="background-color: <%= volunteer.school.to_colour %>"><%= volunteer.school.only_upper_case %></span>
+      </div>
+      <div class="media-body">
+        <h2 class="media-heading"><%= volunteer.full_name %>
+        <small>
+          <%= volunteer.age %> ετών, <%= volunteer.level %> <%= volunteer.property %>
+        </small></h2>
+
+        <p><%= simple_format(volunteer.interests) %></p>
+
+        <% unless volunteer.health.to_s.empty? %>
+          <p><strong><%= volunteer.health %></strong></p>
+        <% end %>
+
+        <p class="contact">
+          <em><%=t :contact %>:</em> <%= volunteer.phone %>,
+          <a href="mailto:<%= volunteer.email %>"><%= volunteer.email %></a>
+          (<%= volunteer.property %> <%= volunteer.school %> - <em><%= link_to t(:more_info), admin_volunteer_path(volunteer) %></em>)
+        </p>
+      </div>
+    </div>
+<% end %>
+
+<br>
+
+<%= link_to 'New Volunteer', new_admin_volunteer_path %>

@@ -1,8 +1,16 @@
 <h1>Import CSV file</h1>
 
 <div class="well" data-turbolinks="false">
-<%= bootstrap_form_tag(url: import_process_path, multipart: true) do |f| %>
-    <%= f.file_field 'submissions' %>
-    <%= f.submit "Import", class: "btn btn-primary" %>
-<% end %>
+  <h2>Events</h2>
+  <%= bootstrap_form_tag(url: import_process_path, multipart: true) do |f| %>
+      <%= f.file_field 'submissions' %>
+      <%= f.submit "Import Events", class: "btn btn-primary" %>
+  <% end %>
+
+  <h2>Volunteers</h2>
+
+  <%= bootstrap_form_tag(url: import_process_volunteers_path, multipart: true) do |f| %>
+      <%= f.file_field 'submissions' %>
+      <%= f.submit "Import Volunteers", class: "btn btn-primary" %>
+  <% end %>
 </div>
