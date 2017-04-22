@@ -52,6 +52,9 @@ el:
   scheduled: "Scheduled"
   confirmed: "Confirmed"
   see_events: "Δείτε τις εκδηλώσεις"
+  more_info: "Περισσότερες πληροφορίες"
+  years_old: "ετών"
+  volunteers: "Εθελοντές"
   time:
     formats:
       sched: "%H:%M"

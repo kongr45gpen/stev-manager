@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= controller_name.humanize %> | Student Event Manager</title>
+    <title><%=t controller_name, default: controller_name.humanize %> | Student Event Manager</title>
     <%= csrf_meta_tags %>
 
     <%= favicon_link_tag %>
@@ -20,6 +20,7 @@
           <%= navbar_header brand: 'Student Event Manager', brand_link: root_path  %>
           <%= navbar_item t(:home), root_path %>
           <%= navbar_item t(:events), events_path %>
+          <%= navbar_item t(:volunteers), volunteers_path %>
           <%= navbar_item t(:admin), admin_root_path %>
           <%= navbar_item t(:schedule), schedule_path %>
           <%= navbar_item t(:import), import_path %>
@@ -36,7 +37,7 @@
     <% end %>
     <div class="container">
       <div class="page_header">
-        <h1><%= controller_name.humanize %></h1>
+        <h1><%=t controller_name, default: controller_name.humanize %></h1>
       </div>
       <p class="notice"><%= notice %></p>
       <p class="alert"><%= alert %></p>

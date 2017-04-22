@@ -7,7 +7,7 @@
       <div class="media-body">
         <h2 class="media-heading"><%= volunteer.full_name %>
         <small>
-          <%= volunteer.age %> ετών, <%= volunteer.level %> <%= volunteer.property %>
+          <%= volunteer.age %> <%=t :years_old %>, <%= volunteer.level %> <%= volunteer.property %>
         </small></h2>
 
         <p><%= simple_format(volunteer.interests) %></p>
