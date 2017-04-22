@@ -55,6 +55,7 @@ el:
   more_info: "Περισσότερες πληροφορίες"
   years_old: "ετών"
   volunteers: "Εθελοντές"
+  see_volunteers: "Δείτε τους εθελοντές"
   time:
     formats:
       sched: "%H:%M"

@@ -1,5 +1,4 @@
 <% @volunteers.each_with_index do |volunteer, idx| %>
-    <!--<hr>-->
     <div class="media">
       <div class="media-left volunteer-icon" title="<%= volunteer.school %>">
         <span style="background-color: <%= volunteer.school.to_colour %>"><%= volunteer.school.only_upper_case %></span>
