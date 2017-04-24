@@ -32,6 +32,7 @@ en:
   language: "Language"
   en: "English"
   el: "Greek"
+  ago: "ago"
   times:
     one: "once"
     other: "%{count} times"

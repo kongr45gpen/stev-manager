@@ -56,6 +56,7 @@ el:
   years_old: "ετών"
   volunteers: "Εθελοντές"
   see_volunteers: "Δείτε τους εθελοντές"
+  ago: "πριν"
   time:
     formats:
       sched: "%H:%M"
