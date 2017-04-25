@@ -15,6 +15,8 @@
           <p><strong><%= volunteer.health %></strong></p>
         <% end %>
 
+        <%= volunteer.faculty %>
+
         <p class="contact">
           <em><%=t :contact %>:</em> <%= volunteer.phone %>,
           <a href="mailto:<%= volunteer.email %>"><%= volunteer.email %></a>

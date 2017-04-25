@@ -1,6 +1,6 @@
 ActiveAdmin.register Volunteer do
   permit_params :surname, :name, :age, :email, :phone, :property, :school, :level, :health, :description,
-                :subscription, :updates
+                :subscription, :updates, :gender
 
   index do
     selectable_column
@@ -15,5 +15,15 @@ ActiveAdmin.register Volunteer do
     column :level
     column :updates
     actions
+  end
+
+  batch_action :set_gender, form: {
+      gender: %w[other male female],
+  } do |ids, inputs|
+    batch_action_collection.find(ids).each do |vol|
+      vol.gender = inputs['gender']
+      vol.save
+    end
+    redirect_to collection_path, alert: "The volunteers' gender has been set."
   end
 end
