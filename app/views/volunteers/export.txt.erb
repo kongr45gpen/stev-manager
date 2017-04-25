@@ -1,1 +1,1 @@
-<%= @volunteers.map {|vol| vol.email} .join(',') %>
+<%= @volunteers.sort_by(&:id).map {|vol| vol.email} .join(',') %>

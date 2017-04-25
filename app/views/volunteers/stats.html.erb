@@ -1,0 +1,12 @@
+<h3>Total Count</h3>
+<strong><%= @volunteers.count %></strong> total volunteers.
+
+<% [:gender, :level, :property, :faculty, :school, :age].each do |attr| %>
+  <h3><%= attr.to_s.humanize %></h3>
+    <dl class="dl-horizontal">
+      <% attribute_stats(attr).each do |key, entries| %>
+          <dt><%= key.to_s.humanize %></dt>
+          <dd><%= entries.count %></dd>
+      <% end %>
+    </dl>
+<% end %>

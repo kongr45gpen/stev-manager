@@ -10,8 +10,9 @@ one:
   school: MyString
   level: MyString
   health: MyText
-  description: MyText
+  interests: MyText
   subscription: false
+  gender: other
 
 two:
   surname: MyString
@@ -23,5 +24,35 @@ two:
   school: MyString
   level: MyString
   health: MyText
-  description: MyText
+  interests: MyText
   subscription: false
+  gender: female
+
+three:
+  surname: Αντωνίου
+  name: Αντώνιος
+  age: 25
+  email: antoniou@gmail.com
+  phone: 69464964543453
+  property: Φοιτητής
+  school: "Τμήμα Μαθηματικών"
+  level: Προπτυχιακό
+  health: Όχι
+  interests: "Lorem ipsum dolor sit amet"
+  subscription: false
+  gender: male
+
+<% 1.upto(50) do |i| %>
+fix_<%= i %>:
+  surname: Εθελ_<%= i %>
+  name: Φαντ
+  email: volunteer_<%= i %>@gmail.com
+  age: <%= rand(18..24) %>
+  phone: <%= rand(6900000..7000000) %>
+  property: <%= Array.new(7,"Φοιτητής").append("Υπάλληλος").sample %>
+  school: <%= [ "Τμήμα Φυσικής", "Τμήμα Οικονομικών Επιστημών", "Τμήμα Πολιτικών Επιστημών", "Τμήμα Εικαστικών και Εφαρμοσμένων Τεχνών", "Άγνωστο Τμήμα" ].sample %>
+  level: <%= ["Προπτυχιακό", "Προπτυχιακό", "Μεταπτυχιακό"].sample %>
+  interests: "Lorem ipsum interests"
+  subscription: false
+  gender: <%= ["male","female"].sample %>
+<% end %>

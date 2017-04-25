@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   get '/volunteers', to: 'volunteers#index'
   get '/volunteers/export'
+  get '/volunteers/stats'
 
   match '/set_locale', to: 'landing#user_set_locale', via: :post
 

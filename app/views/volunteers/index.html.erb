@@ -1,3 +1,5 @@
+<%= link_to t(:stats), volunteers_stats_path, class: "btn btn-default" %>
+
 <% @volunteers.each_with_index do |volunteer, idx| %>
     <div class="media">
       <div class="media-left volunteer-icon" title="<%= volunteer.school %>">
@@ -14,8 +16,6 @@
         <% unless volunteer.health.to_s.empty? %>
           <p><strong><%= volunteer.health %></strong></p>
         <% end %>
-
-        <%= volunteer.faculty %>
 
         <p class="contact">
           <em><%=t :contact %>:</em> <%= volunteer.phone %>,

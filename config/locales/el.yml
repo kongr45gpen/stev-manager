@@ -57,6 +57,7 @@ el:
   volunteers: "Εθελοντές"
   see_volunteers: "Δείτε τους εθελοντές"
   ago: "πριν"
+  stats: "Στατιστικά"
   time:
     formats:
       sched: "%H:%M"

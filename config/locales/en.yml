@@ -51,6 +51,7 @@ en:
   pending_schedule: Pending
   scheduled: "Scheduled"
   more_info: "More information"
+  stats: "Stats"
   activerecord:
     attributes:
       updates: "Needs updates"

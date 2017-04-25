@@ -1,4 +1,7 @@
 module VolunteersHelper
+  def attribute_stats(attribute)
+    @volunteers.group_by(&attribute).sort_by{|key,entries| entries.count}.reverse
+  end
 end
 
 class String

@@ -8,4 +8,8 @@ class VolunteersController < ApplicationController
   def export
     @volunteers = Volunteer.all
   end
+
+  def stats
+    @volunteers = Volunteer.all
+  end
 end
