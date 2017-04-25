@@ -60,7 +60,11 @@ el:
   stats: "Στατιστικά"
   total_volunteers: "συνολικοί εθελοντές"
   total_count: "Συνολικός αριθμός"
+  short:
+    joined: "Εγγεγρ."
+    updates: "Ενημερ."
   unknown: "Άγνωστο"
+  joined_fast: "Εγγεγρ."
   time:
     formats:
       sched: "%H:%M"
@@ -128,3 +132,4 @@ el:
         interests: "Ενδιαφέροντα"
         subscription: "Ενημέρωση για μελλοντικές δράσεις"
         updates: "Χρειάζεται Ενημέρωση"
+        joined: "Εγγεγραμμένος στην ομάδα"

@@ -2,6 +2,8 @@ ActiveAdmin.register Volunteer do
   permit_params :surname, :name, :age, :email, :phone, :property, :school, :level, :health, :description,
                 :subscription, :updates, :gender
 
+  config.per_page = 500
+
   index do
     selectable_column
     id_column
@@ -13,7 +15,8 @@ ActiveAdmin.register Volunteer do
     column :property
     column :school
     column :level
-    column :updates
+    column I18n.t('short.updates'), :updates
+    column I18n.t('short.joined'), :joined
     actions
   end
 
@@ -25,5 +28,13 @@ ActiveAdmin.register Volunteer do
       vol.save
     end
     redirect_to collection_path, alert: "The volunteers' gender has been set."
+  end
+
+  batch_action :mark_joined do |ids|
+    batch_action_collection.find(ids).each do |vol|
+      vol.joined = true
+      vol.save
+    end
+    redirect_to collection_path, alert: "The volunteers have been marked as joined."
   end
 end
