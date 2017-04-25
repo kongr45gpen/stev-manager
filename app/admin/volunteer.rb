@@ -1,6 +1,6 @@
 ActiveAdmin.register Volunteer do
   permit_params :surname, :name, :age, :email, :phone, :property, :school, :level, :health, :description,
-                :subscription
+                :subscription, :updates
 
   index do
     selectable_column
@@ -13,6 +13,7 @@ ActiveAdmin.register Volunteer do
     column :property
     column :school
     column :level
+    column :updates
     actions
   end
 end

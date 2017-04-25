@@ -3,4 +3,6 @@
 # Add new mime types for use in respond_to blocks:
 # Mime::Type.register "text/richtext", :rtf
 
+Mime::Type.register 'text/plain', :txt
 Mime::Type.register "application/x-latex", :tex, %w( text/tex text/latex application/x-tex ), %w(latex)
+

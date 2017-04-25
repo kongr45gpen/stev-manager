@@ -4,4 +4,8 @@ class VolunteersController < ApplicationController
   def index
     @volunteers = Volunteer.all
   end
+
+  def export
+    @volunteers = Volunteer.all
+  end
 end
