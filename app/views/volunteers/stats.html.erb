@@ -1,11 +1,11 @@
-<h3>Total Count</h3>
-<strong><%= @volunteers.count %></strong> total volunteers.
+<h3><%=t :total_count %></h3>
+<strong><%= @volunteers.count %></strong> <%=t :total_volunteers %>.
 
 <% [:gender, :level, :property, :faculty, :school, :age].each do |attr| %>
-  <h3><%= attr.to_s.humanize %></h3>
+  <h3><%= t('activerecord.attributes.volunteer.' + attr.to_s) %></h3>
     <dl class="dl-horizontal">
       <% attribute_stats(attr).each do |key, entries| %>
-          <dt><%= key.to_s.humanize %></dt>
+          <dt class="stats-key"><%= key.to_s.empty? ? ("<em>"+t(:unknown)+"</em>").html_safe : key.to_s.humanize %></dt>
           <dd><%= entries.count %></dd>
       <% end %>
     </dl>

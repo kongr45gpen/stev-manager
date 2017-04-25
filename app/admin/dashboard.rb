@@ -7,7 +7,7 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         panel "Recent Logins" do
           ul do
-            User.order(last_sign_in_at: "ASC").where.not(last_sign_in_at: nil).limit(5).map do |user|
+            User.order(current_sign_in_at: "DESC").where.not(last_sign_in_at: nil).limit(5).map do |user|
               li link_to(user.email, admin_user_path(user)) + ' ' + time_ago_in_words(user.current_sign_in_at) + ' ' + I18n.t(:ago)
             end
           end

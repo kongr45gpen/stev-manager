@@ -22,7 +22,7 @@ two:
   phone: MyString
   property: MyString
   school: MyString
-  level: MyString
+  level: ~
   health: MyText
   interests: MyText
   subscription: false

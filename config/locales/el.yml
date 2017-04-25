@@ -58,6 +58,9 @@ el:
   see_volunteers: "Δείτε τους εθελοντές"
   ago: "πριν"
   stats: "Στατιστικά"
+  total_volunteers: "συνολικοί εθελοντές"
+  total_count: "Συνολικός αριθμός"
+  unknown: "Άγνωστο"
   time:
     formats:
       sched: "%H:%M"
@@ -118,6 +121,7 @@ el:
         age: "Ηλικία"
         phone: "Τηλέφωνο"
         property: "Ιδιότητα"
+        faculty: "Σχολή"
         school: "Τμήμα"
         level: "Επίπεδο"
         health: "Παρατηρήσεις Υγείας"
