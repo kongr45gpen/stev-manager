@@ -1,5 +1,5 @@
 ActiveAdmin.register Volunteer do
-  permit_params :surname, :name, :age, :email, :phone, :property, :school, :level, :health, :description,
+  permit_params :surname, :name, :age, :email, :phone, :property, :school, :level, :health, :interests,
                 :subscription, :updates, :gender
 
   config.per_page = 500

@@ -1,7 +1,7 @@
 <h3><%=t :total_count %></h3>
 <strong><%= @volunteers.count %></strong> <%=t :total_volunteers %>.
 
-<% [:gender, :level, :property, :faculty, :school, :age].each do |attr| %>
+<% [:gender, :level, :property, :faculty, :school, :age, :joined].each do |attr| %>
   <h3><%= t('activerecord.attributes.volunteer.' + attr.to_s) %></h3>
     <dl class="dl-horizontal">
       <% attribute_stats(attr).each do |key, entries| %>
