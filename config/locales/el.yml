@@ -60,6 +60,7 @@ el:
   stats: "Στατιστικά"
   total_volunteers: "συνολικοί εθελοντές"
   total_count: "Συνολικός αριθμός"
+  login: "Είσοδος"
   short:
     joined: "Εγγεγρ."
     updates: "Ενημερ."

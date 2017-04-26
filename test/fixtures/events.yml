@@ -2,9 +2,9 @@
 
 one:
   team: MyString
-  title: MyString
-  kind: MyString
-  other: MyText
+  title: MyString2
+  kind: theatre
+  abstract: MyText
   proposed_space: MyText
   proposed_time: MyText
   submitter: one
@@ -12,8 +12,192 @@ one:
 two:
   team: MyString
   title: MyString
-  kind: MyString
-  other: MyText
+  kind: sports
+  abstract: MyText
   proposed_space: MyText
   proposed_time: MyText
   submitter: two
+
+dance:
+  team: Dancing team
+  title: Χορός στο Jeffrey
+  kind: other
+  fields: ["other"]
+  other: Χορός
+  proposed_space: Jeffrey's
+  proposed_time: Οποιαδήποτε Τρίτη
+  abstract: "Ένας χορός.... διαφορετικός από τους υπόλοιπους, από την ομάδα \\textbf{Dancing team}"
+  status: confirmed
+  scheduled: scheduled
+  space: Jeffrey's Caffe
+
+audiovisual:
+  team: Ημ Παπαδοπούλου, Ηξ Παπαδόπουλος
+  title: "Αρχαία Ελληνικά: Μία οπτικοακουστική αναπαράσταση"
+  kind: other
+  fields: ["theatre","music","other"]
+  other: >
+    Μία οπτικοακουστική αναπαράσταση για τα αρχαία Ελληνικά και την δημιουργική λόρεμ ίπσουμ ντόλορ σιτ αμέτ.
+    Μία διαφορετική αναπαράσταση που συνδυάζει ακουστικά και οπτικά στοιχεία
+  abstract: |
+    Μία οπτικοακουστική αναπαράσταση για τα αρχαία Ελληνικά και την δημιουργική λόρεμ ίπσουμ ντόλορ σιτ αμέτ.
+
+    Μία διαφορετική αναπαράσταση που συνδυάζει ακουστικά και οπτικά στοιχεία
+  proposed_space: Οποιοσδήποτε χώρος
+  proposed_time: 2η εβδομάδα
+  status: confirmed
+  scheduled: scheduled
+  space: Αίθουσα Τελετών
+  team_below: true
+
+performance_1:
+  team: Ομάδα Theatres
+  title: Η μπρίζα και το ηλεκτρικό
+  kind: theatre
+  fields: ["theatre"]
+  abstract: |
+    Η μπρίζα συνάντησε το ρεύμα το ηλεκτρικό. Αυτό ήξερε από ορθογραφία και της θύμισε ότι γράφεται "πρίζα". Πώς θα
+    συνεχιστεί αυτή η συναναστροφή;
+
+    Μία διασκευή του έργου "50A" της Μαρίας Παπαδοπούλου, σε μοναδική εμφάνιση από την θεατρική ομάδα "Theatres".
+  proposed_space: Ένα θέατρο με φώτα
+  proposed_time: 25
+  status: confirmed
+  scheduled: scheduled
+  space: Θέατρο Σχολής
+
+performance_2:
+  team: RAT - Really Amazing Theatre
+  title: Αυτοκίνητο στο Χαντάκι
+  kind: theatre
+  abstract: |
+    18 Απρίλη 1987. Η Joanna και ο Βαγγέλης οδηγούν σε μια ανώνυμη πολιτεία. Ή μήπως ...οδηγούνται;
+
+    Μία εξωτερική ματιά στη δεκαετία του '60. Μία απολαυστική εμπειρία σε έναν ξεχωριστό χώρο. Μία μοναδική ματιά
+    σε έναν ιδιαίτερο άνθρωπο. Από την ομάδα RAT του Τμήματος Ιατρικής.
+  status: confirmed
+  scheduled: scheduled
+  space: Θέατρο Σχολής
+
+presentation:
+  team: Student Consortium - StCo
+  title: Παρουσίαση της ομάδας StCo
+  kind: other
+  fields: ["other"]
+  other: Ομιλία
+  abstract: >
+    Μία παρουσίαση της ομάδας StCo που δραστηριοποιείται στον χώρο. Ελάτε και εσείς να γνωρίσετε από κοντά τις δράσεις
+    της ομάδας, να συμμετέχετε στις εκδηλώσεις που διοργανώνει, καθώς και να γίνετε μέλη, συμβάλλοντας στην
+    δραστηριοποίηση. Η ομάδα StCo ιδρύθηκε το 1677 από φοιτητές του τμήματος Ηλεκτρολόγων Μηχανικών, και συνεχίζει μέχρι
+    σήμερα να παρέχει υπηρεσίες και βοήθεια υψηλής ποιότητας στα μέλη της ακαδημαϊκής κοινότητας. Μέσα σε ένα κλίμα
+    ενδιαφέροντος και σεβασμού, ελάτε να γνωρίσετε καλύτερα τα μέλη μας, όσο και τον εαυτό σας. Για περισσότερες
+    πληροφορίες, καλέστε μας στο +30 60136193601341354, ή στη σελίδα μας στο Facebook,
+    \url{https://example.com/ourpage}.
+  status: scheduling
+  scheduled: pending_schedule
+  space: Αίθουσα Συνεδριάσεων
+
+hidden:
+  team: the nobody
+  title: The nothing
+  kind: other
+  fields: ["other"]
+  abstract: This is not a real event
+  status: cancelled
+  scheduled: no_schedule
+  space: Nowhere
+  hidden: true
+
+treasure_hunt:
+  team: Φοιτητική Ομάδα Student Consortium - StCo
+  title: Κυνήγι θησαυρού στην Πανεπιστημιούπολη
+  kind: other
+  fields: ["other"]
+  abstract: >
+    Είσαι έτοιμος να συμμετάσχεις στο κυνήγι θησαυρού; Αν ναι, δήλωσε τώρα συμμετοχή στο κυνήγι θησαυρού! Αυτό το
+    κυνήγι θησαυρού απαιτεί έμπειρους κυνηγούς και επιβραβεύει με υπέροχους θησαυρούς. Τώρα μπορείς και εσύ να
+    κυνηγήσεις το δικό σου θησαυρό, σε αυτό το μοναδικό κυνήγι θησαυρού!
+  status: confirmed
+  scheduled: scheduled
+  space: Ολόκληρος ο χώρος
+  place_description: Χώρος Συνάντησης
+
+speech:
+  team: Φοιτητική Ομάδα Student Consortium - StCo
+  title: Web Development with Ruby on Rails
+  kind: other
+  fields: ["other"]
+  abstract: >
+    Μία μοναδική ομιλία από τον Καθηγητή δρ. Ιωάννη Παπαδόπουλο για την υλοποίηση ιστοσελίδων μέσω της πλατφόρμας
+    Ruby on Rails (RoR). Οι συμμετέχοντες είναι καλό να έχουν εμπειρία αντικειμενοστραφούς προγραμματισμού. Η ομιλία
+    θα δώσει έμφαση στα ρουμπίνια.
+  status: pending
+  scheduled: scheduled
+  space: Κέντρο Ομιλιών
+
+music:
+  team: Μουσική Ομάδα
+  title: '"Αρμονική" συνύπαρξη'
+  kind: music
+  fields: ["music"]
+  abstract: >
+    Οι συμμετέχοντες θα έχουν τη δυνατότητα να παράγουν μουσική.
+  status: pending
+  scheduled: scheduled
+  space: Αυλή
+
+concert_1:
+  team: The Rasters
+  title: "Συναυλία"
+  kind: concert
+  fields: ["concert"]
+  abstract: >
+    Οι ράστερς συνδυάζουν στοιχεία από την ελληνόφωνη τζαζ και την ξενόγλωσση Drum and Bass στο stage του χώρου
+    συναυλιών. Με πολλές εμφανίσεις, κερδίζουν την επευφημία του κοινού.
+
+concert_2:
+  team: Phasors
+  title: "Heavy Rock μουσική"
+  kind: concert
+  fields: ["concert"]
+  abstract: >
+    Το συγκρότημα Phasors συνδυάζει στοιχεία της Metal και της Progressive Metal, προσφέροντας μία μοναδική εμπειρία
+    στον θεατή. Οι τρεις Phasors θα σας κάνουν να νιώσετε τη μουσική με διαφορετική πόλωση.
+
+concert_3:
+  team: Ψάρ
+  title: "Συναυλία"
+  kind: concert
+  fields: ["concert"]
+  abstract: >
+    Ένα ξεχωριστά ιδιαίτερο μουσικό υπερθέαμα, που αποτελείται από τον Δημήτρη, φοιτητή Ιατρικής, τη Μαρίνα, φοιτήτρια
+    Ηλεκτρολόγων, τον Αθανάση, φοιτητή Μουσικών Σπουδών, την Ελένη, φοιτήτρια Αρχιτεκτονικής, τον Anthony, φοιτητή
+    Ψυχολογίας, και τη Δήμητρα, φοιτήτρια Μαθηματικών.
+
+concert_4:
+  team: Gauss
+  title: "Distorted funk"
+  kind: concert
+  fields: ["concert"]
+  abstract: >
+    Μία μελωδική αναζωογόνηση στο Πανεπιστήμιο. Ελάτε να χορέψετε στους ρυθμούς της Distorted Funk.
+
+concert_5:
+  team: Παράπλευρη Οπτική
+  title: "Συναυλία"
+  kind: concert
+  fields: ["concert"]
+  abstract: >
+    Επιτρέψτε τους τέσσερεις μπαντ μέμπερς της "Παράπλευρης Οπτικής" να παρακούσουν τον ηχολήπτη και να παραδώσουν
+    ένα πρωτόγνωρο υπερθέαμα στους χώρους της Φιλοσοφικής.
+
+concert_6:
+  team: WhoLostAndFound
+  title: "Ρυθμική νεοκλασική & Alternative Rock"
+  kind: concert
+  fields: ["concert"]
+  abstract: >
+    Ο άνθρωπος χρειάζεται αναγνώριση. Μετά την αναγνώριση, έρχεται η ταυτοποίηση. Μετά την ταυτοποίηση, η ταύτιση. Το
+    συγκρότημά μας προσφέρει όλα αυτά, και τίποτα ταυτόχρονα. Με την παρουσία μας στη σκηνή, τα φώτα αποκτούν άλλο
+    χρώμα. Το πρόσωπο κινείται διαφορετικά, και αποκτά μία νέα, εναλλακτική, θαυμάσια αίγλη. Μία αποκρυστάλλωση της
+    δημιουργικής ανθρώπινης φαντασίας και λογικής, τα κύτταρα του οργανισμού φαντάζουν ψαράκια μπροστά στην ολική τήξη.
