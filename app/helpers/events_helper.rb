@@ -85,4 +85,8 @@ module EventsHelper
       false
     end
   end
+
+  def sort_events(events)
+    events.sort_by{|evt| evt.repetitions.first.date}
+  end
 end

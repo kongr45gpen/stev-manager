@@ -1,5 +1,6 @@
 class Repetition < ApplicationRecord
   belongs_to :event
+  default_scope { order(date: :asc) }
 
   after_initialize :init
 

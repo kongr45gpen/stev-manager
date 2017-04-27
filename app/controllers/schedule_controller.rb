@@ -3,7 +3,7 @@ class ScheduleController < ApplicationController
   include ScheduleHelper
 
   def index
-    @events = Event.all
+    @events = sort_events Event.all
   end
 
   def preview
@@ -17,6 +17,5 @@ class ScheduleController < ApplicationController
 
     # Get some CSS
     @theme = Rouge::Themes::Base16.mode(:dark)
-
   end
 end

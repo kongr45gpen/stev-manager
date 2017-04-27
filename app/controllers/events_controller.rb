@@ -1,12 +1,13 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  include EventsHelper
 
   # GET /events
   # GET /events.json
   # GET /events.tex
   def index
-    @events = Event.all
+    @events = sort_events Event.all
   end
 
   # GET /events/1

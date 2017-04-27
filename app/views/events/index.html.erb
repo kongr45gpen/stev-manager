@@ -50,7 +50,7 @@
                     <span class="badge"><%= l repetition.date.to_time, format: :sched %>
                       <% if repetition.duration %>
                         &mdash;
-                          <%= l ((repetition.date + repetition.duration.minutes).to_time), format: :sched %>
+                          <%= l ((repetition.date + repetition.duration.hours).to_time), format: :sched %>
                       <% end %>
                     </span>
                   <% elsif repetition.duration %>
