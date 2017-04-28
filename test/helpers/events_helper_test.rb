@@ -116,4 +116,17 @@ class EventsHelperTest < ActiveSupport::TestCase
     assert_equal("από 20:00 έως 23:15", format_time(repetition))
     assert_equal("από 20:00 έως 23:15", common_time(Event.new(repetitions: [repetition])))
   end
+
+  test "consecutive concerts" do
+    concert_1 = Event.create(kind: 'concert',
+                             repetitions: [Repetition.new(date: DateTime.new(2017,1,17,20,0))])
+    concert_2 = Event.create(kind: 'concert',
+                             repetitions: [Repetition.new(date: DateTime.new(2017,1,18,22,0))])
+    concert_3 = Event.create(kind: 'concert',
+                             repetitions: [Repetition.new(date: DateTime.new(2017,1,27,21,0))])
+
+    assert_equal([concert_1, concert_2], consecutive_concerts(concert_1))
+    assert_equal([concert_1, concert_2], consecutive_concerts(concert_2))
+    assert_equal([concert_3],            consecutive_concerts(concert_3))
+  end
 end

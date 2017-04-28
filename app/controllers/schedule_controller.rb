@@ -7,7 +7,7 @@ class ScheduleController < ApplicationController
   end
 
   def preview
-    events = Event.all
+    events = sort_events Event.all
     @source = ScheduleController.new.render_to_string(
         "schedule/index.tex.erb", locals: { :@events => events }
     )

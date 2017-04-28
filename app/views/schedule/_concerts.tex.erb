@@ -1,0 +1,16 @@
+\newpage
+
+\section*{Συναυλία στο <%= @concerts.first.space %>}
+
+<% @concerts.group_by{|evt| (evt.first_repetition.date - 6.hours).to_date }.each do |day| %>
+    \subsection*{<%= format_one_date day.first %>}
+    Ώρα έναρξης: <%= format_time day.second.first.first_repetition %>
+
+    <% day.second.each do |evt| %>
+        \paragraph{<%= evt.team.texcape %>}
+        <%= evt.title == 'Συναυλία' ? '\hspace{0pt}' : evt.title.texcape %>
+
+        <%= evt.abstract.texcape %>
+    <% end %>
+    \newpage
+<% end %>

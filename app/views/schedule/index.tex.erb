@@ -1,4 +1,4 @@
-\documentclass[14pt,oneside,showtrims,a4paper]{memoir}
+\documentclass[14pt,oneside,a4paper]{memoir}
 
 \pageaiv % A4 page
 \pagestyle{empty} % No header/footer
@@ -15,12 +15,15 @@
 
 %\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 
+\usepackage{hyperref}
+
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{15pt}
 \setlength{\headheight}{0pt}
 \setlength{\headsep}{0pt}
 \setlength{\topmargin}{0cm}
 \setlength{\textheight}{24cm}
+\setafterparaskip{0.1ex}
 
 \newenvironment{stayonpage}
 {\par\nobreak\vfil\penalty0\vfilneg
@@ -30,7 +33,7 @@
 
 \newcommand\disappearingrule{%
 \par % make sure we end a paragraph
-\vskip5pt % space above the rule
+\vskip25pt % space above the rule
 \leaders\vrule width \textwidth\vskip0.4pt % rule thickness is 0.4pt
 \nointerlineskip % disable interline glue here
 \vskip5pt % space below the rule
@@ -41,6 +44,16 @@
 % hello
 
 <% @events.each_with_index do |event, idx| %>
+  <% if event.kind == 'concert' %>
+      <% if @concerts and @concerts.include? event %>
+          <% next %>
+      <% end %>
+
+      <% @concerts = consecutive_concerts(event) %>
+      <%= render 'concerts' %>
+      <% next %>
+  <% end %>
+
   \begin{stayonpage}
     <% if idx != 0 %>
       \paragraph{} \hspace{0pt}
@@ -56,7 +69,7 @@
 
     <% if event.repetitions.any? %>
       \textbf{<%= many_repetitions?(event.repetitions) ? "Ημερομηνίες" : "Ημερομηνία" %>:}
-      <%= format_many_repetitions event.repetitions, time: repetitions_same_time?(event) %>
+      <%= format_many_repetitions event.repetitions, time: !repetitions_same_time?(event) %>
     <% end %>
     <% if repetitions_same_time?(event) && (time = common_time(event)) %>
       \\ \textbf{Ώρα:} <%= time.mb_chars.capitalize.to_s %>

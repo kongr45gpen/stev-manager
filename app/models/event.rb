@@ -13,4 +13,8 @@ class Event < ApplicationRecord
   def place_description
     (@place_description.nil? || @place_description.empty?) ? nil : @place_description
   end
+
+  def first_repetition
+    self.repetitions.first
+  end
 end

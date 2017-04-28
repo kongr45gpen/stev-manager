@@ -87,6 +87,32 @@ module EventsHelper
   end
 
   def sort_events(events)
-    events.sort_by{|evt| evt.repetitions.first.date}
+    events.sort_by{|evt| evt.first_repetition.date}
+  end
+
+  def consecutive_concerts(event)
+    def remove_away(lst)
+      last = nil
+      last_idx = nil
+
+      lst.each_with_index do |evt,idx|
+        if last and evt.first_repetition.date - last.first_repetition.date > 1.5.days
+          break
+        else
+          last = evt
+          last_idx = idx
+        end
+      end
+
+      lst[0..last_idx]
+    end
+
+    events = sort_events(Event.where(kind: 'concert'))
+    events = events.select{ |evt|
+      event.first_repetition.date - evt.first_repetition.date < 1.5.days
+    }
+    events = remove_away(events)
+
+    events
   end
 end
