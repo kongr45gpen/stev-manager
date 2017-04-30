@@ -141,7 +141,7 @@ ActiveAdmin.register Event do
         t.input :date, value: Date.today
         t.input :time, :as => :boolean, label: I18n.t(:show_time), :input_html => { checked: t.object.time? }
         t.input :end_date
-        t.input :duration, label: 'Duration in minutes'
+        t.input :duration, label: 'Duration in hours'
       end
     end
     f.panel 'Display Details' do

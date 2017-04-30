@@ -2,7 +2,7 @@
     <hr>
     <div class="media">
       <div class="media-left">
-        <a href="<%= url_for event %> " class="media-object event-kind" data-kind="<%= event.kind %>">
+        <a href="<%= admin_event_path event %>" class="media-object event-kind" data-kind="<%= event.kind %>">
           <img src="<%= asset_path 'kinds/'+event.kind+'.png', type: :image %>" alt="<%=t event.kind %>">
         </a>
       </div>
