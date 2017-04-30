@@ -24,6 +24,7 @@ module EventsHelper
   end
 
   def format_time(rep)
+    return unless rep
     formatted = I18n.l rep.date.to_time, format: :sched
     if rep.duration
       "από %s έως %s" % [formatted, I18n.l(rep.end_time.to_time, format: :sched)]
@@ -87,11 +88,7 @@ module EventsHelper
   end
 
   def sort_events(events)
-    events.sort_by do |evt|
-      if evt.repetitions.any?
-        evt.first_repetition.date else 0
-      end
-    end
+    events.sort_by { |evt| evt.first_date }
   end
 
   def consecutive_concerts(event)
@@ -100,7 +97,7 @@ module EventsHelper
       last_idx = nil
 
       lst.each_with_index do |evt,idx|
-        if last and evt.first_repetition.date - last.first_repetition.date > 1.5.days
+        if last and evt.first_date - last.first_date > 1.5.days
           break
         else
           last = evt
@@ -109,6 +106,10 @@ module EventsHelper
       end
 
       lst[0..last_idx]
+    end
+
+    if event.repetitions.empty?
+      return [event]
     end
 
     events = sort_events(Event.where(kind: 'concert'))

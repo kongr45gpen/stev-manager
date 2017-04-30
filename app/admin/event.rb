@@ -19,8 +19,10 @@ ActiveAdmin.register Event do
   permit_params do
     permitted = [:team, :title, :kind, :other, :proposed_space, :proposed_time, :abstract,
                  :submitter_id, :status, :scheduled, :hidden, :place_description, :team_below, :space,
+                 :time_description,
                  :submitter_attributes => [:id, :surname, :name, :phone, :email],
                  :repetitions_attributes => [:id, :date, :time, :end_date, :duration, :_destroy],
+                 :properties_attributes => [:id, :name, :value],
                  :fields => []]
     permitted
   end
@@ -52,6 +54,14 @@ ActiveAdmin.register Event do
       row :phone
       row :email
     end
+  end
+
+  sidebar :properties, :only => [:show, :edit] do
+    table_for resource.properties do |prop|
+      column :name
+      column :value
+    end
+
   end
 
   index do
@@ -118,16 +128,28 @@ ActiveAdmin.register Event do
     end
     f.inputs 'Repetitions' do
       f.has_many :repetitions, new_record: true, allow_destroy: true do |t|
-        # byebug
         t.input :date, value: Date.today
         t.input :time, :as => :boolean, label: I18n.t(:show_time), :input_html => { checked: t.object.time? }
         t.input :end_date
         t.input :duration, label: 'Duration in minutes'
       end
     end
-    f.inputs 'Display Details' do
-      f.input :place_description, input_html: { placeholder: "Χώρος διεξαγωγής" }
-      f.input :team_below
+    f.panel 'Display Details' do
+      columns do
+        column do
+          f.inputs 'Defaults' do
+            f.input :place_description, input_html: { placeholder: "Χώρος διεξαγωγής" }
+            f.input :time_description, input_html: { placeholder: "Ώρα" }
+            f.input :team_below
+          end
+        end
+        column do
+          f.has_many :properties, new_record: true, allow_destroy: true do |t|
+            t.input :name
+            t.input :value, :input_html => { :rows => 1 }
+          end
+        end
+      end
     end
     f.actions
   end

@@ -1,9 +1,11 @@
 class Event < ApplicationRecord
   belongs_to :submitter
   has_many :repetitions
+  has_many :properties
 
-  accepts_nested_attributes_for :submitter, :allow_destroy => true
+  accepts_nested_attributes_for :submitter,   :allow_destroy => true
   accepts_nested_attributes_for :repetitions, :allow_destroy => true
+  accepts_nested_attributes_for :properties,  :allow_destroy => true
 
   serialize :fields, Array
 
@@ -11,10 +13,24 @@ class Event < ApplicationRecord
   enum scheduled: { no_schedule: 0, pending_schedule: 1, scheduled: 2 }
 
   def place_description
-    (@place_description.nil? || @place_description.empty?) ? nil : @place_description
+    v = self[:place_description]
+    (v.nil? || v.empty?) ? nil : v
+  end
+
+  def time_description
+    v = self[:time_description]
+    (v.nil? || v.empty?) ? nil : v
   end
 
   def first_repetition
     self.repetitions.first
+  end
+
+  def first_date
+    if self.repetitions.any?
+      self.repetitions.first.date
+    else
+      Date.new(0)
+    end
   end
 end

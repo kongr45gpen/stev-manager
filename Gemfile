@@ -69,3 +69,6 @@ gem 'devise'
 
 # Syntax Highlighting
 gem 'rouge'
+
+# Configuration
+gem 'config'

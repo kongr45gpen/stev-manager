@@ -43,14 +43,23 @@
 
 % hello
 
+<% c_id = 0 %>
+
 <% @events.each_with_index do |event, idx| %>
+    <% if event.hidden %>
+        <% next %>
+    <% elsif Settings.schedule.hide_unscheduled and event.repetitions.empty? %>
+        <% next %>
+    <% end %>
+
   <% if event.kind == 'concert' %>
       <% if @concerts and @concerts.include? event %>
           <% next %>
       <% end %>
 
       <% @concerts = consecutive_concerts(event) %>
-      <%= render 'concerts' %>
+      <%= render 'concerts', c_id: c_id %>
+      <% c_id += 1 %>
       <% next %>
   <% end %>
 
@@ -72,11 +81,15 @@
       <%= format_many_repetitions event.repetitions, time: !repetitions_same_time?(event) %>
     <% end %>
     <% if repetitions_same_time?(event) && (time = common_time(event)) %>
-      \\ \textbf{Ώρα:} <%= time.mb_chars.capitalize.to_s %>
+      \\ \textbf{<%= (event.time_description || "Ώρα").texcape %>:} <%= time.mb_chars.capitalize.to_s %>
     <% end %>
     <% unless event.space.empty? %>
       <% if defined?(time) and time %>\\<% end %>
       \textbf{<%= (event.place_description || "Χώρος διεξαγωγής").texcape %>:} <%= event.space.texcape %>
+    <% end %>
+    <% event.properties.each do |property| %>
+        \\
+        \textbf{<%= property.name %>:} <%= property.value %>
     <% end %>
   \end{stayonpage}
 

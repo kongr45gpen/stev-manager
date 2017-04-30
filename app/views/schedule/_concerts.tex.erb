@@ -1,8 +1,8 @@
 \newpage
 
-\section*{Συναυλία στο <%= @concerts.first.space %>}
+\section*{<%= Settings.schedule.concerts[c_id] %>}
 
-<% @concerts.group_by{|evt| (evt.first_repetition.date - 6.hours).to_date }.each do |day| %>
+<% @concerts.group_by{|evt| (evt.first_date - 6.hours).to_date }.each do |day| %>
     \subsection*{<%= format_one_date day.first %>}
     Ώρα έναρξης: <%= format_time day.second.first.first_repetition %>
 

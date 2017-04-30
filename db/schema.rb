@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170425192037) do
+ActiveRecord::Schema.define(version: 20170430141509) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -44,7 +44,17 @@ ActiveRecord::Schema.define(version: 20170425192037) do
     t.string   "place_description"
     t.boolean  "team_below",        default: false
     t.text     "space"
+    t.string   "time_description"
     t.index ["submitter_id"], name: "index_events_on_submitter_id"
+  end
+
+  create_table "properties", force: :cascade do |t|
+    t.string   "name"
+    t.text     "value"
+    t.integer  "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_properties_on_event_id"
   end
 
   create_table "repetitions", force: :cascade do |t|
