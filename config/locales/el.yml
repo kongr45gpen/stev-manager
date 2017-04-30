@@ -64,8 +64,8 @@ el:
   short:
     joined: "Εγγεγρ."
     updates: "Ενημερ."
+    mark_joined: "Σημ. Εγγρ."
   unknown: "Άγνωστο"
-  joined_fast: "Εγγεγρ."
   time:
     formats:
       sched: "%H:%M"
@@ -134,3 +134,5 @@ el:
         subscription: "Ενημέρωση για μελλοντικές δράσεις"
         updates: "Χρειάζεται Ενημέρωση"
         joined: "Εγγεγραμμένος στην ομάδα"
+  active_admin:
+    create_another: "Κι άλλο"

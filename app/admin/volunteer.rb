@@ -17,7 +17,9 @@ ActiveAdmin.register Volunteer do
     column :level
     column I18n.t('short.updates'), :updates
     column I18n.t('short.joined'), :joined
-    actions
+    actions do |vol|
+      item I18n.t('short.mark_joined'), "/", class: "member_link"
+    end
   end
 
   batch_action :set_gender, form: {
