@@ -80,6 +80,16 @@ ActiveAdmin.register Event do
     actions
   end
 
+  scope :all, default: true
+  scope('Complete') { |scope| scope.where(status: 'confirmed', scheduled: 'scheduled') }
+  scope('Pending') { |scope| scope.where.not(['(status = ? and scheduled = ?) or (status = ? and scheduled = ?)',
+                                              Event.statuses[:fresh],
+                                              Event.scheduleds[:no_schedule],
+                                              Event.statuses[:confirmed],
+                                              Event.scheduleds[:scheduled]
+                                             ]) }
+  scope('New') { |scope| scope.where(status: 'fresh', scheduled: 'no_schedule') }
+
   form do |f|
     f.actions
     f.panel 'Information' do

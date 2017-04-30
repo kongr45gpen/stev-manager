@@ -28,7 +28,7 @@ ActiveAdmin.register_page "Dashboard" do
         panel "Events" do
           ul do
             Event.limit(20).map do |event|
-              li link_to(event.title, event_path(event))
+              li link_to(event.title, admin_event_path(event))
             end
           end
         end

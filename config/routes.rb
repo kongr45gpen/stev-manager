@@ -9,8 +9,7 @@ Rails.application.routes.draw do
 
   ActiveAdmin.routes(self)
   
-  #resources :submitters
-  resources :events
+  resources :events, only: [:index]
 
   get '/volunteers', to: 'volunteers#index'
   get '/volunteers/export'
