@@ -5,7 +5,7 @@ class Repetition < ApplicationRecord
   after_initialize :init
 
   def init
-    self.date  ||= Date.today           #will set the default value only if it's nil
+    self.date  ||= Settings.default_date&.to_date || Date.today      #will set the default value only if it's nil
   end
 
   def time
