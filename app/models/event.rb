@@ -1,7 +1,7 @@
 class Event < ApplicationRecord
   belongs_to :submitter
   has_many :repetitions
-  has_many :properties
+  has_many :properties, -> { order(position: :asc) }
   audited
 
   accepts_nested_attributes_for :submitter,   :allow_destroy => true

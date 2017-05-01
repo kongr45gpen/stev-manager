@@ -157,6 +157,7 @@ ActiveAdmin.register Event do
           f.has_many :properties, new_record: true, allow_destroy: true do |t|
             t.input :name
             t.input :value, :input_html => { :rows => 1 }
+            t.input :position
           end
         end
       end
