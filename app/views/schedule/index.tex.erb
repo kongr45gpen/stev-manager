@@ -16,6 +16,7 @@
 %\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 
 \usepackage{hyperref}
+\usepackage{color}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{15pt}
@@ -64,6 +65,10 @@
   <% end %>
 
   \begin{stayonpage}
+    <% if Settings.schedule.mark_fresh and event.fresh? %>
+      \color{red}
+    <% end %>
+
     <% if idx != 0 %>
       \paragraph{} \hspace{0pt}
     <% end %>
@@ -94,5 +99,9 @@
   \end{stayonpage}
 
     \disappearingrule
+<% end %>
+<% if Settings.schedule.show_unscheduled_concerts %>
+    <% @concerts = Event.left_outer_joins(:repetitions).where(repetitions:{id:nil},kind:"concert") %>
+    <%= render 'concerts', c_id: c_id %>
 <% end %>
 \end{document}
