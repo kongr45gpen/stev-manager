@@ -34,10 +34,10 @@
 
 \newcommand\disappearingrule{%
 \par % make sure we end a paragraph
-\vskip25pt % space above the rule
+\vskip20pt % space above the rule
 \leaders\vrule width \textwidth\vskip0.4pt % rule thickness is 0.4pt
 \nointerlineskip % disable interline glue here
-\vskip5pt % space below the rule
+\vskip20pt % space below the rule
 }
 
 \begin{document}
@@ -77,7 +77,7 @@
     <% end %>
 
     <% if idx != 0 %>
-      \paragraph{} \hspace{0pt}
+      %\paragraph{} \hspace{0pt}
     <% end %>
 
     <% unless event.team.strip.empty? %>

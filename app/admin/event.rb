@@ -82,12 +82,14 @@ ActiveAdmin.register Event do
 
   scope :all, default: true
   scope('Complete') { |scope| scope.where(status: 'confirmed', scheduled: 'scheduled') }
-  scope('Pending') { |scope| scope.where.not(['(status = ? and scheduled = ?) or (status = ? and scheduled = ?)',
+  scope('Pending') { |scope| scope.where.not(['(status = ? and scheduled = ?) or (status = ? and scheduled = ?) or (status = ?)',
                                               Event.statuses[:fresh],
                                               Event.scheduleds[:no_schedule],
                                               Event.statuses[:confirmed],
-                                              Event.scheduleds[:scheduled]
+                                              Event.scheduleds[:scheduled],
+                                              Event.statuses[:cancelled]
                                              ]) }
+  scope('Cancelled') { |scope| scope.where(status: 'cancelled') }
   scope('New') { |scope| scope.where(status: 'fresh', scheduled: 'no_schedule') }
 
   form do |f|
