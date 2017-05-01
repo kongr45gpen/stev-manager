@@ -4,4 +4,5 @@ schedule:
     - Συναυλία στα γρασίδια της Φιλοσοφικής
   mark_fresh: true
   show_unscheduled_concerts: false
+  draft: true
 default_date: ~

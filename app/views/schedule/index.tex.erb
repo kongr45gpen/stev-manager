@@ -41,6 +41,13 @@
 }
 
 \begin{document}
+<% if Settings.schedule.draft %>
+    \begin{center}
+      \textbf{Πρόχειρο}
+
+      \textbf{Έκδοση <%= Audited::Audit.last.id %>}
+    \end{center}
+<% end %>
 
 % hello
 
@@ -49,7 +56,7 @@
 <% @events.each_with_index do |event, idx| %>
     <% if event.hidden %>
         <% next %>
-    <% elsif Settings.schedule.hide_unscheduled and event.repetitions.empty? %>
+    <% elsif (Settings.schedule.hide_unscheduled or event.kind == 'concert') and event.repetitions.empty? %>
         <% next %>
     <% end %>
 
