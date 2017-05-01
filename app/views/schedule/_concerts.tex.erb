@@ -8,8 +8,7 @@
 
     <% day.second.each do |evt| %>
         \paragraph{<%= evt.team.texcape %>}
-        <%= evt.title == 'Συναυλία' ? '\hspace{0pt}' : evt.title.texcape %>
-
+        <%= evt.title == 'Συναυλία' ? '\vspace{15pt}' : evt.title.texcape + "\n" %>
         <%= evt.abstract.texcape %>
     <% end %>
     \newpage

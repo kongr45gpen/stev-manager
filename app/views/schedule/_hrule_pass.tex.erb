@@ -1,0 +1,22 @@
+\newcommand{\hrulemagic}[1]{%
+\ifcsname hrulefor#1 \endcsname%
+\else%
+\expandafter\newcommand\csname hrulefor#1\endcsname{}%
+\fi%
+}
+
+\newread\file
+\openin\file=\jobname.rul.aux
+\loop\unless\ifeof\file
+\read\file to\fileline % Reads a line of the file into \fileline
+\ifthenelse{\equal{\fileline}{\par}}
+{}
+{\hrulemagic{\fileline}}%
+\show\fileline
+\repeat
+\closein\file
+
+\newwrite\tempfile
+\immediate\openout\tempfile=\jobname.rul.aux
+
+\newcounter{lastlinepage}

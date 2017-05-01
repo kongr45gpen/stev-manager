@@ -17,6 +17,8 @@
 
 \usepackage{hyperref}
 \usepackage{color}
+\usepackage{ifthen}
+\usepackage{refcount}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{15pt}
@@ -40,6 +42,8 @@
 \vskip15pt % space below the rule
 }
 
+<%= render 'hrule_pass' %>
+
 \begin{document}
 <% if Settings.schedule.draft %>
     \begin{center}
@@ -52,7 +56,7 @@
 % hello
 
 <% c_id = 0 %>
-<% first = true %>
+<% eidx = 0 %>
 
 <% @events.each_with_index do |event, idx| %>
     <% if event.hidden %>
@@ -69,16 +73,12 @@
       <% @concerts = consecutive_concerts(event) %>
       <%= render 'concerts', c_id: c_id %>
       <% c_id += 1 %>
+      \immediate\write\tempfile{<%= eidx-1 %>}
       <% next %>
   <% end %>
 
-  <% if first %>
-      <% first = false %>
-  <% else %>
-      \disappearingrule
-  <% end %>
 
-  \begin{stayonpage}
+    \begin{stayonpage}
     <% if Settings.schedule.mark_fresh and event.fresh? %>
       \color{red}
     <% end %>
@@ -106,11 +106,30 @@
         \\
         \textbf{<%= property.name %>:} <%= property.value %>
     <% end %>
+
+    \ifcsname hrulefor<%= eidx %> \endcsname
+    \else
+      \disappearingrule
+    \fi
   \end{stayonpage}
 
+  <% if eidx != 0 %>
+    {%
+        \leavevmode%
+        \ifnum\thelastlinepage=\thepage%
+        \else%
+        \immediate\write\tempfile{<%= eidx-1 %>}%
+        \fi%
+    }%
+  <% end %>
+  <% eidx += 1 %>
+
+  \setcounter{lastlinepage}{\thepage}
 <% end %>
 <% if Settings.schedule.show_unscheduled_concerts %>
     <% @concerts = Event.left_outer_joins(:repetitions).where(repetitions:{id:nil},kind:"concert") %>
     <%= render 'concerts', c_id: c_id %>
 <% end %>
 \end{document}
+
+\immediate\closeout\tempfile
