@@ -34,10 +34,10 @@
 
 \newcommand\disappearingrule{%
 \par % make sure we end a paragraph
-\vskip20pt % space above the rule
+\vskip15pt % space above the rule
 \leaders\vrule width \textwidth\vskip0.4pt % rule thickness is 0.4pt
 \nointerlineskip % disable interline glue here
-\vskip20pt % space below the rule
+\vskip15pt % space below the rule
 }
 
 \begin{document}
@@ -52,6 +52,7 @@
 % hello
 
 <% c_id = 0 %>
+<% first = true %>
 
 <% @events.each_with_index do |event, idx| %>
     <% if event.hidden %>
@@ -71,13 +72,15 @@
       <% next %>
   <% end %>
 
+  <% if first %>
+      <% first = false %>
+  <% else %>
+      \disappearingrule
+  <% end %>
+
   \begin{stayonpage}
     <% if Settings.schedule.mark_fresh and event.fresh? %>
       \color{red}
-    <% end %>
-
-    <% if idx != 0 %>
-      %\paragraph{} \hspace{0pt}
     <% end %>
 
     <% unless event.team.strip.empty? %>
@@ -105,7 +108,6 @@
     <% end %>
   \end{stayonpage}
 
-    \disappearingrule
 <% end %>
 <% if Settings.schedule.show_unscheduled_concerts %>
     <% @concerts = Event.left_outer_joins(:repetitions).where(repetitions:{id:nil},kind:"concert") %>
