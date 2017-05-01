@@ -1,0 +1,27 @@
+<% if Settings.schedule.mark_fresh and event.fresh? %>
+    \color{red}
+<% end %>
+
+<% unless event.team.strip.empty? %>
+    <%= event.team.texcape %>
+    \\
+<% end %>
+\textbf{<%= event.title.texcape %>}
+
+<%= (event.abstract || event.other).to_s.texcape %>
+
+<% if event.repetitions.any? %>
+    \textbf{<%= many_repetitions?(event.repetitions) ? "Ημερομηνίες" : "Ημερομηνία" %>:}
+    <%= format_many_repetitions event.repetitions, time: !repetitions_same_time?(event) %>
+<% end %>
+<% if repetitions_same_time?(event) && (time = common_time(event)) %>
+    \\ \textbf{<%= (event.time_description || "Ώρα").texcape %>:} <%= time.mb_chars.capitalize.to_s %>
+<% end %>
+<% unless event.space.empty? %>
+    <% if defined?(time) and time %>\\<% end %>
+    \textbf{<%= (event.place_description || "Χώρος διεξαγωγής").texcape %>:} <%= event.space.texcape %>
+<% end %>
+<% event.properties.each do |property| %>
+    \\
+    \textbf{<%= property.name %>:} <%= property.value %>
+<% end %>
