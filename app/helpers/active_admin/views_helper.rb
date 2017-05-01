@@ -1,4 +1,4 @@
-module ActiveAdmin::EventsHelper
+module ActiveAdmin::ViewsHelper
   def to_color(status)
     case status
       when "cancelled"
@@ -17,6 +17,12 @@ module ActiveAdmin::EventsHelper
         :orange
       when "scheduled"
         :yes
+      when "create"
+        :green
+      when "update"
+        :yes
+      when "delete"
+        :red
       else
         :red
     end

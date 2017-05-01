@@ -60,6 +60,8 @@ GEM
     arbre (1.1.1)
       activesupport (>= 3.0.0)
     arel (7.1.4)
+    audited (4.4.1)
+      activerecord (>= 4.0, < 5.2)
     autoprefixer-rails (6.7.7.2)
       execjs
     bcrypt (3.1.11)
@@ -247,6 +249,7 @@ PLATFORMS
 
 DEPENDENCIES
   activeadmin!
+  audited (~> 4.4)
   bootstrap-sass (~> 3.3.6)
   bootstrap_form
   bootswatch-rails

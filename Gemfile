@@ -72,3 +72,6 @@ gem 'rouge'
 
 # Configuration
 gem 'config'
+
+# Changes tracking
+gem 'audited', '~> 4.4'
