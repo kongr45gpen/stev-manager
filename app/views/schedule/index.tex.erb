@@ -45,6 +45,10 @@
 <%= render 'hrule_pass' %>
 
 \begin{document}
+\begin{center}
+  \includegraphics[width=\textwidth]{branding_top}
+\end{center}
+
 <% if Settings.schedule.draft %>
     \begin{center}
       \textbf{Πρόχειρο}
@@ -96,6 +100,11 @@
     <% @concerts = Event.left_outer_joins(:repetitions).where(repetitions:{id:nil},kind:"concert") %>
     <%= render 'concerts', c_id: c_id %>
 <% end %>
-\end{document}
+
+\begin{center}
+  \par\vspace*{\fill}
+  \includegraphics[width=\textwidth]{branding_bottom}
+  \end{document}
+\end{center}
 
 \immediate\closeout\tempfile
