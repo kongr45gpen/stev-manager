@@ -73,7 +73,7 @@
       <% @concerts = consecutive_concerts(event) %>
       <%= render 'concerts', c_id: c_id %>
       <% c_id += 1 %>
-      \immediate\write\tempfile{<%= eidx-1 %>}
+        \write\tempfile{<%= eidx-1 %> \thepage}%
       <% next %>
   <% end %>
 
@@ -87,15 +87,7 @@
     \fi
   \end{stayonpage}
 
-  <% if eidx != 0 %>
-    {%
-        \leavevmode%
-        \ifnum\thelastlinepage=\thepage%
-        \else%
-        \immediate\write\tempfile{<%= eidx-1 %>}%
-        \fi%
-    }%
-  <% end %>
+  \write\tempfile{<%= eidx-1 %> \thepage}%
   <% eidx += 1 %>
 
   \setcounter{lastlinepage}{\thepage}
