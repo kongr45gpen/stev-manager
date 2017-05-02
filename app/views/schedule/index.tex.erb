@@ -21,6 +21,14 @@
 \usepackage{ifthen}
 \usepackage{refcount}
 
+<% if Settings.schedule.repetition_boxes %>
+    \usepackage[left=3.5cm,right=2cm,top=2cm,bottom=2cm,
+    marginparwidth=3.1cm, marginparsep=5mm]{geometry}
+
+    \usepackage[skins]{tcolorbox}
+    \usepackage{marginnote}
+<% end %>
+
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{15pt}
 \setlength{\headheight}{0pt}
