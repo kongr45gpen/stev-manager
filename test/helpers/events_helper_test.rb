@@ -80,6 +80,15 @@ class EventsHelperTest < ActiveSupport::TestCase
     assert_equal("Από Παρασκευή 3/2 έως Πέμπτη 30/3, Δευτέρα 17/4, Από Τρίτη 18/4 έως Πέμπτη 18/5", format_many_repetitions(repetitions))
   end
 
+  test "two long repetitions" do
+    repetitions = [
+        Repetition.new(date: Date.new(2017,2,3), end_date: Date.new(2017,3,30)),
+        Repetition.new(date: Date.new(2017,4,18), end_date: Date.new(2017,5,18)),
+    ]
+
+    assert_equal("Από Παρασκευή 3/2 έως Πέμπτη 30/3 και από Τρίτη 18/4 έως Πέμπτη 18/5", format_many_repetitions(repetitions))
+  end
+
   test "two close repetitions" do
     repetitions = [
         Repetition.new(date: Date.new(2017,4,17)),
