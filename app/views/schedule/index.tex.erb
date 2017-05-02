@@ -17,6 +17,7 @@
 
 \usepackage[pdftitle={<%= Settings.schedule.title %>}]{hyperref}
 \usepackage{color}
+\usepackage{xcolor}
 \usepackage{ifthen}
 \usepackage{refcount}
 
@@ -27,6 +28,20 @@
 \setlength{\topmargin}{0cm}
 \setlength{\textheight}{24cm}
 \setafterparaskip{0.1ex}
+
+\definecolor{linknavy}{rgb}{0,0,0.4}
+% Hyperref style configuration
+\hypersetup{%
+colorlinks=true,
+urlcolor=linknavy,
+allbordercolors=blue,
+}\makeatletter
+\Hy@AtBeginDocument{%
+\def\@pdfborder{0 0 1}% Overrides border definition set with colorlinks=true
+\def\@pdfborderstyle{/S/U/W 1}% Overrides border style set with colorlinks=true
+% Hyperlink border style will be underline of width 1pt
+}
+\makeatother
 
 \newenvironment{stayonpage}
 {\par\nobreak\vfil\penalty0\vfilneg
