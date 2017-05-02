@@ -80,6 +80,17 @@ ActiveAdmin.register Event do
     actions
   end
 
+  index as: ActiveAdmin::Views::IndexAsMedia do
+    column("Επίθετο") {|event| event.submitter&.surname}
+    column("Όνομα") {|event| event.submitter&.name}
+    column("Τηλέφωνο") {|event| event.submitter&.phone}
+    column(:email) {|event| event.submitter&.email}
+    column :team
+    column("Ημερομηνίες") {|event| format_many_repetitions(event.repetitions, time: true)}
+    column :title
+    column :space
+  end
+
   scope :all, default: true
   scope('Complete') { |scope| scope.where(status: 'confirmed', scheduled: 'scheduled') }
   scope('Pending') { |scope| scope.where.not(['(status = ? and scheduled = ?) or (status = ? and scheduled = ?) or (status = ?)',
