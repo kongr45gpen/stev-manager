@@ -6,6 +6,7 @@ schedule:
   show_unscheduled_concerts: false
   draft: true
   debug_indexes: false
+  title: Πρόγραμμα
 xelatex:
   fonts:
     main: Times New Roman
