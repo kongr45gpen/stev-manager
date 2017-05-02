@@ -1,4 +1,5 @@
 require_dependency 'inputs/serialized_array_input'
+require_dependency 'views/index_as_media'
 
 ActiveAdmin.register Event do
 # See permitted parameters documentation:
@@ -14,8 +15,6 @@ ActiveAdmin.register Event do
 #   permitted
 # end
 #   permit_params :team, :title, :kind, :other, :proposed_space, :proposed_time, :abstract, :fields
-
-
   permit_params do
     permitted = [:team, :title, :kind, :other, :proposed_space, :proposed_time, :abstract,
                  :submitter_id, :status, :scheduled, :hidden, :place_description, :team_below, :space,
