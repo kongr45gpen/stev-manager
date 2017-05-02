@@ -4,12 +4,12 @@
 \pagestyle{empty} % No header/footer
 
 \usepackage{fontspec}
-\setmainfont{Times New Roman}
-\setsansfont{Arial}
+\setmainfont{<%= Settings.xelatex.fonts.main %>}
+\setsansfont{<%= Settings.xelatex.fonts.sans %>}
 \usepackage{polyglossia}
-\newfontfamily\greekfont[Script=Greek]{Times New Roman}
-\newfontfamily\greekfontsf[Script=Greek]{Arial}
-\newfontfamily\greekfonttt[Script=Greek]{Latin Modern Mono}
+\newfontfamily\greekfont[Script=Greek]{<%= Settings.xelatex.fonts.main %>}
+\newfontfamily\greekfontsf[Script=Greek]{<%= Settings.xelatex.fonts.sans %>}
+\newfontfamily\greekfonttt[Script=Greek]{<%= Settings.xelatex.fonts.mono %>}
 \setdefaultlanguage{greek}
 \setotherlanguage{english}
 
