@@ -25,7 +25,7 @@ for object in objects:
   print colorful_json,
 
   if object['broken']:
-    output.write(event + "\n")
+    output.write(object['event'] + "\n")
 
 input.close()
 output.close()

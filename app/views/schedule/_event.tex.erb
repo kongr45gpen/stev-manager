@@ -6,7 +6,7 @@
     <%= event.team.texcape %>
     \\
 <% end %>
-\textbf{<%= event.title.texcape %>}
+\textbf{<%= event.title.texcape %><% if Settings.schedule.debug_indexes %> <%= e_idx %><% end %>}
 
 <%= (event.abstract || event.other).to_s.texcape %>
 
@@ -18,7 +18,7 @@
     \\ \textbf{<%= (event.time_description || "Ώρα").texcape %>:} <%= time.mb_chars.capitalize.to_s %>
 <% end %>
 <% unless event.space.empty? %>
-    <% if defined?(time) and time %>\\<% end %>
+    <% if true or(defined?(time) and time) %>\\<% end %>
     \textbf{<%= (event.place_description || "Χώρος διεξαγωγής").texcape %>:} <%= event.space.texcape %>
 <% end %>
 <% event.properties.each do |property| %>

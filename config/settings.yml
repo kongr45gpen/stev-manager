@@ -5,6 +5,7 @@ schedule:
   mark_fresh: true
   show_unscheduled_concerts: false
   draft: true
+  debug_indexes: false
 xelatex:
   fonts:
     main: Times New Roman

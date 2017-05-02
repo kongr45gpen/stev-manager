@@ -42,6 +42,11 @@
 \vskip15pt % space below the rule
 }
 
+\newcommand\invisiblerule{%
+\par%
+\vskip30pt%
+}
+
 <%= render 'hrule_pass' %>
 
 \begin{document}
@@ -83,9 +88,10 @@
 
 
     \begin{stayonpage}
-    <%= render 'event', event: event %>
+    <%= render 'event', event: event, eidx: eidx %>
 
     \ifcsname hrulefor<%= eidx %> \endcsname
+      \invisiblerule
     \else
       \disappearingrule
     \fi

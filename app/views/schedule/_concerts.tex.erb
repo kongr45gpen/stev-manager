@@ -7,9 +7,11 @@
     Ώρα έναρξης: <%= format_time day.second.first.first_repetition %>
 
     <% day.second.each do |evt| %>
+        \begin{stayonpage}
         \paragraph{<%= evt.team.texcape %>}
         <%= evt.title == 'Συναυλία' ? '\vspace{15pt}' : evt.title.texcape + "\n" %>
         <%= evt.abstract.texcape %>
+        \end{stayonpage}
     <% end %>
     \newpage
 <% end %>
