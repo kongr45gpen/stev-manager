@@ -17,7 +17,7 @@ for row in input:
   oldline = line
 
 if objects:
-  objects[-1]['broken'] = False
+  objects[-1]['broken'] = True # last event gets no line
 
 for object in objects:
   formatted_json = json.dumps(object)
