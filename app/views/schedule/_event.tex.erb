@@ -2,44 +2,7 @@
     \color{red}
 <% end %>
 
-<% if Settings.schedule.repetition_boxes %>
-    \reversemarginpar
-    \marginnote{
-    <% event.repetitions.each do |rep| %>
-        <% color = case rep.date.month
-                     when 5; 'green'
-                     when 6; 'blue'
-                     else; 'red'
-                   end %>
-        <% month = case rep.date.month
-                     when 5; 'ΜΑΪΟΥ'
-                     when 6; 'ΙΟΥΝΙΟΥ'
-                     else; rep.date.month
-                   end %>
-        <% day = case rep.date.wday
-                   when 0; 'ΚΥΡ'
-                   when 1; 'ΔΕΥ'
-                   when 2; 'ΤΡΙ'
-                   when 3; 'ΤΕΤ'
-                   when 4; 'ΠΕΜ'
-                   when 5; 'ΠΑΡ'
-                   when 6; 'ΣΑΒ'
-                   else; '???'
-                 end %>
-        \begin{tcolorbox}[enhanced,
-        colback=<%= color %>!5!white,colframe=<%= color %>!75!black,fonttitle=\bfseries,
-        titlerule=1mm,width=<% if rep.end_date %>.14<%else%>.09<% end %>\textwidth,size=small,arc=1mm,sharpish corners,
-        fuzzy shadow={0mm}{-0mm}{0mm}{0.5mm}{black!50!white}]%
-        \begin{center}%
-        \tiny%
-        <%= day %>\\\vspace{2pt}{\Large \textbf{%
-          <% if rep.end_date %><%= rep.date.day %>-<%= rep.end_date.day %><% else %><%= rep.date.day %><% end %>%
-               }}\\<%= month %>
-        \end{center}
-        \end{tcolorbox}
-    <% end %>
-    }[-6mm]
-<% end %>
+<%= render 'repetition_boxes', event: event %>
 
 <% unless event.team.strip.empty? %>
     <%= event.team.texcape %>

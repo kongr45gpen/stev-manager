@@ -4,6 +4,8 @@
 
 <% @concerts.group_by{|evt| (evt.first_date - 6.hours).to_date }.each do |day| %>
     \subsection*{<%= format_one_date day.first %>}
+
+    <%= render 'repetition_boxes', event: day.second.first, color: 'magenta', nudge: '-6mm' %>
     Ώρα έναρξης: <%= format_time day.second.first.first_repetition %>
 
     <% day.second.each do |evt| %>
