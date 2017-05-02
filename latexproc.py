@@ -17,7 +17,8 @@ for row in input:
   oldline = line
 
 if objects:
-  objects[-1]['broken'] = True # last event gets no line
+  id = objects[-1]['event']
+  objects.append({'event': str(int(id)+1), 'line':'-1', 'broken': True}) # last event gets no horizontal line
 
 for object in objects:
   formatted_json = json.dumps(object)
