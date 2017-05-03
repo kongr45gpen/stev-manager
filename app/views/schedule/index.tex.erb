@@ -13,8 +13,6 @@
 \setdefaultlanguage{greek}
 \setotherlanguage{english}
 
-%\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
-
 \usepackage[pdftitle={<%= Settings.schedule.title %>}]{hyperref}
 \usepackage{color}
 \usepackage{xcolor}
@@ -27,6 +25,8 @@
 
     \usepackage[skins]{tcolorbox}
     \usepackage{marginnote}
+
+    <% imagepad = '-0.75cm' %>
 <% end %>
 
 \setlength{\parindent}{0pt}
@@ -74,7 +74,15 @@ allbordercolors=blue,
 
 \begin{document}
 \begin{center}
+  <% if Settings.schedule.repetition_boxes %>
+    \hspace{-0.75cm}
+  <% end %>
   \includegraphics[width=\textwidth]{branding_top}
+
+  <% if Settings.schedule.repetition_boxes %>
+      \hspace{-0.75cm}
+  <% end %>
+  \includegraphics[width=.5\textwidth]{branding_logo}
 \end{center}
 
 <% if Settings.schedule.draft %>
