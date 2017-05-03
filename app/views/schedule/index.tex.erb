@@ -101,6 +101,7 @@ allbordercolors=blue,
 
 <% c_id = 0 %>
 <% eidx = 0 %>
+<% @hidebox ||= false %>
 
 <% @events.each_with_index do |event, idx| %>
     <% if event.hidden %>

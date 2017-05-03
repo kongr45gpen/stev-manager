@@ -6,6 +6,12 @@ class ScheduleController < ApplicationController
     @events = sort_events Event.all
   end
 
+  def index_raw
+    @events = sort_events Event.all
+    @hidebox = true
+    render "index"
+  end
+
   def preview
     events = sort_events Event.all
     @source = ScheduleController.new.render_to_string(

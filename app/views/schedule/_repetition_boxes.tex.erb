@@ -1,4 +1,4 @@
-<% if Settings.schedule.repetition_boxes %>
+<% if Settings.schedule.repetition_boxes and !@hidebox %>
     <% nudge ||= '-5mm' %>
     \reversemarginpar
     \marginnote{

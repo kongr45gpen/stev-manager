@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   match '/set_locale', to: 'landing#user_set_locale', via: :post
 
   get '/schedule', to: 'schedule#index'
+  get '/schedule/raw', to: 'schedule#index_raw'
   get '/schedule/preview'
 
   get '/import', to: 'import#index'
