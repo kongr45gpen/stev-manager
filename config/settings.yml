@@ -8,6 +8,7 @@ schedule:
   debug_indexes: false
   title: Πρόγραμμα
   repetition_boxes: true
+  fake_margin: false
 xelatex:
   fonts:
     main: Times New Roman

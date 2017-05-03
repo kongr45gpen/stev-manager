@@ -19,7 +19,7 @@
 \usepackage{ifthen}
 \usepackage{refcount}
 
-<% if Settings.schedule.repetition_boxes %>
+<% if Settings.schedule.repetition_boxes or Settings.schedule.fake_margin %>
     \usepackage[left=3.5cm,right=2cm,top=2cm,bottom=2cm,
     marginparwidth=3.1cm, marginparsep=5mm]{geometry}
 
@@ -74,19 +74,19 @@ allbordercolors=blue,
 
 \begin{document}
 \begin{center}
-  <% if Settings.schedule.repetition_boxes %>
-    \hspace{-0.75cm}
+  <% if Settings.schedule.repetition_boxes or Settings.schedule.fake_margin %>
+    \hspace{<%= imagepad %>}
   <% end %>
   \includegraphics[width=\textwidth]{branding_top}
 
-  \vspace{-5mm}<% if Settings.schedule.repetition_boxes %>
-    \hspace{-0.75cm}
-  <% end %>\textbf{Μάιος–Ιούνιος 2017}
+  \vspace{-5mm}<% if Settings.schedule.repetition_boxes or Settings.schedule.fake_margin %>
+    \hspace{<%= imagepad %>}
+  <% end %>\textbf{Άνοιξη 2017}
 
-  <% if Settings.schedule.repetition_boxes %>
-      \hspace{-0.75cm}
+  \vspace{-2mm}<% if Settings.schedule.repetition_boxes or Settings.schedule.fake_margin %>
+      \hspace{<%= imagepad %>}
   <% end %>
-  \includegraphics[width=.5\textwidth]{branding_logo}
+  \includegraphics[width=.2\textwidth]{branding_logo}
 \end{center}
 
 <% if Settings.schedule.draft %>
