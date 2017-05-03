@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   get '/volunteers/export'
   get '/volunteers/stats'
 
+  get '/email', to: 'email#index'
+  match '/email', to: 'email#procmails', via: :post
+
   match '/set_locale', to: 'landing#user_set_locale', via: :post
 
   get '/schedule', to: 'schedule#index'

@@ -15,3 +15,7 @@ xelatex:
     sans: Arial
     mono: Latin Modern Mono
 default_date: ~
+email:
+  from: postmaster@localhost
+  debug_to: postmaster@localhost
+  default_to: ~

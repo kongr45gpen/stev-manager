@@ -1,0 +1,21 @@
+<%= bootstrap_form_tag(url: email_path) do |f| %>
+
+<dl class="dl-horizontal">
+  <dt>From</dt><dd><%= Settings.email.from %></dd>
+  <dt>Debug to</dt><dd>
+    <%= Settings.email.debug_to %>
+    <button type="submit" name="debug" value="1" class="btn btn-sm btn-danger">Test</button>
+  </dd>
+</dl>
+
+<table class="table">
+<% @volunteers.each_with_index do |group,idx| %>
+    <tr>
+      <td><%= idx %></td>
+      <td><%= group.map(&:email).join(', ') %></td>
+      <td><button type="submit" name="group" value="<%= idx %>" class="btn btn-primary">Send</button></td>
+    </tr>
+<% end %>
+</table>
+
+<% end %>
