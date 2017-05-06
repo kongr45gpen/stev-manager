@@ -1,21 +1,19 @@
 class ScheduleController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_events
   include ScheduleHelper
 
   def index
-    @events = sort_events Event.all
   end
 
   def index_raw
-    @events = sort_events Event.all
     @hidebox = true
     render "index"
   end
 
   def preview
-    events = sort_events Event.all
     @source = ScheduleController.new.render_to_string(
-        "schedule/index.tex.erb", locals: { :@events => events }
+        "schedule/index.tex.erb", locals: { :@events => @events }
     )
 
     @formatter = Rouge::Formatters::HTML.new
@@ -23,5 +21,10 @@ class ScheduleController < ApplicationController
 
     # Get some CSS
     @theme = Rouge::Themes::Base16.mode(:dark)
+  end
+
+  private
+  def set_events
+    @events = sort_events Event.all
   end
 end

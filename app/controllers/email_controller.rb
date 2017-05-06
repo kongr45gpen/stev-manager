@@ -1,5 +1,6 @@
 class EmailController < ApplicationController
   before_action :set_volunteers
+  before_action :authenticate_user!
 
   def index
   end

@@ -125,4 +125,29 @@ module EventsHelper
 
     events
   end
+
+  def all_properties(event)
+    props = {}
+
+    same_time = repetitions_same_time? event
+
+    if event.repetitions.any?
+      props[many_repetitions?(event.repetitions) ? "Ημερομηνίες" : "Ημερομηνία"] =
+          format_many_repetitions event.repetitions, time: !same_time
+    end
+
+    if same_time and (time = common_time(event))
+      props[event.time_description || "Ώρα"] = time.mb_chars.capitalize.to_s
+    end
+
+    unless event.space.empty?
+      props[event.place_description || "Χώρος διεξαγωγής"] = event.space
+    end
+
+    event.properties.each do |property|
+      props[property.name] = property.value
+    end
+
+    props
+  end
 end

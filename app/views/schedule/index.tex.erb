@@ -136,7 +136,6 @@ allbordercolors=blue,
   \write\tempfile{<%= eidx-1 %> \thepage}%
   <% eidx += 1 %>
 
-  \setcounter{lastlinepage}{\thepage}
 <% end %>
 <% if Settings.schedule.show_unscheduled_concerts %>
     <% @concerts = Event.left_outer_joins(:repetitions).where(repetitions:{id:nil},kind:"concert") %>
