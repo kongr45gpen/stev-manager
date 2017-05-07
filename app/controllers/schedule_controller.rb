@@ -11,6 +11,9 @@ class ScheduleController < ApplicationController
     render "index"
   end
 
+  def simple
+  end
+
   def preview
     @source = ScheduleController.new.render_to_string(
         "schedule/index.tex.erb", locals: { :@events => @events }

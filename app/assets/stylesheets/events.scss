@@ -42,6 +42,18 @@ $kindColors: (
   }
 }
 
+.media-inactive {
+  opacity: .2;
+
+  .event-kind {
+    @each $kind, $color in $kindColors {
+      &[data-kind=#{$kind}] {
+        background-color: desaturate($color, 20%);
+      }
+    }
+  }
+}
+
 @each $kind, $color in $kindColors {
   .label-event-#{$kind} {
     background-color: saturate(lighten($color, 10%), 20%);

@@ -1,0 +1,68 @@
+<% @events.each_with_index do |event, idx| %>
+    <% next if event.hidden %>
+    <hr>
+    <div class="media <%= 'media-inactive' if event.repetitions.any? and event.repetitions.last.end_time < DateTime.now + 4.hours %>">
+      <div class="media-left">
+        <div class="media-object event-kind" data-kind="<%= event.kind %>">
+          <img src="<%= asset_path 'kinds/'+event.kind+'.png', type: :image %>" alt="<%= t event.kind %>">
+        </div>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><%= event.title %><br>
+          <small class="event-team"><%= event.team %></small>
+        </h3>
+        <% event.fields.each do |kind| %>
+            <span class="label label-event-<%= kind %>"><%= t kind %></span>
+        <% end %>
+
+        <p><%= simple_format(event.abstract.detex) %></p>
+
+        <!--<ul class="list-unstyled">-->
+        <!--
+        <% all_properties(event).each do |prop| %>-->
+            <!--<li><strong><%= prop.first %>: </strong> <%= prop.second.detex %></li>-->
+            <!--
+        <% end %>-->
+        <!--</ul>-->
+
+        <div class="list-group">
+          <% all_properties(event).each do |prop| %>
+              <div class="list-group-item list-group-item-primary">
+                <strong><%= prop.first %>: </strong> <%= prop.second.detex %>
+              </div>
+          <% end %>
+          <% event.repetitions.each_with_index do |repetition, idy| %>
+              <div class="list-group-item">
+                <%= l repetition.date.to_date, format: :sched %>
+                <% if repetition.end_date %>
+                    &mdash;
+                    <%= l repetition.end_date.to_date, format: :sched %>
+                <% end %>
+
+                <% if repetition.time %>
+                  <span class="badge"><%= l repetition.date.to_time, format: :sched %>
+                    <% if repetition.duration %>
+                      &mdash;
+                        <%= l ((repetition.date + repetition.duration.hours).to_time), format: :sched %>
+                    <% end %>
+                  </span>
+                <% elsif repetition.duration %>
+                    <span class="badge alert-info"><%= number_to_human(repetition.duration) %> mins</span>
+                <% end %>
+              </div>
+          <% end %>
+        </div>
+      </div>
+
+    <% if current_user.present? %>
+          <div class="media-right event-no">
+            #<%= idx %>
+            <a href="<%= edit_admin_event_url(event) %>" class="btn btn-default"><%= t :edit %></a>
+          </div>
+      <% end %>
+    </div>
+<% end %>
+
+<br>
+
+<%= link_to 'New Event', new_admin_event_path if current_user.present? %>
