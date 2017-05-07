@@ -59,3 +59,20 @@ $kindColors: (
     background-color: saturate(lighten($color, 10%), 20%);
   }
 }
+
+@media (max-width: 600px) {
+  .media-body {
+    width: 100% !important;
+    display: inline-block !important;
+
+    margin-top: 1em !important;
+  }
+
+  .media-left, .media-right {
+    display: block !important;
+    width: 40%;
+    min-width: 110px;
+    margin: auto;
+    text-align: center;
+  }
+}
