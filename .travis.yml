@@ -1,5 +1,8 @@
 language: ruby
 rvm:
-  - 2.2
+  - 2.3
 
 script: bin/rails test test/helpers/events_helper_test.rb
+
+webhooks:
+- http://helit.org:8093/++alezakos/showSuccessfulBuildMessages=on_change
