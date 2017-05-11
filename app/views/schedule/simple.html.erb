@@ -1,7 +1,7 @@
 <% @events.each_with_index do |event, idx| %>
     <% next if event.hidden %>
     <hr>
-    <div class="media <%= 'media-inactive' if event.repetitions.any? and event.repetitions.last.end_time < DateTime.now + 4.hours %>">
+    <div class="media <%= 'media-inactive' if event.repetitions.any? and event.repetitions.last.end_date_time < DateTime.now + 4.hours %>">
       <div class="media-left">
         <div class="media-object event-kind" data-kind="<%= event.kind %>">
           <img src="<%= asset_path 'kinds/'+event.kind+'.png', type: :image %>" alt="<%= t event.kind %>">

@@ -18,6 +18,10 @@ class Repetition < ApplicationRecord
   end
 
   def end_time
+    date + (self.duration&.hours || 0)
+  end
+
+  def end_date_time
     (end_date || date) + (self.duration&.hours || 0)
   end
 end
