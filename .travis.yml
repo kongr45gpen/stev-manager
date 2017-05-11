@@ -1,0 +1,5 @@
+language: ruby
+rvm:
+  - 2.2
+
+script: bin/rails test test/helpers/events_helper_test.rb
