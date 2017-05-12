@@ -1,4 +1,5 @@
 <%= link_to t(:stats), volunteers_stats_path, class: "btn btn-default" %>
+<%= link_to t(:stats_active), volunteers_stats_active_path, class: "btn btn-default" %>
 
 <% @volunteers.each_with_index do |volunteer, idx| %>
     <div class="media">

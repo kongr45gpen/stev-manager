@@ -10,10 +10,12 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   
   resources :events, only: [:index]
+  get '/events/stats'
 
   get '/volunteers', to: 'volunteers#index'
   get '/volunteers/export'
   get '/volunteers/stats'
+  get '/volunteers/stats_active'
 
   get '/email', to: 'email#index'
   match '/email', to: 'email#procmails', via: :post

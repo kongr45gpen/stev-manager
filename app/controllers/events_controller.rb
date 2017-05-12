@@ -10,6 +10,11 @@ class EventsController < ApplicationController
     @events = sort_events Event.all
   end
 
+  # TODO: lowercase
+  def stats
+    @events = Event.where(['status = ? and scheduled = ?', Event.statuses[:confirmed], Event.scheduleds[:scheduled]]).group_by{|ev| [ev.title, ev.team] }.map{|g| g.second.first}
+  end
+
   # GET /events/1
   # GET /events/1.json
   def show

@@ -12,4 +12,9 @@ class VolunteersController < ApplicationController
   def stats
     @volunteers = Volunteer.all
   end
+
+  def stats_active
+    @volunteers = Volunteer.where('joined = true or updates = true')
+    render :stats
+  end
 end

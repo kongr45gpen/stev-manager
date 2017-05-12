@@ -1,4 +1,8 @@
 module EventsHelper
+  def event_attribute_stats(attribute)
+    @events.group_by(&attribute).sort_by{|key,entries| entries.count}.reverse
+  end
+
   def repetitions_same_time?(event)
     common_time = nil
 

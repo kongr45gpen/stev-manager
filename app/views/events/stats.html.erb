@@ -1,0 +1,20 @@
+<h3>Audit count</h3>
+<strong>
+<%= Audited::Audit.count %></strong> total,
+<strong><%= Audited::Audit.where('auditable_type="Event"').count %></strong> event,
+<strong><%= Audited::Audit.where('auditable_type="Repetition"').count %></strong> repetition,
+<strong><%= Audited::Audit.where('auditable_type="Event" or auditable_type="Repetition" or auditable_type="Property"').count %></strong> event+,
+<strong><%= Audited::Audit.where('auditable_type="Volunteer"').count %></strong> volunteer
+
+<h3><%=t :total_count %></h3>
+<strong><%= @events.count %></strong> <%=t :total_events %>.
+
+<% [:kind,:space,:team].each do |attr| %>
+  <h3><%= t('activerecord.attributes.event.' + attr.to_s) %></h3>
+    <dl class="dl-horizontal">
+      <% event_attribute_stats(attr).each do |key, entries| %>
+          <dt class="stats-key"><%= key.to_s.empty? ? ("<em>"+t(:unknown)+"</em>").html_safe : key.to_s.humanize %></dt>
+          <dd><%= entries.count %></dd>
+      <% end %>
+    </dl>
+<% end %>
