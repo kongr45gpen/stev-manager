@@ -57,7 +57,11 @@ module EventsHelper
     if reps.none?
       ''
     elsif reps.one?
-      format_one_repetition reps.first
+      if options[:time]
+        format_one_repetition(reps.first) + ' ' + format_time(reps.first)
+      else
+        format_one_repetition reps.first
+      end
     else
       separator = ', '
       if reps.count == 2
