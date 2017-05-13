@@ -60,6 +60,8 @@ el:
   stats: "Στατιστικά"
   total_volunteers: "συνολικοί εθελοντές"
   total_count: "Συνολικός αριθμός"
+  total_events: "συνολικές εκδηλώσεις"
+  audit_count: "Αριθμός διορθώσεων"
   login: "Είσοδος"
   short:
     joined: "Εγγεγρ."
@@ -113,6 +115,7 @@ el:
         place_description: "Περιγραφή χώρου διεξαγωγής"
         team_below: "Όνομα ομάδας κάτω από τίτλο"
         space: "Χώρος διεξαγωγής"
+        sanitized_space: "Χώρος διεξαγωγής (καθαρός)"
       submitter:
         name: "Όνομα"
         surname: "Επώνυμο"

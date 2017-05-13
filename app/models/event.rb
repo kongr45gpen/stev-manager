@@ -34,4 +34,8 @@ class Event < ApplicationRecord
       Date.new(0)
     end
   end
+
+  def sanitized_space
+    space.strip.gsub('.','').force_encoding('utf-8').mb_chars.titlecase.to_s
+  end
 end
