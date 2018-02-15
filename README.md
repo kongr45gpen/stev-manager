@@ -23,11 +23,14 @@ sudo a2enmod passenger
 sudo a2ensite your_website
 sudo service apache2 restart
 
+# Install bundler
+gem bundler install
+
 # Install gems
-gem install --no-rdoc --no-ri
+bundle
 
 # Migrate database
-bin/rails db:migrate
+RAILS_ENV=production bin/rails db:migrate
 ```
 ### Ruby & Gems Update
 ```ruby
