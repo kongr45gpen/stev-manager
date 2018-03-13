@@ -32,6 +32,15 @@ bundle
 # Migrate database
 RAILS_ENV=production bin/rails db:migrate
 ```
+
+#### Adding a new user
+```bash
+RAILS_ENV=production bin/rails console
+```
+
+```ruby
+User.new(email: "mail@example.com", password: "YoUrPaSsWoRd").add
+```
 ### Ruby & Gems Update
 ```ruby
 # Update rvm
@@ -47,3 +56,5 @@ gem update --no-rdoc --no-ri
 # Update passenger
 passenger-install-apache2-module
 ```
+### Importing data with CSV
+Ideal format: comma-separated, key-valued, full options, separate
