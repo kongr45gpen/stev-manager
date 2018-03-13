@@ -9,7 +9,7 @@ ActiveAdmin.register Audited::Audit do
     column :associated
     column :user
     column(:action) {|audit|
-      status_tag(audit.action, to_color(audit.action)) }
+      status_tag(audit.action, class: to_color(audit.action)) }
     column :version
     column :comment
     column :remote_address

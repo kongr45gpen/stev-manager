@@ -21,7 +21,7 @@ ActiveAdmin.register Event do
                  :time_description,
                  :submitter_attributes => [:id, :surname, :name, :phone, :email],
                  :repetitions_attributes => [:id, :date, :time, :end_date, :duration, :_destroy],
-                 :properties_attributes => [:id, :name, :value],
+                 :properties_attributes => [:id, :name, :value, :_destroy],
                  :fields => []]
     permitted
   end
@@ -67,8 +67,8 @@ ActiveAdmin.register Event do
     column :id
     selectable_column
     column :team
-    column(:status) {|event| status_tag(event.status, to_color(event.status), label: I18n.t(event.status)) }
-    column(:scheduled) {|event| status_tag(event.scheduled, to_color(event.scheduled), label: I18n.t(event.scheduled)) }
+    column(:status) {|event| status_tag(event.status, class: to_color(event.status), label: I18n.t(event.status)) }
+    column(:scheduled) {|event| status_tag(event.scheduled, class: to_color(event.scheduled), label: I18n.t(event.scheduled)) }
     column :hidden
     column :title
     column :kind
