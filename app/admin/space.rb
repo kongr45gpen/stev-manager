@@ -29,7 +29,7 @@ ActiveAdmin.register Space do
 
   form do |f|
     f.actions
-    f.panel 'Information' do
+    f.panel I18n.t(:information) do
         columns do
             column do
                 f.inputs do
@@ -40,7 +40,7 @@ ActiveAdmin.register Space do
                 end
             end
             column do
-                f.inputs 'Contact Information' do
+                f.inputs I18n.t(:contact_information) do
                     f.input :contact_name
                     f.input :contact_email
                     f.input :contact_phone
@@ -49,12 +49,12 @@ ActiveAdmin.register Space do
             end
         end
     end
-    f.panel 'Details' do
+    f.panel I18n.t(:details) do
         columns do
             column do
                 f.inputs do
-                    f.input :technical_details
                     f.input :logistic_details
+                    f.input :technical_details
                 end
             end
         end

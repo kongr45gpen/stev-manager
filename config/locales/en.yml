@@ -52,6 +52,12 @@ en:
   scheduled: "Scheduled"
   more_info: "More information"
   stats: "Stats"
+  information: "Information"
+  contact_information: "Contact Information"
+  details: "Details"
   activerecord:
     attributes:
       updates: "Needs updates"
+      space:
+        contact_email: "Email"
+        contact_phone: "Phone"
