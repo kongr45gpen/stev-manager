@@ -77,3 +77,6 @@ gem 'config'
 
 # Changes tracking
 gem 'audited', '~> 4.4'
+
+# Document generation
+gem 'pandoc-ruby'

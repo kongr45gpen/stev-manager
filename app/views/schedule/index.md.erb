@@ -1,0 +1,24 @@
+# <%= Settings.schedule.title %>
+
+<% @events.each_with_index do |event, idx| %>
+  <% first = true %>
+  <% if event.hidden %>
+          <% next %>
+      <% elsif (Settings.schedule.hide_unscheduled or event.kind == 'concert') and event.repetitions.empty? %>
+          <% next %>
+      <% end %>
+
+## Δράση <%= idx %> <% if Settings.schedule.debug_indexes %>(#<%= event.id %>)<% end %>
+
+  * **Όνομα Ομάδας**: <%= event.team %>
+  * **Τίτλος Δράσης**: <%= event.title %>
+  * **Περιγραφή**: <%= (event.abstract || event.other).to_s.strip! %>
+  <% event.properties.each do |prop|  %>
+  * **<%= prop.name %>**: <%= prop.value %>
+  <% end %>
+  * **Χώρος διεξαγωγής**: <%= event.space %>
+  * **Ημερομηνίες**:
+    <% event.repetitions.each do |repetition| %>
+      * <%= format_one_repetition repetition %>, <%= format_time repetition %>
+    <% end %>
+<% end %>

@@ -26,6 +26,10 @@ class ScheduleController < ApplicationController
     @theme = Rouge::Themes::Base16.mode(:dark)
   end
 
+  def preview_simple
+    @code = PandocRuby.convert(markdown_source, :from => :markdown, :to => :html)
+  end
+
   private
   def set_events
     @events = sort_events Event.all

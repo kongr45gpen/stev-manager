@@ -3,7 +3,7 @@
 one:
   name: MyString
   address: MyString
-  phone: MyString
+  contact_phone: MyString
   capacity: 1
   technical_details: MyText
   logistic_details: MyText
@@ -14,7 +14,7 @@ one:
 two:
   name: MyString
   address: MyString
-  phone: MyString
+  contact_phone: MyString
   capacity: 1
   technical_details: MyText
   logistic_details: MyText
