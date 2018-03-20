@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180319114047) do
+ActiveRecord::Schema.define(version: 20180319234057) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -65,8 +65,9 @@ ActiveRecord::Schema.define(version: 20180319114047) do
     t.boolean  "hidden",            default: false, null: false
     t.string   "place_description"
     t.boolean  "team_below",        default: false
-    t.text     "space"
     t.string   "time_description"
+    t.integer  "space_id"
+    t.index ["space_id"], name: "index_events_on_space_id"
     t.index ["submitter_id"], name: "index_events_on_submitter_id"
   end
 
@@ -103,6 +104,8 @@ ActiveRecord::Schema.define(version: 20180319114047) do
     t.text     "contact_information"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.text     "display_name"
+    t.text     "display"
   end
 
   create_table "submitters", force: :cascade do |t|

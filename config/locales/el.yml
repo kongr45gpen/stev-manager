@@ -153,5 +153,6 @@ el:
         contact_information: "Πληροφορίες"
         technical_details: "Τεχνικές Λεπτομέρειες"
         logistic_details: "Διαχειριστικές Λεπτομέρειες"
+        display: "Εμφάνιση"
   active_admin:
     create_another: "Κι άλλο"

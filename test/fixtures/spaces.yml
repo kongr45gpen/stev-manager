@@ -10,6 +10,7 @@ one:
   contact_name: MyString
   contact_email: MyString
   contact_information: MyText
+  display: MyText
 
 two:
   name: MyString
@@ -21,3 +22,23 @@ two:
   contact_name: MyString
   contact_email: MyString
   contact_information: MyText
+  display: MyText
+
+jeffreys:
+  name: Jeffrey's Caffe
+
+ceremonial:
+  name: Αίθουσα Τελετών
+  display: Αίθουσα Τελετών, Εγνατία
+
+theatre:
+  name: Θέατρο Σχολής
+
+conference:
+  name: Αίθουσα Συνεδριάσεων
+
+nowhere:
+  name: Nowhere
+
+yard:
+  name: Αυλή
