@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180319234057) do
+ActiveRecord::Schema.define(version: 20180320224112) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -71,6 +71,46 @@ ActiveRecord::Schema.define(version: 20180319234057) do
     t.index ["submitter_id"], name: "index_events_on_submitter_id"
   end
 
+  create_table "professor_week_events", force: :cascade do |t|
+    t.string   "title"
+    t.string   "fields"
+    t.integer  "space_id"
+    t.integer  "status"
+    t.integer  "scheduled"
+    t.boolean  "hidden"
+    t.text     "ages"
+    t.boolean  "registration_required"
+    t.string   "registration_email"
+    t.integer  "registration_max"
+    t.datetime "registration_deadline"
+    t.text     "details_costs"
+    t.integer  "collaborator_count"
+    t.integer  "student_count"
+    t.integer  "volunteer_count"
+    t.text     "description"
+    t.text     "abstract"
+    t.text     "details_dates"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["space_id"], name: "index_professor_week_events_on_space_id"
+  end
+
+  create_table "professor_week_events_submitters", force: :cascade do |t|
+    t.integer "event_id"
+    t.integer "submitter_id"
+    t.index ["event_id"], name: "pw_events_submitters_on_pw_event_id"
+    t.index ["submitter_id"], name: "pw_events_submitters_on_submitter_id"
+  end
+
+  create_table "professor_week_repetitions", force: :cascade do |t|
+    t.datetime "date"
+    t.decimal  "duration"
+    t.integer  "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_professor_week_repetitions_on_event_id"
+  end
+
   create_table "properties", force: :cascade do |t|
     t.string   "name"
     t.text     "value"
@@ -104,7 +144,6 @@ ActiveRecord::Schema.define(version: 20180319234057) do
     t.text     "contact_information"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
-    t.text     "display_name"
     t.text     "display"
   end
 

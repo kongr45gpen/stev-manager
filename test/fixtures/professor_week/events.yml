@@ -1,0 +1,70 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  submitters:
+  fields: []
+  space:
+  status: 1
+  scheduled: 1
+  hidden: false
+  ages: MyText
+  registration_required: false
+  registration_email: MyString
+  registration_max: 1
+  registration_deadline: 2018-03-21 00:41:18
+  details_costs: MyText
+  collaborator_count: 1
+  student_count: 1
+  volunteer_count: 1
+  description: MyText
+  abstract: MyText
+  details_dates: MyText
+
+two:
+  title: MyString
+  submitters: 
+  fields: []
+  space: 
+  status: 1
+  scheduled: 1
+  hidden: false
+  ages: MyText
+  registration_required: false
+  registration_email: MyString
+  registration_max: 1
+  registration_deadline: 2018-03-21 00:41:18
+  details_costs: MyText
+  collaborator_count: 1
+  student_count: 1
+  volunteer_count: 1
+  description: MyText
+  abstract: MyText
+  details_dates: MyText
+
+toast:
+  title: Ανακαλύπτοντας το τοστ
+  submitters: [ one, two ]
+  fields: [ "experiment" ]
+  space: yard
+  status: 1
+  scheduled: 1
+  hidden: false
+  ages: "18-20 χρονών"
+  registration_required: true
+  registration_email: toastmasters@example.com
+  registration_max: 50
+  registration_deadline: 2018-05-02 00:41:18
+  details_costs: "10€ για κασέρι, 5€ για ψωμί, 15€ για ζαμπόν"
+  collaborator_count: 3
+  student_count: 4
+  volunteer_count: 15
+  description: >
+      Αναρωτηθήκατε ποτέ πώς δημιουργούμε το τοστ; Ποιά είναι η διαδικασία κατασκευής αυτής της ανεπανάληπτης
+      γευστικής οπτασίας; Πώς μπορεί να κατασκευαστεί ο νοστιμότερος δυνατός συνδυασμός γλωσσικών εδεσμάτων από
+      λίγα απλά υλικά και μια θερμαντική συσκευή; Ποιά βήματα και σε πόση διάρκεια πρέπει να ακολουθήσουμε για
+      να αποκτήσουμε την μαθηματικά αποδεδειγμένα τέλεια σύσταση του θερμού ψωμιού; Πώς μπορεί ο χώρος να επηρεάσει
+      τα παράγωγα του έργου μας; Οι απορίες σας θα απαντηθούν στο δημιουργικό εργαστήριο παραγωγής τοστ της σχολής
+      Ηλεκτρολόγων Μηχανικών.
+  abstract: "Πώς μπορεί να φτιαχτεί το βέλτιστο τοστ; Συνδυάστε απλές γνώσεις από Τεχνικές Βελτιστοποίησης και Λογισμό Πολλών Μεταβλητών για να ανακαλύψετε!"
+  details_dates: "Κάθε Κυριακή. Από τις 11:00-13:00. 20 λεπτά η κάθε επανάληψη."

@@ -1,0 +1,41 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2018-03-21 01:25:35
+  duration: 9.99
+  event: one
+
+two:
+  date: 2018-03-21 01:25:35
+  duration: 4.99
+  event: two
+
+toast_1:
+  date: 2018-04-08 01:30:00
+  duration: 20
+  event: toast
+
+toast_2:
+  date: 2018-04-08 01:50:00
+  duration: 20
+  event: toast
+
+toast_3:
+  date: 2018-04-08 02:10:00
+  duration: 20
+  event: toast
+
+toast_4:
+  date: 2018-04-16 01:30:00
+  duration: 20
+  event: toast
+
+toast_5:
+  date: 2018-04-16 01:50:00
+  duration: 20
+  event: toast
+
+toast_6:
+  date: 2018-04-16 02:10:00
+  duration: 20
+  event: toast
