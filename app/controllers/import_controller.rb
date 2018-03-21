@@ -12,11 +12,29 @@ class ImportController < ApplicationController
     parse_events @data
   end
 
+  def upload_pw_events
+    uploaded_io = params[:submissions]
+    @data = CSV.parse(uploaded_io.read.force_encoding('utf-8'), encoding: 'utf-8')
+
+    parse_pw_events @data
+
+    render 'upload'
+  end
+
   def upload_volunteers
     uploaded_io = params[:submissions]
     @data = CSV.parse(uploaded_io.read.force_encoding('utf-8'), encoding: 'utf-8')
 
     parse_volunteers @data
+
+    render 'upload'
+  end
+
+  def upload_pw_volunteers
+    uploaded_io = params[:submissions]
+    @data = CSV.parse(uploaded_io.read.force_encoding('utf-8'), encoding: 'utf-8')
+
+    parse_pw_volunteers @data
 
     render 'upload'
   end
@@ -87,9 +105,45 @@ class ImportController < ApplicationController
         phone: datum['til'].to_s.force_encoding('utf-8'),
         property: datum['idiotita'].to_s.force_encoding('utf-8'),
         school: datum['sholi_tmima'].to_s.force_encoding('utf-8'),
-        level: datum['epipedo_spoudon'].to_s.force_encoding('utf-8'),
+        level: datum['epipedo_spoydon'].to_s.force_encoding('utf-8'),
         health: datum['ehete_kapoio_iatriko_thema'].to_s.force_encoding('utf-8'),
-        subscription: datum['notifications'].to_s.force_encoding('utf-8'),
+        subscription: datum['notifications'].to_s.force_encoding('utf-8') == 'ΝΑΙ',
+        gender: last_in_name == 'σ' || last_in_name == 'ς' || last_in_name == 's' ? Volunteer.genders[:male] : Volunteer.genders[:female]
+      )
+
+      @volunteer.save
+    end
+  end
+
+
+  def parse_pw_volunteers(data)
+    Encoding.default_external = Encoding::UTF_8
+
+    # Map column_name -> column_id
+    co = {}
+    data.third.each_index { |k| co[data.third[k]] = k }
+    data.map! do |datum|
+      new_datum = {}
+      co.each { |point| new_datum[point.first] = datum[point.second] }
+
+      new_datum
+    end
+    
+    data.select { |x| x['webform_serial'].to_s.is_i? }.each do |datum|
+      last_in_name = datum['onoma'].to_s.force_encoding('utf-8').strip[-1].downcase
+      @volunteer = ProfessorWeek::Volunteer.new(
+        surname: datum['epitheto'].to_s.force_encoding('utf-8'),
+        name: datum['onoma'].to_s.force_encoding('utf-8'),
+        father_name: datum['patronymo'].to_s.force_encoding('utf-8'),
+        age: datum['ilikia'].to_s.force_encoding('utf-8'),
+        email: datum['email'].to_s.force_encoding('utf-8'),
+        phone: datum['til'].to_s.force_encoding('utf-8'),
+        property: datum['idiotita'].to_s.force_encoding('utf-8'),
+        school: datum['sholi_tmima'].to_s.force_encoding('utf-8'),
+        level: datum['epipedo_spoydon'].to_s.force_encoding('utf-8'),
+        health: (datum['ehete_kapoio_iatriko_thema'].to_s.force_encoding('utf-8') != 'ΟΧΙ' ? datum['ehete_kapoio_iatriko_thema'].to_s.force_encoding('utf-8') + '. ' : '') +datum['parakalo_dieykriniste'].to_s.force_encoding('utf-8'),
+        subscription: datum['notifications'].to_s.force_encoding('utf-8') == 'ΝΑΙ',
+        preparation: datum['symmeteho_proetoimasia'].to_s.force_encoding('utf-8') == 'ΝΑΙ',
         gender: last_in_name == 'σ' || last_in_name == 'ς' || last_in_name == 's' ? Volunteer.genders[:male] : Volunteer.genders[:female]
       )
 

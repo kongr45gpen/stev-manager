@@ -66,6 +66,8 @@ el:
   information: "Πληροφορίες"
   details: "Λεπτομέρειες"
   login: "Είσοδος"
+  student_week: "Δράσεις Φοιτητικού Ενδιαφέροντος"
+  professor_week: "Δράσεις Κοινού Ενδιαφέροντος"
   short:
     joined: "Εγγεγρ."
     updates: "Ενημερ."

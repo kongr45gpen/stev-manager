@@ -31,4 +31,6 @@ Rails.application.routes.draw do
   get '/import', to: 'import#index'
   match '/import/process', to: 'import#upload', via: :post
   match '/import/process/volunteers', to: 'import#upload_volunteers', via: :post
+  match '/import/process/pw/events', to: 'import#upload_pw_events', via: :post
+  match '/import/process/pw/volunteers', to: 'import#upload_pw_volunteers', via: :post
 end
