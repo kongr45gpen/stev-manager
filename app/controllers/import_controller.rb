@@ -122,7 +122,7 @@ class ImportController < ApplicationController
         email: datum['email3'].to_s.force_encoding('utf-8').strip,
         )
       @submitters[2] = Submitter.new(
-        surname: datum['epitheto2'].to_s.force_encoding('utf-8').strip,
+        surname: datum['epitheto3'].to_s.force_encoding('utf-8').strip,
         name: datum['onoma3'].to_s.force_encoding('utf-8').strip,
         property: datum['idiotita3'].to_s.force_encoding('utf-8').strip,
         faculty: datum['sholi3'].to_s.force_encoding('utf-8').strip,
@@ -139,19 +139,33 @@ class ImportController < ApplicationController
         || !sub['phone_other'].empty? || !sub['email'].empty?
       end
 
+      details_dates = ""
+      dates_list = []
+      dates_list.push('6 Μαΐου') unless datum[' 6 Μαΐου'].blank?
+      dates_list.push('13 Μαΐου') unless datum[' 13 Μαΐου'].blank?
+      dates_list.push('20 Μαΐου') unless datum[' 20 Μαΐου'].blank?
+      details_dates += dates_list.join(', ') + "\n"
+      details_dates += 'Αριθμός Επαναλήψεων: ' + datum['arithmos_epanalipseon'].to_s.force_encoding('utf-8') + "\n"
+      details_dates += datum['an_epilexate_allo'].to_s.force_encoding('utf-8') + "\n"
+      details_dates += 'Διάρκεια Δραστηριότητας (min): ' + datum['diarkeia_drastiriotitas2'].to_s.force_encoding('utf-8') + "\n"
+      details_dates += 'Διάρκεια Συνολική (min): ' + datum['diarkeia_synoliki'].to_s.force_encoding('utf-8') + "\n"
+      details_dates += 'Ώρα Έναρξης: ' + datum['ora_enarxis_tis_drasis'].to_s.force_encoding('utf-8') + "\n"
 
       @event = ProfessorWeek::Event.new(
         title: datum['titlos_drastiriotitas'].to_s.force_encoding('utf-8'),
-        # father_name: datum['patronymo'].to_s.force_encoding('utf-8'),
-        # age: datum['ilikia'].to_s.force_encoding('utf-8'),
-        # email: datum['email'].to_s.force_encoding('utf-8'),
-        # phone: datum['til'].to_s.force_encoding('utf-8'),
-        # property: datum['idiotita'].to_s.force_encoding('utf-8'),
-        # school: datum['sholi_tmima'].to_s.force_encoding('utf-8'),
-        # level: datum['epipedo_spoydon'].to_s.force_encoding('utf-8'),
-        # health: (datum['ehete_kapoio_iatriko_thema'].to_s.force_encoding('utf-8') != 'ΟΧΙ' ? datum['ehete_kapoio_iatriko_thema'].to_s.force_encoding('utf-8') + '. ' : '') +datum['parakalo_dieykriniste'].to_s.force_encoding('utf-8'),
-        # subscription: datum['notifications'].to_s.force_encoding('utf-8') == 'ΝΑΙ',
-        # preparation: datum['symmeteho_proetoimasia'].to_s.force_encoding('utf-8') == 'ΝΑΙ'
+        details_space: datum['horos_diexagogis'].to_s.force_encoding('utf-8'),
+        details_dates: details_dates,
+        ages: datum['koino_sto_opoio_apethynetai'],
+        registration_required: datum['apaiteitai_dilosi_symmetohis'].to_s.force_encoding('utf-8') != 'ΟΧΙ',
+        registration_email: datum['ilektronika'].to_s.force_encoding('utf-8'),
+        registration_max: datum['megistos_arithmos_symmetehonton_ana_epanalipsi'].to_s.force_encoding('utf-8'),
+        registration_deadline: datum['teliki_imerominia_kataxwrisis_dilwsewn'].to_s.force_encoding('utf-8'),
+        details_costs: datum['kostos_analosimon'].to_s.force_encoding('utf-8'),
+        collaborator_count: datum['arithmos_synergaton'].to_s.force_encoding('utf-8'),
+        student_count: datum['arithmos_foititwn'].to_s.force_encoding('utf-8'),
+        volunteer_count: datum['arithmos_epipleon_ethelontwn'].to_s.force_encoding('utf-8'),
+        description: datum['syntomi_perigrafi_protasis'].to_s.force_encoding('utf-8'),
+        abstract: datum['syntomi_perigrafi30_lexeis'].to_s.force_encoding('utf-8')
       )
 
       kinds = []
@@ -164,7 +178,9 @@ class ImportController < ApplicationController
       kinds << 'demonstration' unless datum['Επίδειξη'].blank?
       @event.fields = kinds
 
-      @event.save
+      if @event.save
+        @submitters.each { |submitter| @event.submitters << submitter }
+      end
     end
   end
 
