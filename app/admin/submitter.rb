@@ -12,5 +12,5 @@ ActiveAdmin.register Submitter do
 #   permitted
 # end
 
-  permit_params :surname, :name, :property, :faculty, :school, :phone, :email
+  permit_params :surname, :name, :property, :faculty, :school, :phone, :email, :phone_other, :sector, :lab
 end

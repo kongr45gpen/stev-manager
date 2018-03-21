@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180320224112) do
+ActiveRecord::Schema.define(version: 20180321000542) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -84,12 +84,14 @@ ActiveRecord::Schema.define(version: 20180320224112) do
     t.integer  "registration_max"
     t.datetime "registration_deadline"
     t.text     "details_costs"
-    t.integer  "collaborator_count"
-    t.integer  "student_count"
-    t.integer  "volunteer_count"
+    t.string   "collaborator_count"
+    t.string   "student_count"
+    t.string   "volunteer_count"
     t.text     "description"
     t.text     "abstract"
     t.text     "details_dates"
+    t.text     "details_space"
+    t.text     "details_extra"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
     t.index ["space_id"], name: "index_professor_week_events_on_space_id"
@@ -150,13 +152,16 @@ ActiveRecord::Schema.define(version: 20180320224112) do
   create_table "submitters", force: :cascade do |t|
     t.text     "surname"
     t.text     "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.string   "property"
     t.string   "faculty"
     t.string   "school"
     t.string   "phone"
     t.string   "email"
+    t.string   "sector"
+    t.string   "lab"
+    t.string   "phone_other"
   end
 
   create_table "users", force: :cascade do |t|

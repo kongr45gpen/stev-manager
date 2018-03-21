@@ -13,12 +13,14 @@ class CreateProfessorWeekEvents < ActiveRecord::Migration[5.0]
       t.integer :registration_max
       t.datetime :registration_deadline
       t.text :details_costs
-      t.integer :collaborator_count
-      t.integer :student_count
-      t.integer :volunteer_count
+      t.string :collaborator_count
+      t.string :student_count
+      t.string :volunteer_count
       t.text :description
       t.text :abstract
       t.text :details_dates
+      t.text :details_space
+      t.text :details_extra
 
       t.timestamps
     end

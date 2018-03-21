@@ -15,7 +15,9 @@ ActiveAdmin.register ProfessorWeek::Event do
     permitted = [:title, :kind, :space_id, :status, :scheduled, :hidden, :ages,
                  :registration_required, :registration_email, :registration_deadline,
                  :details_costs, :details_dates, :description, :abstract,
-                 :collaborator_count, :student_count, :volunteer_count
+                 :collaborator_count, :student_count, :volunteer_count,
+                 submitter_attributes: %i[id surname name phone email phone_other lab sector],
+                 repetitions_attributes: %i[id date duration _destroy]
                  ]
     permitted
   end
@@ -37,7 +39,7 @@ ActiveAdmin.register ProfessorWeek::Event do
 
   includes :space, :submitters, :repetitions
 
-  sidebar :repetitions, only: [:show, :edit] do
+  sidebar :repetitions, only: %i[show edit] do
     resource.repetitions.each do |repetition|
       attributes_table_for repetition do
         row :date
@@ -49,20 +51,23 @@ ActiveAdmin.register ProfessorWeek::Event do
     end
   end
 
-  sidebar :submitters, only: [:show, :edit] do
+  sidebar :submitters, only: %i[show edit] do
     resource.submitters.each do |submitter|
       attributes_table_for submitter do
         row('Submitter') { auto_link submitter }
         row :property
         row :faculty
         row :school
+        row :sector
+        row :lab
         row :phone
+        row :phone_other
         row :email
       end
     end
   end
 
-  sidebar :space, only: [:show, :edit] do
+  sidebar :space, only: %i[show edit] do
     attributes_table_for professor_week_event.space do
       row(:name) { auto_link professor_week_event.space }
       row :display
@@ -109,13 +114,21 @@ ActiveAdmin.register ProfessorWeek::Event do
             f.input :student_count
             f.input :collaborator_count
             f.input :volunteer_count
+            f.input :details_space, input_html: { rows: 1 }
+            f.input :details_extra, input_html: { rows: 10 }
           end
         end
         column do
           f.has_many :submitters, new_record: true, allow_destroy: true do |t|
             t.input :name, as: :string
             t.input :surname, as: :string
+            t.input :property
+            t.input :faculty
+            t.input :school
+            t.input :sector
+            t.input :lab
             t.input :phone
+            t.input :phone_other
             t.input :email
           end
         end
