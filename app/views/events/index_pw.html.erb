@@ -1,0 +1,109 @@
+<%= link_to '＋ New Event', new_admin_professor_week_event_path, class: 'btn btn-default' %>
+
+<% @events.each_with_index do |event, idx| %>
+    <hr>
+    <div class="media">
+      <div class="media-left volunteer-icon" title="<%= event.submitters.first&.school %>">
+        <span style="background-color: <%= event.submitters.first&.school.to_s.to_colour %>"><%= event.submitters.first&.school.to_s.only_upper_case %></span>
+        <div class="actions"><a href="<%= admin_professor_week_event_url(event) %>" class="btn btn-default btn-block">#<%= idx %></a>
+        <a href="<%= edit_admin_professor_week_event_url(event) %>" class="btn btn-default btn-block"><i class="glyphicon glyphicon-edit"></i></a>
+        <p class="text-center"><small><%= event.id %></small></p>
+        </div>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading">
+          <%#= link_to event.title, admin_professor_week_event_path(event) %>
+          <strong><%= event.title %></strong>
+          <small class="professor-week-event-kinds">
+            <% event.fields.each do |kind| %>
+              <span class="label label-event-<%= kind %>"><%= t kind %></span>
+            <% end %>
+          </small>
+        </h3>
+
+        <div><%= simple_format(event.description) %></div>
+        <div><strong><%= t :abstract %>:</strong> <%= simple_format(event.abstract, {}, wrapper_tag: 'p') %></div>
+        <p><strong><%= t 'activerecord.attributes.professor_week/event.ages' %>:</strong> <%= simple_format(event.ages, {}, wrapper_tag: 'span') %></p>
+        <p><strong><%= t :space %>:</strong> <%= simple_format(event.details_space, {}, wrapper_tag: 'span') %></p>
+
+        <div class="row-flex">
+          <div class="col-flex col-flex-x-large">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><%= t :date_details %></div>
+            <div class="panel-body">
+              <%= simple_format event.details_dates %>
+            </div>
+          </div>
+          </div>
+          <div class="col-flex col-flex-large">
+            <div class="panel panel-primary">
+              <div class="panel-heading"><%= t :cost_details %></div>
+              <div class="panel-body">
+                <%= simple_format event.details_costs %>
+              </div>
+            </div>
+          </div>
+          <div class="col-flex col-flex-large">
+            <div class="panel panel-primary">
+              <div class="panel-heading"><%= t :registration_details %></div>
+              <div class="panel-body">
+                <strong><%= t :registration_required %>?</strong>
+                <% if event.registration_required %>
+                  <span class="label label-success"><%= t :YUS %></span><br>
+                  <strong>E-mail</strong>:<br><code><%= event.registration_email %></code><br>
+
+                  <p title="<%= t :participants %> ανά δράση">
+                    <strong><%= event.registration_max %></strong> <%= t :participants %>
+                  </p><p>
+                    <strong><%= t :deadline %></strong>:
+                    <%= I18n.l event.registration_deadline.to_date, format: :quick unless event.registration_deadline.nil? %>
+                  </p>
+                <% else %>
+                  <span class="label label-danger"><%= t :NOPE %></span>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <div class="col-flex col-flex-small">
+            <div class="panel panel-primary">
+              <div class="panel-heading"><%= t :collaborator_details %></div>
+              <div class="panel-body">
+                <dl class="dl-attributes-tiny">
+                  <dt class="attribute-tiny-key"><%= t 'activerecord.attributes.professor_week/event.collaborator_count' %></dt>
+                  <dd class="attribute-tiny-value"><span class="label label-success"><%= event.collaborator_count %></span></dd>
+                  <dt class="attribute-tiny-key"><%= t 'activerecord.attributes.professor_week/event.student_count' %></dt>
+                  <dd class="attribute-tiny-value"><span class="label label-success"><%= event.student_count %></span></dd>
+                  <dt class="attribute-tiny-key"><%= t 'activerecord.attributes.professor_week/event.volunteer_count' %></dt>
+                  <dd class="attribute-tiny-value"><span class="label label-success"><%= event.volunteer_count %></span></dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <% unless event.details_extra.blank? %>
+          <div>
+            <small><%= simple_format event.details_extra %></small>
+          </div>
+        <% end %>
+
+        <small>
+          <ul>
+          <% event.submitters.each do |submitter| %>
+          <li><%= link_to submitter.full_name, admin_submitter_path(submitter) %>
+          (<%= submitter.property %>, <%= submitter.faculty %>, <%= submitter.school %>,
+            <%= submitter.sector %>, <%= submitter.lab %>)<br>
+            <var><%= submitter.phone %></var>, <var><%= submitter.phone_other %></var>,
+            <a href="mailto:<%= submitter.email %>"><%= submitter.email %></a>
+          </li>
+            <% end %>
+          </ul>
+        </small>
+      </div>
+    </div>
+
+<% end %>
+
+<br>

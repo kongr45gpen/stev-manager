@@ -147,8 +147,9 @@ class ImportController < ApplicationController
       details_dates += dates_list.join(', ') + "\n"
       details_dates += 'Αριθμός Επαναλήψεων: ' + datum['arithmos_epanalipseon'].to_s.force_encoding('utf-8') + "\n"
       details_dates += datum['an_epilexate_allo'].to_s.force_encoding('utf-8') + "\n"
-      details_dates += 'Διάρκεια Δραστηριότητας (min): ' + datum['diarkeia_drastiriotitas2'].to_s.force_encoding('utf-8') + "\n"
-      details_dates += 'Διάρκεια Συνολική (min): ' + datum['diarkeia_synoliki'].to_s.force_encoding('utf-8') + "\n"
+      details_dates += 'Διάρκεια' + "\n"
+      details_dates += '  Επανάληψης (min): ' + datum['diarkeia_drastiriotitas2'].to_s.force_encoding('utf-8') + "\n"
+      details_dates += '  Συνολική (min): ' + datum['diarkeia_synoliki'].to_s.force_encoding('utf-8') + "\n"
       details_dates += 'Ώρα Έναρξης: ' + datum['ora_enarxis_tis_drasis'].to_s.force_encoding('utf-8') + "\n"
 
       @event = ProfessorWeek::Event.new(

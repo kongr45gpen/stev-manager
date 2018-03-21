@@ -8,7 +8,15 @@ $kindColors: (
   theatre: #307121,
   photography: #295854,
   sports: #4f3932,
-  other: #555555
+  other: #555555,
+
+  experiment: darken(#ff4134, 20%),
+  presentation: darken(#4575be, 20%),
+  observation: darken(#c2cd4d, 20%),
+  game: darken(#ff5d2c, 20%),
+  archive: darken(#5f4ba6, 20%),
+  lab: darken(#46bd68, 20%),
+  demonstration: darken(#fb5eac, 20%)
 );
 
 .event-kind {
@@ -40,6 +48,10 @@ $kindColors: (
     content: "by ";
     font-size-adjust: 0.4;
   }
+}
+
+.professor-week-event-kinds {
+  color: black;
 }
 
 .media-inactive {
@@ -75,4 +87,72 @@ $kindColors: (
     margin: auto;
     text-align: center;
   }
+}
+
+@media (min-width: 601px) {
+    .dl-attributes-tiny {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+  $margin-bottom: 0.7rem;
+
+    .attribute-tiny-key {
+      flex: 1 1 70%;
+
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+
+      text-align: right;
+
+      max-width: 70%;
+
+      margin-bottom: $margin-bottom;
+    }
+
+    .attribute-tiny-value {
+      margin-left: 0rem !important;
+      padding-left: 1rem;
+      flex: 1 1 30%;
+
+        .label {
+          display:inline-block;
+          white-space: normal;
+          font-weight: 400;
+          font-size: 95%;
+        }
+
+      margin-bottom: $margin-bottom;
+    }
+}
+
+.row-flex {
+  display: flex;
+}
+
+.col-flex {
+  flex: 0 1 auto;
+
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+
+  &.col-flex-large {
+    flex: 1 2 auto;
+  }
+
+  &.col-flex-x-large {
+    flex: 1 0.3 auto;
+  }
+
+  &.col-flex-small {
+    flex: 0 4 auto;
+    min-width: 240px;
+  }
+
+  .panel {
+    height: 100%;
+  }
+
+  margin-bottom: 0.5rem;
 }

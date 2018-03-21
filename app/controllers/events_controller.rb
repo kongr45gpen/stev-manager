@@ -16,19 +16,23 @@ class EventsController < ApplicationController
                   .map{|g| g.second.first}
   end
 
-  # GET /events/1
-  # GET /events/1.json
-  def show
+  def index_pw
+    @events = ProfessorWeek::Event.all
   end
 
+  # GET /events/1
+  # GET /events/1.json
+  def show; end
+
   private
+
     # Use callbacks to share common setup or constraints between actions.
-    def set_event
-      @event = Event.find(params[:id])
-    end
+  def set_event
+    @event = Event.find(params[:id])
+  end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def event_params
-      params.require(:event).permit(:team, :title, :kind, :other, :proposed_space, :proposed_time, :submitter_id)
-    end
+  def event_params
+    params.require(:event).permit(:team, :title, :kind, :other, :proposed_space, :proposed_time, :submitter_id)
+  end
 end

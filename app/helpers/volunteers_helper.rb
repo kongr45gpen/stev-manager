@@ -5,7 +5,7 @@ module VolunteersHelper
 end
 
 class String
-  def only_upper_case
+  def only_upper_case_nofirst
     self.scan(/\p{Upper}/).drop(1).join
   end
 

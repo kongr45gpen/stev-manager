@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   
   resources :events, only: [:index]
   get '/events/stats'
+  get '/events/pw', to: 'events#index_pw'
 
   get '/volunteers', to: 'volunteers#index'
   get '/volunteers/export'

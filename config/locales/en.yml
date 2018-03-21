@@ -42,6 +42,7 @@ en:
   date:
     formats:
       sched: "%B %d"
+      quick: "%d/%m/%y"
   cancelled: "Cancelled"
   pending: "Pending"
   scheduling: "Scheduling"

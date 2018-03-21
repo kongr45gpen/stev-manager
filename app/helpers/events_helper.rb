@@ -159,3 +159,15 @@ module EventsHelper
     props
   end
 end
+
+class String
+  # TODO: Don't duplicate code from the Volunteer helper
+  def only_upper_case
+    str = self.split.map{ |v| v.first + v[1,2]&.downcase }.join
+    if str.length <= 6 then str else self.split.map(&:first).join end
+  end
+
+  def to_colour
+    '#' + Digest::MD5.hexdigest(self)[0..5]
+  end
+end
