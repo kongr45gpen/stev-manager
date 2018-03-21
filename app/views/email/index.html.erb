@@ -1,5 +1,9 @@
 <%= bootstrap_form_tag(url: email_path) do |f| %>
 
+<p>
+  <a class="btn btn-default" href="<%= email_sw_volunteers_path format: :csv %>"><%= t :student_week %> e-mails</a>
+</p>
+
 <dl class="dl-horizontal">
   <dt>From</dt><dd><%= Settings.email.from %></dd>
   <dt>Debug to</dt><dd>

@@ -157,12 +157,12 @@ ActiveRecord::Schema.define(version: 20180321003939) do
   create_table "spaces", force: :cascade do |t|
     t.string   "name"
     t.string   "address"
+    t.string   "contact_phone"
     t.integer  "capacity"
     t.text     "technical_details"
     t.text     "logistic_details"
     t.string   "contact_name"
     t.string   "contact_email"
-    t.string   "contact_phone"
     t.text     "contact_information"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false

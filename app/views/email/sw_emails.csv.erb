@@ -1,0 +1,14 @@
+<%=
+  CSV.generate(headers: true) do |csv|
+    csv << %w{email stev_id stev_class name}
+
+    Volunteer.all.each do |volunteer|
+      csv << [
+          volunteer.email,
+          volunteer.id,
+          volunteer.class.name,
+          volunteer.full_name
+      ]
+    end
+  end
+%>
