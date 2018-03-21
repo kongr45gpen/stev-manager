@@ -1,5 +1,11 @@
 module ScheduleHelper
   include EventsHelper
+
+  def markdown_source
+    ScheduleController.new.render_to_string(
+        "schedule/index.md.erb", locals: { :@events => @events }
+    )
+  end
 end
 
 class String

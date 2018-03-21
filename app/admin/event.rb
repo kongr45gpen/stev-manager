@@ -17,16 +17,17 @@ ActiveAdmin.register Event do
 #   permit_params :team, :title, :kind, :other, :proposed_space, :proposed_time, :abstract, :fields
   permit_params do
     permitted = [:team, :title, :kind, :other, :proposed_space, :proposed_time, :abstract,
-                 :submitter_id, :status, :scheduled, :hidden, :place_description, :team_below, :space,
+                 :submitter_id, :status, :scheduled, :hidden, :place_description, :team_below, :space_id,
                  :time_description,
                  :submitter_attributes => [:id, :surname, :name, :phone, :email],
                  :repetitions_attributes => [:id, :date, :time, :end_date, :duration, :_destroy],
                  :properties_attributes => [:id, :name, :value, :_destroy],
+                 :space_attributes => [:id, :name, :address, :display],
                  :fields => []]
     permitted
   end
 
-  includes :submitter, :repetitions
+  includes :space, :submitter, :repetitions
 
   sidebar :repetitions, only: [:show, :edit] do
     resource.repetitions.each do |repetition|
@@ -52,6 +53,19 @@ ActiveAdmin.register Event do
       row :school
       row :phone
       row :email
+    end
+  end
+
+  sidebar :space, only: [:show, :edit] do
+    attributes_table_for event.space do
+      row(:name) { auto_link event.space }
+      row :address
+      row :capacity
+      row :display
+      row "Actions" do
+        a "New", href: new_admin_space_path
+        a "Edit", href: edit_admin_space_path(event.space)
+      end
     end
   end
 
@@ -127,7 +141,8 @@ ActiveAdmin.register Event do
       f.input :kind, as: :select, collection: ["theatre","music","photography","sports","other","concert"]
       f.input :fields,:as => :serialized_array, collection: ["theatre","music","photography","sports","other"]
       f.input :abstract, :input_html => { :rows => 5  }
-      f.input :space, :input_html => { :rows => 1 }
+      f.input :space
+      # f.a "New", href: new_admin_space_path
     end
     f.panel 'Submission' do
       columns do

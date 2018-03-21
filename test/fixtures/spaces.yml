@@ -3,21 +3,42 @@
 one:
   name: MyString
   address: MyString
-  phone: MyString
+  contact_phone: MyString
   capacity: 1
   technical_details: MyText
   logistic_details: MyText
   contact_name: MyString
   contact_email: MyString
   contact_information: MyText
+  display: MyText
 
 two:
   name: MyString
   address: MyString
-  phone: MyString
+  contact_phone: MyString
   capacity: 1
   technical_details: MyText
   logistic_details: MyText
   contact_name: MyString
   contact_email: MyString
   contact_information: MyText
+  display: MyText
+
+jeffreys:
+  name: Jeffrey's Caffe
+
+ceremonial:
+  name: Αίθουσα Τελετών
+  display: Αίθουσα Τελετών, Εγνατία
+
+theatre:
+  name: Θέατρο Σχολής
+
+conference:
+  name: Αίθουσα Συνεδριάσεων
+
+nowhere:
+  name: Nowhere
+
+yard:
+  name: Αυλή

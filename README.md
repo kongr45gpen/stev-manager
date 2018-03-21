@@ -39,7 +39,7 @@ RAILS_ENV=production bin/rails console
 ```
 
 ```ruby
-User.new(email: "mail@example.com", password: "YoUrPaSsWoRd").add
+User.new(email: "mail@example.com", password: "YoUrPaSsWoRd").save
 ```
 ### Ruby & Gems Update
 ```ruby
