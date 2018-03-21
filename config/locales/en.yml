@@ -55,6 +55,11 @@ en:
   information: "Information"
   contact_information: "Contact Information"
   details: "Details"
+  short:
+    updates: "Upd."
+    joined: "Join."
+    preparation: "Prep."
+    mark_joined: "✔ Join."
   activerecord:
     attributes:
       updates: "Needs updates"

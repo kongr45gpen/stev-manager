@@ -69,6 +69,7 @@ el:
   short:
     joined: "Εγγεγρ."
     updates: "Ενημερ."
+    preparation: "Προετ."
     mark_joined: "Σημ. Εγγρ."
   unknown: "Άγνωστο"
   time:

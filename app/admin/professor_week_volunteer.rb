@@ -1,8 +1,8 @@
 require_dependency 'views/index_as_final'
 
-ActiveAdmin.register Volunteer do
-  permit_params :surname, :name, :age, :email, :phone, :property, :school, :level, :health, :interests,
-                :subscription, :updates, :gender, :joined
+ActiveAdmin.register ProfessorWeek::Volunteer do
+  permit_params :surname, :name, :age, :email, :phone, :property, :school, :level, :health,
+                :subscription, :updates, :gender, :preparation, :joined, :father_name
 
   config.per_page = 500
 
@@ -17,6 +17,7 @@ ActiveAdmin.register Volunteer do
     column :property
     column :school
     column :level
+    column I18n.t('short.preparation'), :preparation
     column I18n.t('short.updates'), :updates
     column I18n.t('short.joined'), :joined
     actions do |vol|

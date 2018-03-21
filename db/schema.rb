@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180321000542) do
+ActiveRecord::Schema.define(version: 20180321003939) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -111,6 +111,26 @@ ActiveRecord::Schema.define(version: 20180321000542) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_professor_week_repetitions_on_event_id"
+  end
+
+  create_table "professor_week_volunteers", force: :cascade do |t|
+    t.string   "surname"
+    t.string   "name"
+    t.string   "father_name"
+    t.integer  "age"
+    t.string   "email"
+    t.string   "phone"
+    t.string   "property"
+    t.string   "school"
+    t.string   "level"
+    t.text     "health"
+    t.boolean  "preparation"
+    t.boolean  "subscription"
+    t.boolean  "updates"
+    t.integer  "gender"
+    t.boolean  "joined"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "properties", force: :cascade do |t|
