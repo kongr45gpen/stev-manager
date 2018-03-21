@@ -82,6 +82,92 @@ class ImportController < ApplicationController
     end
   end
 
+  def parse_pw_events(data)
+    Encoding.default_external = Encoding::UTF_8
+
+    # Map column_name -> column_id
+    co = {}
+    data.third.each_index { |k| co[data.third[k]] = k }
+    data.map! do |datum|
+      new_datum = {}
+      co.each { |point| new_datum[point.first] = datum[point.second] }
+
+      new_datum
+    end
+
+    data.select { |x| x['webform_serial'].to_s.is_i? }.each do |datum|
+      @submitters = []
+      @submitters[0] = Submitter.new(
+        surname: datum['epitheto'].to_s.force_encoding('utf-8').strip,
+        name: datum['onoma'].to_s.force_encoding('utf-8').strip,
+        property: datum['idiotita'].to_s.force_encoding('utf-8').strip,
+        faculty: datum['sholi'].to_s.force_encoding('utf-8').strip,
+        school: datum['tmima'].to_s.force_encoding('utf-8').strip,
+        sector: datum['tomeas'].to_s.force_encoding('utf-8').strip,
+        lab: datum['ergastirio'].to_s.force_encoding('utf-8').strip,
+        phone: datum['tilefono_stathero1'].to_s.force_encoding('utf-8').strip,
+        phone_other: datum['tilefono_kinito1'].to_s.force_encoding('utf-8').strip,
+        email: datum['e_mail'].to_s.force_encoding('utf-8').strip,
+      )
+      @submitters[1] = Submitter.new(
+        surname: datum['epitheto2'].to_s.force_encoding('utf-8').strip,
+        name: datum['onoma2'].to_s.force_encoding('utf-8').strip,
+        property: datum['idiotita2'].to_s.force_encoding('utf-8').strip,
+        faculty: datum['sholi2'].to_s.force_encoding('utf-8').strip,
+        school: datum['tmima2'].to_s.force_encoding('utf-8').strip,
+        sector: datum['tomeas2'].to_s.force_encoding('utf-8').strip,
+        lab: datum['ergastirio2'].to_s.force_encoding('utf-8').strip,
+        phone: datum['tilefono_stathero2'].to_s.force_encoding('utf-8').strip,
+        phone_other: datum['tilefono_kinito2'].to_s.force_encoding('utf-8').strip,
+        email: datum['email3'].to_s.force_encoding('utf-8').strip,
+        )
+      @submitters[2] = Submitter.new(
+        surname: datum['epitheto2'].to_s.force_encoding('utf-8').strip,
+        name: datum['onoma3'].to_s.force_encoding('utf-8').strip,
+        property: datum['idiotita3'].to_s.force_encoding('utf-8').strip,
+        faculty: datum['sholi3'].to_s.force_encoding('utf-8').strip,
+        school: datum['tmima3'].to_s.force_encoding('utf-8').strip,
+        sector: datum['tomeas3'].to_s.force_encoding('utf-8').strip,
+        lab: datum['ergastirio3'].to_s.force_encoding('utf-8').strip,
+        phone: datum['tilefono_stathero3'].to_s.force_encoding('utf-8').strip,
+        phone_other: datum['tilefono_kinito3'].to_s.force_encoding('utf-8').strip,
+        email: datum['email4'].to_s.force_encoding('utf-8').strip,
+        )
+      @submitters.select! do |sub|
+        !sub['surname'].empty? || !sub['name'].empty? || !sub['property'].empty? || !sub['faculty'].empty? \
+        || !sub['school'].empty? || !sub['sector'].empty? || !sub['lab'].empty? || !sub['phone'].empty? \
+        || !sub['phone_other'].empty? || !sub['email'].empty?
+      end
+
+
+      @event = ProfessorWeek::Event.new(
+        title: datum['titlos_drastiriotitas'].to_s.force_encoding('utf-8'),
+        # father_name: datum['patronymo'].to_s.force_encoding('utf-8'),
+        # age: datum['ilikia'].to_s.force_encoding('utf-8'),
+        # email: datum['email'].to_s.force_encoding('utf-8'),
+        # phone: datum['til'].to_s.force_encoding('utf-8'),
+        # property: datum['idiotita'].to_s.force_encoding('utf-8'),
+        # school: datum['sholi_tmima'].to_s.force_encoding('utf-8'),
+        # level: datum['epipedo_spoydon'].to_s.force_encoding('utf-8'),
+        # health: (datum['ehete_kapoio_iatriko_thema'].to_s.force_encoding('utf-8') != 'ΟΧΙ' ? datum['ehete_kapoio_iatriko_thema'].to_s.force_encoding('utf-8') + '. ' : '') +datum['parakalo_dieykriniste'].to_s.force_encoding('utf-8'),
+        # subscription: datum['notifications'].to_s.force_encoding('utf-8') == 'ΝΑΙ',
+        # preparation: datum['symmeteho_proetoimasia'].to_s.force_encoding('utf-8') == 'ΝΑΙ'
+      )
+
+      kinds = []
+      kinds << 'experiment' unless datum['Πείραμα'].blank?
+      kinds << 'observation' unless datum['Παρατήρηση'].blank?
+      kinds << 'lab' unless datum['Δημιουργικό εργαστήριο'].blank?
+      kinds << 'presentation' unless datum['Παρουσίαση'].blank?
+      kinds << 'archive' unless datum['Μουσείο - Αρχείο - Συλλογή'].blank?
+      kinds << 'game' unless datum['Παιχνίδι'].blank?
+      kinds << 'demonstration' unless datum['Επίδειξη'].blank?
+      @event.fields = kinds
+
+      @event.save
+    end
+  end
+
   def parse_volunteers(data)
     Encoding.default_external = Encoding::UTF_8
 

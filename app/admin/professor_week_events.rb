@@ -100,7 +100,7 @@ ActiveAdmin.register ProfessorWeek::Event do
     end
 
     f.inputs 'Details' do
-      f.input :fields, as: :serialized_array, collection: %w[experiment observation lab presentation collection game demonstration]
+      f.input :fields, as: :serialized_array, collection: %w[experiment observation lab presentation archive game demonstration]
       f.input :abstract, input_html: { rows: 2 }
       f.input :description, input_html: { rows: 5 }
       f.input :ages, input_html: { rows: 2 }
