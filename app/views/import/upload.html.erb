@@ -14,7 +14,7 @@
   <% @data.each do |x| %>
       <tr <%= if !x.first.to_s.is_i? then 'class=active' end %>>
         <% x.each do |attr| %>
-            <td><%= attr.to_s.truncate(7) %></td>
+            <td><%= attr.to_s.truncate(20) %></td>
         <% end %>
       </tr>
   <% end %>
