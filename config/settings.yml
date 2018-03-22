@@ -19,3 +19,4 @@ email:
   from: postmaster@localhost
   debug_to: postmaster@localhost
   default_to: ~
+professor_week_event_dates: [ '2018-05-06', '2018-05-13', '2018-05-20' ]

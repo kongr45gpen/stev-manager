@@ -16,7 +16,7 @@ ActiveAdmin.register ProfessorWeek::Event do
                  :registration_required, :registration_email, :registration_deadline,
                  :details_costs, :details_dates, :description, :abstract,
                  :collaborator_count, :student_count, :volunteer_count,
-                 :date_repetition_count, :date_repetition_other, :date_duration, :date_start, :date_duration_total, :date_dates,
+                 :date_repetition_count, :date_repetition_other, :date_duration, :date_start, :date_duration_total, :date_dates => [],
                  submitter_attributes: %i[id surname name phone email phone_other lab sector],
                  repetitions_attributes: %i[id date duration _destroy]
                  ]
@@ -151,8 +151,7 @@ ActiveAdmin.register ProfessorWeek::Event do
             f.input :date_duration
             f.input :date_start
             f.input :date_duration_total
-# TODO: Fix this input
-#            f.input :date_dates
+            f.input :date_dates, as: :serialized_array, collection: Settings.professor_week_event_dates
             f.input :date_repetition_other, input_html: { rows: 2 }
           end
         end
