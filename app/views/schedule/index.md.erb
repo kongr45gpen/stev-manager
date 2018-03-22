@@ -12,13 +12,17 @@
 
   * **Όνομα Ομάδας**: <%= event.team %>
   * **Τίτλος Δράσης**: <%= event.title %>
-  * **Περιγραφή**: <%= (event.abstract || event.other).to_s.strip! %>
   <% event.properties.each do |prop|  %>
   * **<%= prop.name %>**: <%= prop.value %>
   <% end %>
   * **Χώρος διεξαγωγής**: <%= event.space %>
+  * **Είδος**: <%= t event.kind %>
   * **Ημερομηνίες**:
     <% event.repetitions.each do |repetition| %>
       * <%= format_one_repetition repetition %>, <%= format_time repetition %>
     <% end %>
+
+<%= (event.abstract || event.other).to_s.strip! %>
+
+---------------
 <% end %>
