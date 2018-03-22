@@ -8,7 +8,7 @@
           volunteer.id,
           volunteer.class.name,
           volunteer.full_name,
-          volunteer.class.name + ' ' + volunteer.id.to_s
+          Settings.instance_slug + ' ' + volunteer.class.name + ' ' + volunteer.id.to_s
       ]
     end
   end
