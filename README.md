@@ -31,6 +31,9 @@ bundle
 
 # Migrate database
 RAILS_ENV=production bin/rails db:migrate
+
+# Precompile assets
+RAILS_ENV=production bin/rails assets:precompile
 ```
 
 #### Adding a new user
