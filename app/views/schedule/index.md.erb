@@ -1,5 +1,6 @@
 # <%= Settings.schedule.title %>
 
+<% c_id = 0 %>
 <% @events.each_with_index do |event, idx| %>
   <% first = true %>
   <% if event.hidden %>
@@ -7,6 +8,17 @@
       <% elsif (Settings.schedule.hide_unscheduled or event.kind == 'concert') and event.repetitions.empty? %>
           <% next %>
       <% end %>
+
+<% if event.kind == 'concert' %>
+    <% if @concerts and @concerts.include? event %>
+        <% next %>
+    <% end %>
+
+    <% @concerts = consecutive_concerts(event) %>
+<%= render 'concerts', c_id: c_id %>
+    <% c_id += 1 %>
+    <% next %>
+<% end %>
 
 ## Δράση <%= idx %> <% if Settings.schedule.debug_indexes %>(#<%= event.id %>)<% end %>
 
@@ -25,4 +37,8 @@
 <%= (event.abstract || event.other).to_s.strip! %>
 
 ---------------
+<% end %>
+<% if Settings.schedule.show_unscheduled_concerts %>
+    <% @concerts = Event.left_outer_joins(:repetitions).where(repetitions:{id:nil},kind:"concert") %>
+    <%= render 'concerts', c_id: c_id %>
 <% end %>
