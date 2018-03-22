@@ -101,6 +101,7 @@ el:
     formats:
       sched: "%A %e %B"
       quick: "%d/%m/%y"
+      day: "%A %e/%m"
   times:
     one: "%{count} φορά"
     other: "%{count} φορές"
@@ -166,6 +167,14 @@ el:
         details_dates: "Λεπτομέρειες Ημερομηνίας"
         details_space: "Λεπτομέρειες Χώρου"
         details_extra: "Λεπτομέρειες"
+        repetition: "Επανάληψη"
+        repetitions: "Επαναλήψεις"
+        date_repetition_count: "Αριθμός Επαναλήψεων"
+        date_repetition_other: "Λεπτομέρειες Επαναλήψεων"
+        date_duration: "Διάρκεια Επανάληψης"
+        date_start: "Ώρα Έναρξης"
+        date_duration_total: "Συνολική Διάρκεια"
+        date_dates: "Ημερομηνίες"
       submitter:
         name: "Όνομα"
         surname: "Επώνυμο"

@@ -5,6 +5,7 @@ class ProfessorWeek::Event < ApplicationRecord
   audited
 
   serialize :fields, Array
+  serialize :date_dates, Array
 
   accepts_nested_attributes_for :submitters,  :allow_destroy => true
   accepts_nested_attributes_for :space,       :allow_destroy => true
@@ -12,4 +13,16 @@ class ProfessorWeek::Event < ApplicationRecord
 
   enum status: { cancelled: -1, fresh: 0, pending: 1, scheduling: 2, confirmed: 3  }
   enum scheduled: { no_schedule: 0, pending_schedule: 1, scheduled: 2 }
+
+  def date_start=(value)
+    if value.include? 'ΜΜ'
+      value = value.to_time.to_datetime.change(offset: "+0000").to_time + 12.hours
+    end
+
+    super(value)
+  end
+
+  def date_dates
+    self[:date_dates].map{|d| d.to_date.to_s}
+  end
 end

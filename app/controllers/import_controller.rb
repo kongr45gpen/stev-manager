@@ -141,9 +141,9 @@ class ImportController < ApplicationController
 
       details_dates = ""
       dates_list = []
-      dates_list.push('6 Μαΐου') unless datum[' 6 Μαΐου'].blank?
-      dates_list.push('13 Μαΐου') unless datum[' 13 Μαΐου'].blank?
-      dates_list.push('20 Μαΐου') unless datum[' 20 Μαΐου'].blank?
+      dates_list.push('6/5/2018') unless datum[' 6 Μαΐου'].blank?
+      dates_list.push('13/5/2018') unless datum[' 13 Μαΐου'].blank?
+      dates_list.push('20/5/2018') unless datum[' 20 Μαΐου'].blank?
       details_dates += dates_list.join(', ') + "\n"
       details_dates += 'Αριθμός Επαναλήψεων: ' + datum['arithmos_epanalipseon'].to_s.force_encoding('utf-8') + "\n"
       details_dates += datum['an_epilexate_allo'].to_s.force_encoding('utf-8') + "\n"
@@ -155,7 +155,7 @@ class ImportController < ApplicationController
       @event = ProfessorWeek::Event.new(
         title: datum['titlos_drastiriotitas'].to_s.force_encoding('utf-8'),
         details_space: datum['horos_diexagogis'].to_s.force_encoding('utf-8'),
-        details_dates: details_dates,
+        # details_dates: details_dates,
         ages: datum['koino_sto_opoio_apethynetai'],
         registration_required: datum['apaiteitai_dilosi_symmetohis'].to_s.force_encoding('utf-8') != 'ΟΧΙ',
         registration_email: datum['ilektronika'].to_s.force_encoding('utf-8'),
@@ -166,7 +166,13 @@ class ImportController < ApplicationController
         student_count: datum['arithmos_foititwn'].to_s.force_encoding('utf-8'),
         volunteer_count: datum['arithmos_epipleon_ethelontwn'].to_s.force_encoding('utf-8'),
         description: datum['syntomi_perigrafi_protasis'].to_s.force_encoding('utf-8'),
-        abstract: datum['syntomi_perigrafi30_lexeis'].to_s.force_encoding('utf-8')
+        abstract: datum['syntomi_perigrafi30_lexeis'].to_s.force_encoding('utf-8'),
+        date_repetition_count: datum['arithmos_epanalipseon'].to_s.force_encoding('utf-8'),
+        date_repetition_other: datum['an_epilexate_allo'].to_s.force_encoding('utf-8'),
+        date_duration: datum['diarkeia_drastiriotitas2'],
+        date_start: datum['ora_enarxis_tis_drasis'].to_s.force_encoding('utf-8'),
+        date_duration_total: datum['diarkeia_synoliki'].to_s.force_encoding('utf-8'),
+        date_dates: dates_list
       )
 
       kinds = []

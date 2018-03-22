@@ -18,7 +18,8 @@
             <% event.fields.each do |kind| %>
               <span class="label label-event-<%= kind %>"><%= t kind %></span>
             <% end %>
-          </small>
+          </small><br>
+          <small class="event-team"><%= event.submitters.first&.full_name %>, <%= event.submitters.first&.school.to_s.presence || event.submitters.first&.faculty.to_s %></small>
         </h3>
 
         <div><%= simple_format(event.description) %></div>
@@ -27,11 +28,40 @@
         <p><strong><%= t :space %>:</strong> <%= simple_format(event.details_space, {}, wrapper_tag: 'span') %></p>
 
         <div class="row-flex">
-          <div class="col-flex col-flex-x-large">
+          <div class="col-flex col-flex-large">
           <div class="panel panel-primary">
             <div class="panel-heading"><%= t :date_details %></div>
             <div class="panel-body">
-              <%= simple_format event.details_dates %>
+              <p>
+              <% event.date_dates.each do |date| %>
+                <span class="label label-primary label-lg"><%= l date.to_date, format: "%A" %> <strong><%= l date.to_date, format: "%e" %></strong>/<%= l date.to_date, format: "%-m" %></span>
+              <% end %>
+              </p>
+
+              <dl class="dl-attributes-tiny">
+                <dt class="attribute-tiny-key"><%= t 'activerecord.attributes.professor_week/event.date_repetition_count' %></dt>
+                <dd class="attribute-tiny-value">
+                  <% colour = event.date_repetition_count != 0 ? 'label-info' : 'label-warning' %>
+                  <span class="label <%= colour %>"><%= event.date_repetition_count %></span></dd>
+                <dt class="attribute-tiny-key"><%= t 'activerecord.attributes.professor_week/event.date_duration' %></dt>
+                <dd class="attribute-tiny-value">
+                  <% colour = event.date_duration != 0 ? 'label-info' : 'label-warning' %>
+                  <span class="label <%= colour %>"><%= event.date_duration %></span> min</dd>
+                </dd>
+                <dt class="attribute-tiny-key"><%= t 'activerecord.attributes.professor_week/event.date_duration_total' %></dt>
+                <dd class="attribute-tiny-value">
+                  <% colour = event.date_duration_total != 0 ? 'label-info' : 'label-warning' %>
+                  <% colour = 'label-danger' if event.date_duration_total != event.date_repetition_count.to_i * event.date_duration.to_i %>
+                  <span class="label <%= colour %>"><%= event.date_duration_total %></span> min
+                </dd>
+                <dt class="attribute-tiny-key"><%= t 'activerecord.attributes.professor_week/event.date_start' %></dt>
+                <dd class="attribute-tiny-value">
+                  <span class="label label-info"><%= (l event.date_start, format: :sched) unless event.date_start.nil? %></span>
+                </dd>
+              </dl>
+              <% unless event.date_repetition_other.blank? %>
+                <p><%= simple_format event.date_repetition_other %></p>
+              <% end %>
             </div>
           </div>
           </div>

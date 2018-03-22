@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180321003939) do
+ActiveRecord::Schema.define(version: 20180321235548) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -94,6 +94,12 @@ ActiveRecord::Schema.define(version: 20180321003939) do
     t.text     "details_extra"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+    t.integer  "date_repetition_count"
+    t.text     "date_repetition_other"
+    t.integer  "date_duration"
+    t.time     "date_start"
+    t.integer  "date_duration_total"
+    t.string   "date_dates"
     t.index ["space_id"], name: "index_professor_week_events_on_space_id"
   end
 
@@ -157,12 +163,12 @@ ActiveRecord::Schema.define(version: 20180321003939) do
   create_table "spaces", force: :cascade do |t|
     t.string   "name"
     t.string   "address"
-    t.string   "contact_phone"
     t.integer  "capacity"
     t.text     "technical_details"
     t.text     "logistic_details"
     t.string   "contact_name"
     t.string   "contact_email"
+    t.string   "contact_phone"
     t.text     "contact_information"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
