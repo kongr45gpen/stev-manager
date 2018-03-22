@@ -15,7 +15,7 @@ class ProfessorWeek::Event < ApplicationRecord
   enum scheduled: { no_schedule: 0, pending_schedule: 1, scheduled: 2 }
 
   def date_start=(value)
-    if value.include? 'ΜΜ'
+    if value.include? 'ΜΜ' and value.to_time.hour != 12
       value = value.to_time.to_datetime.change(offset: "+0000").to_time + 12.hours
     end
 

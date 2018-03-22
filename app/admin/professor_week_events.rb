@@ -151,7 +151,8 @@ ActiveAdmin.register ProfessorWeek::Event do
             f.input :date_duration
             f.input :date_start
             f.input :date_duration_total
-            f.input :date_dates
+# TODO: Fix this input
+#            f.input :date_dates
             f.input :date_repetition_other, input_html: { rows: 2 }
           end
         end
