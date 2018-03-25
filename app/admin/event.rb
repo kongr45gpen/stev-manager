@@ -20,7 +20,7 @@ ActiveAdmin.register Event do
                  :submitter_id, :status, :scheduled, :hidden, :place_description, :team_below, :space_id,
                  :time_description,
                  :submitter_attributes => [:id, :surname, :name, :phone, :email],
-                 :repetitions_attributes => [:id, :date, :time, :end_date, :duration, :_destroy],
+                 :repetitions_attributes => [:id, :date, :time, :end_date, :duration, :space_override_id, :_destroy],
                  :properties_attributes => [:id, :name, :value, :_destroy],
                  :space_attributes => [:id, :name, :address, :display],
                  :fields => []]
@@ -172,7 +172,8 @@ ActiveAdmin.register Event do
         t.input :date, value: Date.today
         t.input :time, :as => :boolean, label: I18n.t(:show_time), :input_html => { checked: t.object.time? }
         t.input :end_date
-        t.input :duration, label: 'Duration in hours'
+        t.input :duration, hint: I18n.t(:duration_hours)
+        t.input :space_override, input_html: { class: "select2" }
       end
     end
     f.panel 'Display Details' do

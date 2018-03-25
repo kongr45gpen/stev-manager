@@ -89,6 +89,7 @@ el:
   game: "Παιχνίδι"
   demonstration: "Επίδειξη"
   useful_symbols: "Χρήσιμα Σύμβολα"
+  duration_hours: "Διάρκεια σε Ώρες"
   words:
     zero: "-"
     one: "%{count} λέξη"
@@ -212,5 +213,7 @@ el:
         technical_details: "Τεχνικές Λεπτομέρειες"
         logistic_details: "Διαχειριστικές Λεπτομέρειες"
         display: "Εμφάνιση"
+      repetition:
+        space_override: "Παράκαμψη Χώρου"
   active_admin:
     create_another: "Κι άλλο"

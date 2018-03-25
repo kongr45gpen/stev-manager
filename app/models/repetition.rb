@@ -1,5 +1,6 @@
 class Repetition < ApplicationRecord
   belongs_to :event
+  belongs_to :space_override, :class_name => 'Space'
   default_scope { order(date: :asc) }
   audited
 

@@ -42,6 +42,10 @@
                     <%= l repetition.end_date.to_date, format: :sched %>
                   <% end %>
 
+                  <% if repetition.space_override %>
+                    <span class="label label-default"><%= repetition.space_override %></span>
+                  <% end %>
+
                   <span class="badge alert-warning">
                     <a href=<%= edit_admin_event_repetition_path(event,repetition) %> aria-label="Edit">
                        <span class="glyphicon glyphicon-pencil"></span>

@@ -6,4 +6,8 @@ class Space < ApplicationRecord
   def display_description
     self[:display_name] || name
   end
+
+  def to_s
+    display_description
+  end
 end

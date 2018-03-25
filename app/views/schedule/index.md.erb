@@ -27,11 +27,12 @@
   <% event.properties.each do |prop|  %>
 **<%= prop.name %>**: <%= prop.value %><%= '  ' %>
   <% end %>
-**Χώρος διεξαγωγής**: <%= event.space&.name %><%= '  ' %>
-**Είδος**: <%=  (event.kind || :other) %><%= '  ' %>
+<% if event.space %>**Χώρος διεξαγωγής**: <%= event.space&.name %><%= '  ' %>
+<% end %>**Είδος**: <%=  (event.kind || :other) %><%= '  ' %>
 **Ημερομηνίες**:
+
     <% event.repetitions.each do |repetition| %>
-      * <%= format_one_repetition repetition %><% if repetition.time? %>, <%= format_time repetition %><% end %>
+  * <%= format_one_repetition repetition %><% if repetition.time? %>, <%= format_time repetition %><% end %><% if repetition.space_override %>, <%= repetition.space_override %><% end %>
     <% end %><%= ' ' %>
 
 <%= (event.abstract || event.other).to_s.strip! %>

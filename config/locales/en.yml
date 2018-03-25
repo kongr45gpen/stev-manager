@@ -33,6 +33,7 @@ en:
   en: "English"
   el: "Greek"
   ago: "ago"
+  duration_hours: "Duration in Hours"
   times:
     one: "once"
     other: "%{count} times"

@@ -58,6 +58,7 @@ performance_7:
   date: 2017-05-04 22:00
   time: true
   event: performance_2
+  space_override: jeffreys
 
 performance_8:
   date: 2017-05-06 22:00:53
