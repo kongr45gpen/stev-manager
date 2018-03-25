@@ -22,17 +22,17 @@
 
 ## Δράση <%= idx %> <% if Settings.schedule.debug_indexes %>(#<%= event.id %>)<% end %>
 
-  * **Όνομα Ομάδας**: <%= event.team %>
-  * **Τίτλος Δράσης**: <%= event.title %>
+**Όνομα Ομάδας**: <%= event.team %><%= '  ' %>
+**Τίτλος Δράσης**: <%= event.title %><%= '  ' %>
   <% event.properties.each do |prop|  %>
-  * **<%= prop.name %>**: <%= prop.value %>
+**<%= prop.name %>**: <%= prop.value %><%= '  ' %>
   <% end %>
-  * **Χώρος διεξαγωγής**: <%= event.space %>
-  * **Είδος**: <%= t event.kind %>
-  * **Ημερομηνίες**:
+**Χώρος διεξαγωγής**: <%= event.space&.name %><%= '  ' %>
+**Είδος**: <%=  (event.kind || :other) %><%= '  ' %>
+**Ημερομηνίες**:
     <% event.repetitions.each do |repetition| %>
-      * <%= format_one_repetition repetition %>, <%= format_time repetition %>
-    <% end %>
+      * <%= format_one_repetition repetition %><% if repetition.time? %>, <%= format_time repetition %><% end %>
+    <% end %><%= ' ' %>
 
 <%= (event.abstract || event.other).to_s.strip! %>
 
