@@ -88,6 +88,7 @@ el:
   archive: "Μουσείο - Αρχείο - Συλλογή"
   game: "Παιχνίδι"
   demonstration: "Επίδειξη"
+  useful_symbols: "Χρήσιμα Σύμβολα"
   words:
     zero: "-"
     one: "%{count} λέξη"
