@@ -30,6 +30,9 @@ Rails.application.routes.draw do
   get '/schedule/simple'
   get '/schedule/preview_simple'
 
+  get 'surveys', to: 'surveys#index'
+  get 'surveys/dates'
+
   get '/import', to: 'import#index'
   match '/import/process', to: 'import#upload', via: :post
   match '/import/process/volunteers', to: 'import#upload_volunteers', via: :post

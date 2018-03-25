@@ -90,6 +90,7 @@ el:
   demonstration: "Επίδειξη"
   useful_symbols: "Χρήσιμα Σύμβολα"
   duration_hours: "Διάρκεια σε Ώρες"
+  surveys: "Έρευνες"
   words:
     zero: "-"
     one: "%{count} λέξη"

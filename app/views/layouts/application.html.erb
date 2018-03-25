@@ -16,15 +16,19 @@
   </head>
 
   <body>
-    <%= navbar do %>
+    <%= navbar container: 'fluid' do %>
       <% if current_user.present? %>
         <%= navbar_group do %>
           <%= navbar_header brand: 'Student Event Manager', brand_link: root_path  %>
           <%= navbar_item t(:events), events_path %>
           <%= navbar_item t(:volunteers), volunteers_path %>
-          <%= navbar_item t(:admin), admin_root_path %>
+          <%= navbar_item admin_root_path do %>
+            <i class="glyphicon glyphicon-user"></i>&nbsp;
+            <%= t :admin %>
+          <% end %>
           <%= navbar_item t(:schedule), schedule_path %>
           <%= navbar_item t(:import), import_path %>
+          <%= navbar_item t(:surveys), surveys_path %>
           <%= navbar_item t(:emails), email_path %>
         <% end %>
       <% end %>

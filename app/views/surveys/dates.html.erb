@@ -1,0 +1,32 @@
+<h2>Test</h2>
+
+<%= bootstrap_form_tag do |f| %>
+  <%= f.text_field 'Ονοματεπώνυμο' %>
+
+  <p>
+  <b>Ποιές Κυριακές είστε διαθέσιμοι;</b>
+  <%= f.form_group :may_6, label: {text: "6 Μαΐου"} do %>
+    <%= f.check_box :may_6_0, label: "09:00-10:00", inline: true %>
+    <%= f.check_box :may_6_1, label: "11:00-12:00", inline: true %>
+    <%= f.check_box :may_6_2, label: "13:00-14:00", inline: true %>
+  <% end %>  <%= f.form_group :may_13, label: {text: "13 Μαΐου"} do %>
+    <%= f.check_box :may_13_0, label: "09:00-10:00", inline: true %>
+    <%= f.check_box :may_13_1, label: "11:00-12:00", inline: true %>
+    <%= f.check_box :may_13_2, label: "13:00-14:00", inline: true %>
+  <% end %>  <%= f.form_group :may_20, label: {text: "20 Μαΐου"} do %>
+    <%= f.check_box :may_20_0, label: "09:00-10:00", inline: true %>
+    <%= f.check_box :may_20_1, label: "11:00-12:00", inline: true %>
+    <%= f.check_box :may_20_2, label: "13:00-14:00", inline: true %>
+  <% end %>
+  <% f.check_box :nope, label: "Δεν είμαι διαθέσιμος καμία Κυριακή" %>
+  </p>
+
+  <p>
+  <%= f.form_group :promotion, label: {text: "Επιθυμείτε να συμμετάσχετε στην προώθηση;"} do %>
+    <%= f.radio_button :promotion, 0, label: "Ναι" %>
+    <%= f.radio_button :promotion, 1, label: "Όχι", inline: true %>
+  <% end %>
+  </p>
+
+  <%= f.submit "Υποβολή", class: "btn btn-primary" %>
+<% end %>
