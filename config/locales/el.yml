@@ -88,6 +88,10 @@ el:
   archive: "Μουσείο - Αρχείο - Συλλογή"
   game: "Παιχνίδι"
   demonstration: "Επίδειξη"
+  words:
+    zero: "-"
+    one: "%{count} λέξη"
+    other: "%{count} λέξεις"
   short:
     joined: "Εγγεγρ."
     updates: "Ενημερ."

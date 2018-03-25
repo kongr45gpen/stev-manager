@@ -87,6 +87,10 @@ ActiveAdmin.register Event do
     column :title
     column :kind
     column :submitter
+    column :space
+    column :abstract do |event|
+      I18n.t(:words, count: event.abstract.split(/[^[[:word:]]]+/).count)
+    end
     column :repetitions do |event|
       link_to I18n.t(:times, count: event.repetitions.count), admin_event_repetitions_path(event)
     end
@@ -140,7 +144,7 @@ ActiveAdmin.register Event do
     f.inputs 'Details' do
       f.input :kind, as: :select, collection: ["theatre","music","photography","sports","other","concert"]
       f.input :fields,:as => :serialized_array, collection: ["theatre","music","photography","sports","other"]
-      f.input :abstract, :input_html => { :rows => 5  }
+      f.input :abstract, :input_html => { :rows => 5  }, hint: "<a href='https://pandoc.org/MANUAL.html#pandocs-markdown'>Pandoc Markdown</a> formatting".html_safe
       f.input :space
       # f.a "New", href: new_admin_space_path
     end

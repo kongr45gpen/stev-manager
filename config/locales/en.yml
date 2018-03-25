@@ -36,6 +36,10 @@ en:
   times:
     one: "once"
     other: "%{count} times"
+  words:
+    zero: "-"
+    one: "%{count} word"
+    other: "%{count} words"
   time:
     formats:
       sched: "%H:%M"
