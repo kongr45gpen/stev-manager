@@ -80,3 +80,6 @@ gem 'audited', '~> 4.4'
 
 # Document generation
 gem 'pandoc-ruby'
+
+# Added at 2018-03-26 00:31:04 +0300 by kongr45gpen:
+gem "activeadmin_addons", "~> 1.4"
