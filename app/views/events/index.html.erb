@@ -23,7 +23,7 @@
         </small></h3>
 
         <p><em><%= event.other %></em></p>
-        <p><%= raw PandocRuby.convert(event.other, :from => :markdown, :to => :html) %></p>
+        <p><%= raw PandocRuby.convert(event.abstract, :from => :markdown, :to => :html) %></p>
 
         <ul class="list-unstyled">
           <li><strong><%=t :proposed_space %>: </strong> <%= event.proposed_space %></li>
