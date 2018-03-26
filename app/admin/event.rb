@@ -127,8 +127,8 @@ ActiveAdmin.register Event do
       column do
         f.inputs do
           f.input :id, :input_html => { :disabled => true }
-          f.input :title
-          f.input :team, hint: I18n.t(:useful_symbols) + ": - – — “ ” « »"
+          f.input :title, as: :text, :input_html => { :rows => 1 }
+          f.input :team, as: :text, :input_html => { :rows => 1 }, hint: I18n.t(:useful_symbols) + ": - – — “ ” « »"
         end
       end
       column do

@@ -49,13 +49,13 @@ module EventsHelper
   def format_one_repetition(rep, capitalise = true)
     string = (capitalise) ? 'Από %s έως %s' : 'από %s έως %s'
     if rep.end_date
-      string % [format_one_date(rep.date), format_one_date(rep.end_date)]
+      string %= [format_one_date(rep.date), format_one_date(rep.end_date)]
     else
       string = format_one_date rep.date
     end
 
     if rep.space_override
-      string += ", " + rep.space_override
+      string += ", " + rep.space_override.display_description
     end
 
     string

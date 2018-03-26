@@ -9,7 +9,7 @@
     orange = s.add_style :bg_color => "EEAA55"
     black_cell = s.add_style :bg_color => "00", :fg_color => "FF", :sz => 14, :alignment => { :horizontal=> :center }
     blue_cell =  s.add_style  :bg_color => "0000FF", :fg_color => "FF", :sz => 20, :alignment => { :horizontal=> :center }
-    wb.add_worksheet(:name => Settings.schedule.title) do |sheet|
+    wb.add_worksheet(:name => Settings.schedule.title.truncate(27)) do |sheet|
       sheet.add_row ["ID", "Δημιουργός", "E-Mail", "Τηλέφωνο",
        "Τίτλος Δράσης", "Ομάδα", "Είδος", "Άλλο", "Ημερομηνίες", "Χώρος", "30 λέξεις"], :style => black_cell
 
@@ -33,7 +33,7 @@
             event.id, event.submitter&.full_name, event.submitter&.email, event.submitter&.phone, event.title,
             event.team, I18n.t(event.kind.presence || :other), event.other,
              format_many_repetitions(event.repetitions, time: !repetitions_same_time?(event)),
-             event.space, event.abstract
+             event.space&.name, event.abstract
           ], :style => style
         end
       end

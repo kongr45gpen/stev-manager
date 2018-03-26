@@ -31,11 +31,11 @@
 <% end %>**Είδος**: <%=  (event.kind || :other) %><%= '  ' %>
 **Ημερομηνίες**:
 
-    <% event.repetitions.each do |repetition| %>
-  * <%= format_one_repetition repetition %><% if repetition.time? %>, <%= format_time repetition %><% end %><% if repetition.space_override %>, <%= repetition.space_override %><% end %>
-    <% end %><%= ' ' %>
+<% event.repetitions.each do |repetition| %>
+ * <%= format_one_repetition repetition %><% if repetition.time? %>, <%= format_time repetition %><% end %><% if repetition.space_override %>, <%= repetition.space_override %><% end %>
+<% end %><%= ' ' %>
 
-<%= (event.abstract || event.other).to_s.strip! %>
+<%= event.abstract.to_s.strip %>
 
 ---------------
 <% end %>

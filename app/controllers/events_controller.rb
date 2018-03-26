@@ -11,9 +11,9 @@ class EventsController < ApplicationController
   end
 
   def stats
-    @events = Event.where(status: 'confirmed', scheduled: 'scheduled')
-                  .group_by {|ev| [ev.title, ev.team]}
-                  .map {|g| g.second.first}
+    @events = Event.where.not(status: 'cancelled')
+                  .group_by{|ev| [ev.title, ev.team] }
+                  .map{|g| g.second.first}
   end
 
   def index_pw
