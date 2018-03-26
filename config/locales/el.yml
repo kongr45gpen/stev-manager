@@ -91,6 +91,7 @@ el:
   useful_symbols: "Χρήσιμα Σύμβολα"
   duration_hours: "Διάρκεια σε Ώρες"
   surveys: "Έρευνες"
+  download_in_excel: "Λήψη σε Excel"
   words:
     zero: "-"
     one: "%{count} λέξη"

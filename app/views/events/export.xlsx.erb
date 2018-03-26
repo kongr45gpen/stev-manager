@@ -3,46 +3,77 @@
   wb = p.workbook
 
   wb.styles do |s|
-    green = s.add_style :bg_color => "22FF99"
-    red = s.add_style :bg_color => "DD3311"
-    yellow = s.add_style :bg_color => "EEEE55"
-    orange = s.add_style :bg_color => "EEAA55"
-    black_cell = s.add_style :bg_color => "00", :fg_color => "FF", :sz => 14, :alignment => { :horizontal=> :center }
-    blue_cell =  s.add_style  :bg_color => "0000FF", :fg_color => "FF", :sz => 20, :alignment => { :horizontal=> :center }
+    $green = s.add_style :bg_color => "22FF99", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true}
+    $red = s.add_style :bg_color => "DD3311", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+    $yellow = s.add_style :bg_color => "EEEE55", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+    $orange = s.add_style :bg_color => "EEAA55", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+    $white = s.add_style :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+    $black = s.add_style :bg_color => "00", :fg_color => "FF", :sz => 14, :alignment => { :horizontal=> :center }, :border => { :style => :thin, :color => "CC" }
+    $blue =  s.add_style  :bg_color => "0000FF", :fg_color => "FF", :sz => 20, :alignment => { :horizontal=> :center }
+    $bold = s.add_style :b => true
+    $very_bold = s.add_style :sz => 14, :b => true
+    $align_left = s.add_style :alignment => { :horizontal => :left }
+    $wrap_text = s.add_style :alignment => { :horizontal => :left, :wrap_text => true}
+
+    def format_property(property, event = nil)
+      property = property.to_s
+      if property.blank?
+        style = $orange
+      elsif event.fresh?
+        style = $white
+      else
+        style = $green
+      end
+
+      [property, style]
+    end
+
+
     wb.add_worksheet(:name => Settings.schedule.title.truncate(27)) do |sheet|
       sheet.add_row ["ID", "Δημιουργός", "E-Mail", "Τηλέφωνο",
-       "Τίτλος Δράσης", "Ομάδα", "Είδος", "Άλλο", "Ημερομηνίες", "Χώρος", "30 λέξεις"], :style => black_cell
+       "Τίτλος Δράσης", "Ομάδα", "Είδος", "Άλλο", "Ημερομηνίες", "Χώρος", "30 λέξεις"], :style => $black
 
       @events.each do |event|
         if not event.hidden?
-          style = nil
+          style = $white
           if event.cancelled?
-            style = red
+            style = $red
           elsif event.pending?
-            style = orange
+            style = $orange
           elsif event.scheduling?
-            style = yellow
+            style = $yellow
           elsif event.confirmed?
-            style = green
+            style = $green
           end
 
-          # row = []
-          # row.push([event.id])
+          row = []
+          row.push [event.id, style]
+          row.push [event.submitter&.full_name, style]
+          row.push [event.submitter&.email, style]
+          row.push [event.submitter&.phone.to_s, style]
+          row.push [event.title, style]
+          row.push format_property(event.team, event)
+          row.push [I18n.t(event.kind.presence || :other), style]
+          row.push [event.other&.strip, style]
+          row.push [format_event_repetitions(event), (($red if event.no_schedule?) or ($yellow if event.pending_schedule?) or ($green if event.scheduled?) or $white)]
+          row.push format_property(event.space&.name, event)
+          row.push format_property(event.abstract&.strip, event)
 
-          sheet.add_row [
-            event.id, event.submitter&.full_name, event.submitter&.email, event.submitter&.phone, event.title,
-            event.team, I18n.t(event.kind.presence || :other), event.other,
-             format_many_repetitions(event.repetitions, time: !repetitions_same_time?(event)),
-             event.space&.name, event.abstract
-          ], :style => style
+          sheet.add_row row.map(&:first), style: row.map(&:second), :height => 32
+
+          # Title
+          sheet.rows.last.cells[4].b = true
         end
       end
 
-      # Applies the black_cell style to the first and third cell, and the blue_cell style to the second.
-      # sheet.add_row ["Text Autowidth", "Second", "Third"], :style => [black_cell, blue_cell, black_cell]
+      # Phone number
+      sheet.column_info[3].width = 20
 
-      # Applies the thin border to all three cells
-      # sheet.add_row [1, 2, 3], :style => Axlsx::STYLE_THIN_BORDER
+      # Other
+      sheet.column_info[7].width = 30
+
+      # Dates
+      sheet.column_info[8].width = 25
     end
   end
 

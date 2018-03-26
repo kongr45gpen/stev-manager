@@ -97,6 +97,10 @@ module EventsHelper
     end
   end
 
+  def format_event_repetitions(event)
+    format_many_repetitions(event.repetitions, time: !repetitions_same_time?(event))
+  end
+
   def many_repetitions?(reps)
     if reps.many?
       true

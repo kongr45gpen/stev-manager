@@ -1,4 +1,10 @@
-<%= link_to t(:stats), events_stats_path, class: "btn btn-default" %>
+<%= link_to events_stats_path, class: "btn btn-default" do %>
+  <i class="glyphicon glyphicon-stats"></i> <%= t :stats %>
+<% end %>
+
+<%= link_to events_export_path(format: :xlsx), class: "btn btn-success" do %>
+  <i class="glyphicon glyphicon-file"></i> <%= t :download_in_excel %>
+<% end %>
 
 <% @events.each_with_index do |event, idx| %>
     <hr>
@@ -16,8 +22,8 @@
           <% end %>
         </small></h3>
 
-        <p><%= event.other %></p>
-        <p><%= simple_format(event.abstract) %></p>
+        <p><em><%= event.other %></em></p>
+        <p><%= raw PandocRuby.convert(event.other, :from => :markdown, :to => :html) %></p>
 
         <ul class="list-unstyled">
           <li><strong><%=t :proposed_space %>: </strong> <%= event.proposed_space %></li>
