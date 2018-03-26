@@ -4,8 +4,8 @@ class CreateProfessorWeekEvents < ActiveRecord::Migration[5.0]
       t.string :title
       t.string :fields, array: true
       t.references :space
-      t.integer :status
-      t.integer :scheduled
+      t.integer :status, default: 0
+      t.integer :scheduled, default: 0
       t.boolean :hidden
       t.text :ages
       t.boolean :registration_required

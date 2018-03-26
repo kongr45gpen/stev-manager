@@ -75,8 +75,8 @@ ActiveRecord::Schema.define(version: 20180325215136) do
     t.string   "title"
     t.string   "fields"
     t.integer  "space_id"
-    t.integer  "status"
-    t.integer  "scheduled"
+    t.integer  "status",            default: 0
+    t.integer  "scheduled",         default: 0
     t.boolean  "hidden"
     t.text     "ages"
     t.boolean  "registration_required"
