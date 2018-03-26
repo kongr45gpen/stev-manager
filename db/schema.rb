@@ -75,8 +75,6 @@ ActiveRecord::Schema.define(version: 20180325215136) do
     t.string   "title"
     t.string   "fields"
     t.integer  "space_id"
-    t.integer  "status",            default: 0
-    t.integer  "scheduled",         default: 0
     t.boolean  "hidden"
     t.text     "ages"
     t.boolean  "registration_required"
@@ -92,8 +90,10 @@ ActiveRecord::Schema.define(version: 20180325215136) do
     t.text     "details_dates"
     t.text     "details_space"
     t.text     "details_extra"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.integer  "status",                default: 0
+    t.integer  "scheduled",             default: 0
     t.integer  "date_repetition_count"
     t.text     "date_repetition_other"
     t.integer  "date_duration"
@@ -157,7 +157,6 @@ ActiveRecord::Schema.define(version: 20180325215136) do
     t.integer  "event_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.         "space_override"
     t.integer  "space_override_id"
     t.index ["event_id"], name: "index_repetitions_on_event_id"
     t.index ["space_override_id"], name: "index_repetitions_on_space_override_id"
@@ -166,12 +165,12 @@ ActiveRecord::Schema.define(version: 20180325215136) do
   create_table "spaces", force: :cascade do |t|
     t.string   "name"
     t.string   "address"
+    t.string   "contact_phone"
     t.integer  "capacity"
     t.text     "technical_details"
     t.text     "logistic_details"
     t.string   "contact_name"
     t.string   "contact_email"
-    t.string   "contact_phone"
     t.text     "contact_information"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'events/export'
+
   devise_for :users, ActiveAdmin::Devise.config
 
   get 'landing/index'

@@ -1,0 +1,50 @@
+<%=
+  p = Axlsx::Package.new
+  wb = p.workbook
+
+  wb.styles do |s|
+    green = s.add_style :bg_color => "22FF99"
+    red = s.add_style :bg_color => "DD3311"
+    yellow = s.add_style :bg_color => "EEEE55"
+    orange = s.add_style :bg_color => "EEAA55"
+    black_cell = s.add_style :bg_color => "00", :fg_color => "FF", :sz => 14, :alignment => { :horizontal=> :center }
+    blue_cell =  s.add_style  :bg_color => "0000FF", :fg_color => "FF", :sz => 20, :alignment => { :horizontal=> :center }
+    wb.add_worksheet(:name => Settings.schedule.title) do |sheet|
+      sheet.add_row ["ID", "Δημιουργός", "E-Mail", "Τηλέφωνο",
+       "Τίτλος Δράσης", "Ομάδα", "Είδος", "Άλλο", "Ημερομηνίες", "Χώρος", "30 λέξεις"], :style => black_cell
+
+      @events.each do |event|
+        if not event.hidden?
+          style = nil
+          if event.cancelled?
+            style = red
+          elsif event.pending?
+            style = orange
+          elsif event.scheduling?
+            style = yellow
+          elsif event.confirmed?
+            style = green
+          end
+
+          # row = []
+          # row.push([event.id])
+
+          sheet.add_row [
+            event.id, event.submitter&.full_name, event.submitter&.email, event.submitter&.phone, event.title,
+            event.team, I18n.t(event.kind.presence || :other), event.other,
+             format_many_repetitions(event.repetitions, time: !repetitions_same_time?(event)),
+             event.space, event.abstract
+          ], :style => style
+        end
+      end
+
+      # Applies the black_cell style to the first and third cell, and the blue_cell style to the second.
+      # sheet.add_row ["Text Autowidth", "Second", "Third"], :style => [black_cell, blue_cell, black_cell]
+
+      # Applies the thin border to all three cells
+      # sheet.add_row [1, 2, 3], :style => Axlsx::STYLE_THIN_BORDER
+    end
+  end
+
+  raw p.to_stream.string
+  %>

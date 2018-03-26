@@ -51,8 +51,14 @@ module EventsHelper
     if rep.end_date
       string % [format_one_date(rep.date), format_one_date(rep.end_date)]
     else
-      format_one_date rep.date
+      string = format_one_date rep.date
     end
+
+    if rep.space_override
+      string += ", " + rep.space_override
+    end
+
+    string
   end
 
   def format_many_repetitions(reps, options = {})
