@@ -20,15 +20,13 @@
     <% next %>
 <% end %>
 
-## Δράση <%= idx %> <% if Settings.schedule.debug_indexes %>(#<%= event.id %>)<% end %>
+<% if Settings.schedule.debug_indexes %>## Δράση <%= idx %> (#<%= event.id %>)<% end %>
 
-**Όνομα Ομάδας**: <%= event.team %><%= '  ' %>
-**Τίτλος Δράσης**: <%= event.title %><%= '  ' %>
-  <% event.properties.each do |prop|  %>
-**<%= prop.name %>**: <%= prop.value %><%= '  ' %>
-  <% end %>
-<% if event.space %>**Χώρος διεξαγωγής**: <%= event.space&.name %><%= '  ' %>
-<% end %>**Είδος**: <%=  (event.kind || :other) %><%= '  ' %>
+<%= event.team %><%= '  ' %>
+<strong><%= event.title %></strong><%= '  ' %>
+
+<% if event.space %>**<%= event.place_description || "Χώρος διεξαγωγής" %>**: <%= event.space&.name %><%= '  ' %>
+<% end %>**Είδος**: <%= t (event.kind || :other) %><%= '  ' %>
 **Ημερομηνίες**:
 
 <% event.repetitions.each do |repetition| %>
@@ -36,6 +34,10 @@
 <% end %><%= ' ' %>
 
 <%= event.abstract.to_s.strip %>
+
+<% event.properties.each do |prop|  %>
+  **<%= prop.name %>**: <%= prop.value %><%= '  ' %>
+<% end %>
 
 ---------------
 <% end %>

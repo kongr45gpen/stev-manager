@@ -26,7 +26,7 @@ class EventsController < ApplicationController
   end
 
   def export
-    @events = Event.all
+    @events = sort_events Event.all
   end
 
   private
