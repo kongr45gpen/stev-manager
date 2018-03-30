@@ -53,17 +53,20 @@ performance_6:
   date: 2017-05-02 22:00
   time: true
   event: performance_2
+  extra: Πιο φθηνά εισιτήρια
 
 performance_7:
   date: 2017-05-04 22:00
   time: true
   event: performance_2
   space_override: jeffreys
+  extra: Πιο φθηνά εισιτήρια
 
 performance_8:
   date: 2017-05-06 22:00:53
   time: true
   event: performance_2
+  extra: Πιο ακριβά εισιτήρια
 
 presentation_1:
   date: 2017-05-10 20:00

@@ -46,8 +46,8 @@ module EventsHelper
     end
   end
 
-  def format_one_repetition(rep, capitalise = true)
-    string = (capitalise) ? 'Από %s έως %s' : 'από %s έως %s'
+  def format_one_repetition(rep, options = {})
+    string = (options[:capitalise]) ? 'Από %s έως %s' : 'από %s έως %s'
     if rep.end_date
       string %= [format_one_date(rep.date), format_one_date(rep.end_date)]
     else
@@ -56,6 +56,14 @@ module EventsHelper
 
     if rep.space_override
       string += ", " + rep.space_override.display_description
+    end
+
+    if options[:time] and rep.time?
+      string += ' ' + format_time(rep)
+    end
+
+    unless rep.extra.blank?
+      string += " (%s)" % rep.extra
     end
 
     string
@@ -67,11 +75,7 @@ module EventsHelper
     if reps.none?
       ''
     elsif reps.one?
-      if options[:time]
-        format_one_repetition(reps.first) + ' ' + format_time(reps.first)
-      else
-        format_one_repetition reps.first
-      end
+      format_one_repetition reps.first, time: options[:time]
     else
       separator = ', '
       if reps.count == 2
@@ -86,11 +90,7 @@ module EventsHelper
         cap = (first or separator == ', ')
         first = false if first
 
-        if options[:time] and rep.time?
-          format_one_repetition(rep, cap)+ ' ' + format_time(rep)
-        else
-          format_one_repetition(rep, cap)
-        end
+        format_one_repetition rep, capitalise: cap, time: options[:time]
       end
 
       reps.join(separator)

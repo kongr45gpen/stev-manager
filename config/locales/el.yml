@@ -217,5 +217,6 @@ el:
         display: "Εμφάνιση"
       repetition:
         space_override: "Παράκαμψη Χώρου"
+        extra: "Επιπλέον Πληροφορίες"
   active_admin:
     create_another: "Κι άλλο"

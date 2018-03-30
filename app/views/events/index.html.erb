@@ -51,6 +51,9 @@
                   <% if repetition.space_override %>
                     <span class="label label-default"><%= repetition.space_override %></span>
                   <% end %>
+                  <% if not repetition.extra.blank? %>
+                    <span class="label label-primary"><%= repetition.extra %></span>
+                  <% end %>
 
                   <span class="badge alert-warning">
                     <a href=<%= edit_admin_event_repetition_path(event,repetition) %> aria-label="Edit">
