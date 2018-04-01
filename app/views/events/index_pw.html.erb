@@ -131,6 +131,28 @@
             <% end %>
           </ul>
         </small>
+
+        <% if event.repetitions.any? %>
+          <div class="list-group">
+            <% event.repetitions.each_with_index do |repetition, idy| %>
+              <div class="list-group-item">
+                <%= l repetition.date.to_date, format: :sched %>
+                <span class="badge alert-warning">
+                    <a href=<%= edit_admin_professor_week_event_professor_week_repetition_path(event,repetition) %> aria-label="Edit">
+                       <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                  </span>
+
+                  <span class="badge"><%= l repetition.date.to_time, format: :sched %>
+                    <% if repetition.duration %>
+                      &mdash;
+                      <%= l ((repetition.date + repetition.duration.minutes).to_time), format: :sched %>
+                    <% end %>
+                  </span>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
       </div>
     </div>
 

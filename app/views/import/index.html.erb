@@ -35,3 +35,10 @@
     <% end %>
   </div>
 </div>
+
+<h1>Process <%= t :professor_week %> events</h1>
+<div class="well" data-turbolinks="false">
+  <%= bootstrap_form_tag(url: import_process_pw_repetitions_path) do |f| %>
+    <%= f.submit "Process Repetitions", class: "btn btn-danger" %>
+  <% end %>
+</div>

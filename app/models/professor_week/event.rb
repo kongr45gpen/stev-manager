@@ -22,6 +22,10 @@ class ProfessorWeek::Event < ApplicationRecord
     super(value)
   end
 
+  def date_dates_dates
+    self[:date_dates].map{|d| d.to_date}
+  end
+
   def date_dates
     self[:date_dates].map{|d| d.to_date.to_s}
   end

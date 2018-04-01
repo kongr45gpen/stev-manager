@@ -6,6 +6,10 @@ class ScheduleController < ApplicationController
   def index
   end
 
+  def index_pw
+    @events = ProfessorWeek::Event.all
+  end
+
   def index_raw
     @hidebox = true
     render "index"

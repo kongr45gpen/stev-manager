@@ -24,7 +24,6 @@
 
 <%= event.team %><%= '  ' %>
 <strong><%= event.title %></strong><%= '  ' %>
-
 <% if event.space %>**<%= event.place_description || "Χώρος διεξαγωγής" %>**: <%= event.space&.name %><%= '  ' %>
 <% end %>**Είδος**: <%= t (event.kind || :other) %><%= '  ' %>
 **Ημερομηνίες**:

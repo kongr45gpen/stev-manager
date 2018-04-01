@@ -21,6 +21,7 @@
         <%= navbar_group do %>
           <%= navbar_header brand: 'Student Event Manager', brand_link: root_path  %>
           <%= navbar_item t(:events), events_path %>
+          <%= navbar_item "%s %s" % [t(:events),t(:professor_week)], events_pw_path %>
           <%= navbar_item t(:volunteers), volunteers_path %>
           <%= navbar_item admin_root_path do %>
             <i class="glyphicon glyphicon-user"></i>&nbsp;

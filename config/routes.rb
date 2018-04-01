@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   get '/schedule/preview'
   get '/schedule/simple'
   get '/schedule/preview_simple'
+  get '/schedule/pw/', to: 'schedule#index_pw'
 
   get 'surveys', to: 'surveys#index'
   get 'surveys/dates'
@@ -40,4 +41,5 @@ Rails.application.routes.draw do
   match '/import/process/volunteers', to: 'import#upload_volunteers', via: :post
   match '/import/process/pw/events', to: 'import#upload_pw_events', via: :post
   match '/import/process/pw/volunteers', to: 'import#upload_pw_volunteers', via: :post
+  match '/import/process/pw/repetitions', to: 'import#process_pw_repetitions', via: :post
 end

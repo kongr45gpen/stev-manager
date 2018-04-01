@@ -6,6 +6,12 @@ module ScheduleHelper
         "schedule/index.md.erb", locals: { :@events => @events }
     )
   end
+
+  def markdown_source_pw
+    ScheduleController.new.render_to_string(
+        "schedule/index_pw.md.erb", locals: { :@events => @events }
+    )
+  end
 end
 
 class String
