@@ -1,4 +1,10 @@
-# <%= Settings.schedule.title %>
+Τελευταία ενημέρωση: <%= I18n.l DateTime.now, locale: :el %> (#<%= Audited::Audit.last.id %>)
+
+<% if Settings.schedule.draft %>
+**Πρόχειρο**
+<% end %>
+
+# <%= Settings.schedule.title_pw %>
 
 <% c_id = 0 %>
 <% @events.each_with_index do |event, idx| %>
@@ -11,23 +17,29 @@
 
 <% if Settings.schedule.debug_indexes %>## Δράση <%= idx %> (#<%= event.id %>)<% end %>
 
-**Είδος**: <%= event.fields.map{|fiel| t fiel}.join(', ') %><%= '  ' %>
+**Είδος**: <%= event.fields.map{|fiel| t fiel, locale: :el}.join(', ') %><%= '  ' %>
 **Τίτλος**: <%= event.title %><%= '  ' %>
 <% if event.space %>**Χώρος διεξαγωγής**: <%= event.space&.name %><%= '  ' %>
 <% end %>
-**Σύντομη περιγραφή**: <%= event.abstract %><%= '  ' %>
-**Διοργάνωση**: <%= event.submitters.first&.lab %><%= '  ' %>
-**Υπεύθυνοι**: <%= event.submitters.map{|subm| subm.full_name}.join(', ') %><%= '  ' %>
-**Τόπος**: <%= event.details_space %><%= '  ' %>
-**Διάρκεια**: <%= event.date_duration %> min<%= '  ' %>
-**Ηλικίες που απευθύνεται**: <%= event.ages %><%= '  ' %>
-**Ημερομηνίες**:
+**Σύντομη περιγραφή**: <%= event.abstract.to_s.strip %><%= '  ' %>
+**Διοργάνωση**: <%= event.organiser || event.submitters.first&.lab %><%= '  ' %>
+**Υπεύθυνοι**:
 
-<% event.repetitions.each do |repetition| %>
- * <%= repetition.date %>
-<% end %><%= ' ' %>
+<% event.submitters.each do |submi| %>
+  * <%= submi.full_name %>, <%= submi.property %>
+<% end %><%= '  ' %>
+**Τόπος**: <%= event.space %><%= '  ' %>
+**Διάρκεια**: <%= event.date_duration %> λεπτά<%= '  ' %>
+**Ηλικίες που απευθύνεται**: <%= event.ages.gsub!(/[[:digit:]]+/, '**\0**') %><%= '  ' %>
+**Ημερομηνίες διεξαγωγής**: <%= event.date_dates_dates.map{ |date| I18n.l date, format: :quick, locale: :el }.join(', ') %><%= '  ' %>
+**Ώρες έναρξης της δράσης**:
 
-<%= event.abstract.to_s.strip %>
+<% event.repetitions.group_by{|repet| I18n.l repet.date.to_time, format: :sched, locale: :el }.each do |time, repet| %>
+  * <%= time %>
+<% end %><%= '  ' %>
+<% if event.registration_required %>**Δηλώσεις Συμμετοχής**: [**<%= event.registration_email %>**](mailto:<%= event.registration_email %>)
+<% if event.registration_deadline %> μέχρι **<%= I18n.l event.registration_deadline.to_date, format: :tiny, locale: :el %>**<% end %>
+<%- end %>
 
 ---------------
 <% end %>

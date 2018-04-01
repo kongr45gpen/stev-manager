@@ -46,6 +46,7 @@ en:
       sched: "%H:%M"
   date:
     formats:
+      tiny: "%-d/%-m"
       sched: "%B %d"
       quick: "%d/%m/%y"
       day: "%A %e/%m"

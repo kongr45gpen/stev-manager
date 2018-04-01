@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180330080130) do
+ActiveRecord::Schema.define(version: 20180401225849) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -75,8 +75,11 @@ ActiveRecord::Schema.define(version: 20180330080130) do
     t.string   "title"
     t.string   "fields"
     t.integer  "space_id"
+    t.integer  "status"
+    t.integer  "scheduled"
     t.boolean  "hidden"
     t.text     "ages"
+    t.text     "organiser"
     t.boolean  "registration_required"
     t.string   "registration_email"
     t.integer  "registration_max"
@@ -90,10 +93,8 @@ ActiveRecord::Schema.define(version: 20180330080130) do
     t.text     "details_dates"
     t.text     "details_space"
     t.text     "details_extra"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.integer  "status",                default: 0
-    t.integer  "scheduled",             default: 0
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
     t.integer  "date_repetition_count"
     t.text     "date_repetition_other"
     t.integer  "date_duration"
@@ -166,12 +167,12 @@ ActiveRecord::Schema.define(version: 20180330080130) do
   create_table "spaces", force: :cascade do |t|
     t.string   "name"
     t.string   "address"
-    t.string   "contact_phone"
     t.integer  "capacity"
     t.text     "technical_details"
     t.text     "logistic_details"
     t.string   "contact_name"
     t.string   "contact_email"
+    t.string   "contact_phone"
     t.text     "contact_information"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false

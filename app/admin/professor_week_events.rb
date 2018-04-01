@@ -12,7 +12,7 @@ ActiveAdmin.register ProfessorWeek::Event do
 #   permitted
 # end
   permit_params do
-    permitted = [:title, :kind, :space_id, :status, :scheduled, :hidden, :ages,
+    permitted = [:title, :kind, :space_id, :status, :scheduled, :hidden, :ages, :organiser,
                  :registration_required, :registration_email, :registration_deadline,
                  :details_costs, :details_dates, :description, :abstract,
                  :collaborator_count, :student_count, :volunteer_count,
@@ -87,6 +87,7 @@ ActiveAdmin.register ProfessorWeek::Event do
           f.inputs do
             f.input :id, input_html: { disabled: true }
             f.input :title
+            f.input :organiser, input_html: { rows: 1 }
             f.input :space
           end
         end
