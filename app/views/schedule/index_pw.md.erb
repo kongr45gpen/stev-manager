@@ -1,0 +1,46 @@
+# <%= Settings.schedule.title %>
+
+<% c_id = 0 %>
+<% @events.each_with_index do |event, idx| %>
+  <% first = true %>
+  <% if event.hidden %>
+          <% next %>
+      <% elsif (Settings.schedule.hide_unscheduled or event.kind == 'concert') and event.repetitions.empty? %>
+          <% next %>
+      <% end %>
+
+<% if event.kind == 'concert' %>
+    <% if @concerts and @concerts.include? event %>
+        <% next %>
+    <% end %>
+
+    <% @concerts = consecutive_concerts(event) %>
+<%= render 'concerts', c_id: c_id %>
+    <% c_id += 1 %>
+    <% next %>
+<% end %>
+
+<% if Settings.schedule.debug_indexes %>## Δράση <%= idx %> (#<%= event.id %>)<% end %>
+
+<%= event.team %><%= '  ' %>
+<strong><%= event.title %></strong><%= '  ' %>
+<% if event.space %>**<%= event.place_description || "Χώρος διεξαγωγής" %>**: <%= event.space&.name %><%= '  ' %>
+<% end %>**Είδος**: <%= t (event.kind || :other) %><%= '  ' %>
+**Ημερομηνίες**:
+
+<% event.repetitions.each do |repetition| %>
+ * <%= format_one_repetition repetition, time: true %>
+<% end %><%= ' ' %>
+
+<%= event.abstract.to_s.strip %>
+
+<% event.properties.each do |prop|  %>
+  **<%= prop.name %>**: <%= prop.value %><%= '  ' %>
+<% end %>
+
+---------------
+<% end %>
+<% if Settings.schedule.show_unscheduled_concerts %>
+    <% @concerts = Event.left_outer_joins(:repetitions).where(repetitions:{id:nil},kind:"concert") %>
+    <%= render 'concerts', c_id: c_id %>
+<% end %>

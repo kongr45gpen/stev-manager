@@ -1,0 +1,34 @@
+# <%= Settings.schedule.title %>
+
+<% c_id = 0 %>
+<% @events.each_with_index do |event, idx| %>
+  <% first = true %>
+  <% if event.hidden %>
+          <% next %>
+      <% elsif (Settings.schedule.hide_unscheduled) and event.repetitions.empty? %>
+          <% next %>
+      <% end %>
+
+<% if Settings.schedule.debug_indexes %>## Δράση <%= idx %> (#<%= event.id %>)<% end %>
+
+**Είδος**: <%= event.fields.map{|fiel| t fiel}.join(', ') %>
+**Τίτλος**: <%= event.title %><%= '  ' %>
+<% if event.space %>**Χώρος διεξαγωγής**: <%= event.space&.name %><%= '  ' %>
+<% end %>
+**Σύντομη περιγραφή**: <%= event.abstract %>
+**Διοργάνωση**: <%= event.submitters.first&.lab %>
+**Υπεύθυνοι**: <%= event.submitters.map{|subm| subm.full_name}.join(', ') %>
+**Τόπος**: <%= event.details_space %>
+**Διάρκεια**: <%= event.date_duration %> min
+**Ηλικίες που απευθύνεται**: <%= event.ages %>
+**Ημερομηνίες**:
+
+<% event.repetitions.each do |repetition| %>
+ * <%= repetition.date %>
+<% end %><%= ' ' %>
+
+<%= event.abstract.to_s.strip %>
+
+---------------
+<% end %>
+
