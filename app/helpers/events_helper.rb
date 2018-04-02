@@ -54,7 +54,7 @@ module EventsHelper
       string = format_one_date rep.date
     end
 
-    if rep.space_override
+    if rep.space_override and not options[:hide_space]
       string += ", " + rep.space_override.display_description
     end
 
@@ -75,7 +75,7 @@ module EventsHelper
     if reps.none?
       ''
     elsif reps.one?
-      format_one_repetition reps.first, time: options[:time]
+      format_one_repetition reps.first, time: options[:time], hide_space: true
     else
       separator = ', '
       if reps.count == 2
@@ -97,8 +97,8 @@ module EventsHelper
     end
   end
 
-  def format_event_repetitions(event)
-    format_many_repetitions(event.repetitions, time: !repetitions_same_time?(event))
+  def format_event_repetitions(event, options = {})
+    format_many_repetitions(options[:active] ? event.active_repetitions : event.repetitions, time: true)
   end
 
   def many_repetitions?(reps)

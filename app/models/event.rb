@@ -38,7 +38,7 @@ class Event < ApplicationRecord
   end
 
   def sanitized_space
-    space.strip.gsub('.','').force_encoding('utf-8').mb_chars.titlecase.to_s
+    space || self.active_repetitions&.first&.space_override
   end
 
   def active_repetitions

@@ -1,3 +1,9 @@
+Τελευταία ενημέρωση: <%= I18n.l DateTime.now, locale: :el %> (#<%= Audited::Audit.last.id %>)
+
+<% if Settings.schedule.draft %>
+**Πρόχειρο**
+<% end %>
+
 # <%= Settings.schedule.title %>
 
 <% c_id = 0 %>
@@ -24,12 +30,12 @@
 
 <%= event.team %><%= '  ' %>
 <strong><%= event.title %></strong><%= '  ' %>
-<% if event.space %>**<%= event.place_description || "Χώρος διεξαγωγής" %>**: <%= event.space&.name %><%= '  ' %>
+<% if event.sanitized_space %>**<%= event.place_description || "Χώρος διεξαγωγής" %>**: <%= event.sanitized_space&.name %><%= '  ' %>
 <% end %>**Είδος**: <%= t (event.kind || :other) %><%= '  ' %>
 **Ημερομηνίες**:
 
 <% event.active_repetitions.each do |repetition| %>
- * <%= format_one_repetition repetition, time: true %>
+ * <%= format_one_repetition repetition, time: true, hide_space: event.active_repetitions.one? %>
 <% end %><%= ' ' %>
 
 <%= event.abstract.to_s.strip %>

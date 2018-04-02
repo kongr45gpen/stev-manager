@@ -55,8 +55,8 @@
           row.push format_property(event.team, event)
           row.push [I18n.t(event.kind.presence || :other), style]
           row.push [event.other&.strip, style]
-          row.push [format_event_repetitions(event), (($red if event.no_schedule?) or ($yellow if event.pending_schedule?) or ($green if event.scheduled?) or $white)]
-          row.push format_property(event.space&.name, event)
+          row.push [format_event_repetitions(event, active: true), (($red if event.no_schedule?) or ($yellow if event.pending_schedule?) or ($green if event.scheduled?) or $white)]
+          row.push format_property(event.sanitized_space&.name, event)
           row.push format_property(event.abstract&.strip, event)
 
           sheet.add_row row.map(&:first), style: row.map(&:second), :height => 32
@@ -69,11 +69,23 @@
       # Phone number
       sheet.column_info[3].width = 20
 
+      # Title
+      sheet.column_info[4].width = 40
+
+      # Team
+      sheet.column_info[5].width = 35
+
       # Other
       sheet.column_info[7].width = 30
 
       # Dates
       sheet.column_info[8].width = 25
+
+      # Space
+      sheet.column_info[9].width = 25
+
+      # Abstract
+      sheet.column_info[10].width = 50
     end
   end
 
