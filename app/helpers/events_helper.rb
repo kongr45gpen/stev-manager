@@ -111,8 +111,37 @@ module EventsHelper
     end
   end
 
-  def sort_events(events)
-    events.sort_by { |evt| evt.first_date }
+  def sort_events(events, simple = true)
+    # First, create a list of events based on separate repetitions
+    unless simple
+      multiple_events = []
+      events.each do |evt|
+        repetitions_list = []
+        evt.repetitions.sort_by(&:date).each_with_index do |rep,idx|
+          if rep.separate?
+            new_event = evt.clone
+            new_event.active_repetitions = repetitions_list
+            multiple_events.push(new_event)
+            # console
+            repetitions_list = []
+          end
+
+          repetitions_list.push rep
+
+          if idx == evt.repetitions.size - 1
+            new_event = evt.clone
+            new_event.active_repetitions = repetitions_list
+            multiple_events.push(new_event)
+            # console
+            repetitions_list = []
+          end
+        end
+      end
+    else
+      multiple_events = events
+    end
+
+    multiple_events.sort_by { |evt| evt.first_date }
   end
 
   def consecutive_concerts(event)

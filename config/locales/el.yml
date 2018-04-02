@@ -218,5 +218,10 @@ el:
       repetition:
         space_override: "Παράκαμψη Χώρου"
         extra: "Επιπλέον Πληροφορίες"
+        separate: "Ξεχωριστή Εκδήλωση"
+        date: "Ημερομηνία"
+        time: "Εμφάνιση Ώρας"
+        end_date: "Τελική Ημέρα"
+        duration: "Διάρκεια"
   active_admin:
     create_another: "Κι άλλο"

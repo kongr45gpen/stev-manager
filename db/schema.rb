@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180330080130) do
+ActiveRecord::Schema.define(version: 20180402095842) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -159,6 +159,7 @@ ActiveRecord::Schema.define(version: 20180330080130) do
     t.datetime "updated_at",        null: false
     t.integer  "space_override_id"
     t.text     "extra"
+    t.boolean  "separate"
     t.index ["event_id"], name: "index_repetitions_on_event_id"
     t.index ["space_override_id"], name: "index_repetitions_on_space_override_id"
   end

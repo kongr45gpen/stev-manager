@@ -36,6 +36,6 @@ class ScheduleController < ApplicationController
 
   private
   def set_events
-    @events = sort_events Event.all
+    @events = sort_events Event.all, false
   end
 end

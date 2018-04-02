@@ -28,7 +28,7 @@
 <% end %>**Είδος**: <%= t (event.kind || :other) %><%= '  ' %>
 **Ημερομηνίες**:
 
-<% event.repetitions.each do |repetition| %>
+<% event.active_repetitions.each do |repetition| %>
  * <%= format_one_repetition repetition, time: true %>
 <% end %><%= ' ' %>
 

@@ -30,8 +30,8 @@ class Event < ApplicationRecord
   end
 
   def first_date
-    if self.repetitions.any?
-      self.repetitions.first.date
+    if self.active_repetitions.any?
+      self.active_repetitions.first.date
     else
       Date.new(0)
     end
@@ -39,5 +39,13 @@ class Event < ApplicationRecord
 
   def sanitized_space
     space.strip.gsub('.','').force_encoding('utf-8').mb_chars.titlecase.to_s
+  end
+
+  def active_repetitions
+    @active_repetitions || self.repetitions
+  end
+
+  def active_repetitions= active_repetitions
+    @active_repetitions = active_repetitions
   end
 end
