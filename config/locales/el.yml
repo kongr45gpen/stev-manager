@@ -107,6 +107,7 @@ el:
       sched: "%H:%M"
   date:
     formats:
+      tiny: "%-d/%-m"
       sched: "%A %e %B"
       quick: "%d/%m/%y"
       day: "%A %e/%m"
@@ -162,6 +163,7 @@ el:
         scheduled: "Προγραμματισμένο"
         hidden: "Κρυμμένο"
         ages: "Ηλικίες"
+        organiser: "Διοργάνωση"
         registration_required: "Απαιτείται εγγραφή"
         registration_email: "E-mail εγγραφής"
         registration_max: "Μέγιστος αριθμός συμμετεχόντων ανά δράση"

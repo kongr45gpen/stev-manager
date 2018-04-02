@@ -1,5 +1,7 @@
 Welcome to the schedule
 
+<h2><%= t :student_week %></h2>
+
 <p>
   <%= link_to t(:simple_view), schedule_simple_path, class: "btn btn-default" %>
   <%= link_to t(:preview), schedule_preview_path, class: "btn btn-default" %>
@@ -10,4 +12,13 @@ Welcome to the schedule
   <%= link_to t(:schedule_in_odt), schedule_path(format: :odt), class: "btn btn-primary" %>
   <%= link_to t(:schedule_in_md), schedule_path(format: :md), class: "btn btn-default" %>
   <%= link_to t(:preview), schedule_preview_simple_path, class: "btn btn-default" %>
+</p>
+
+<h2><%= t :professor_week %></h2>
+
+<p>
+  <%= link_to t(:schedule_in_docx), schedule_pw_path(format: :docx), class: "btn btn-primary"  %>
+  <%= link_to t(:schedule_in_odt), schedule_pw_path(format: :odt), class: "btn btn-primary" %>
+  <%= link_to t(:schedule_in_md), schedule_pw_path(format: :md), class: "btn btn-default" %>
+  <%= link_to t(:preview), schedule_pw_path, class: "btn btn-default" %>
 </p>
