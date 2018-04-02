@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   get '/email', to: 'email#index'
   match '/email', to: 'email#procmails', via: :post
   get '/email/sw/volunteers', to: 'email#sw_emails'
+  get '/email/sw/submitters', to: 'email#sw_emails_submitters'
 
   match '/set_locale', to: 'landing#user_set_locale', via: :post
 

@@ -8,6 +8,9 @@ class EmailController < ApplicationController
   def sw_emails
   end
 
+  def sw_emails_submitters
+  end
+
   def procmails
     if params[:debug]
       BulkMailer.batch_email.deliver_now

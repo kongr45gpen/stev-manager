@@ -3,7 +3,9 @@
 one:
   surname: MyText
   name: MyText
+  email: text@example.com
 
 two:
   surname: MyText
   name: MyText
+  email: text@localhost/test@localhost
