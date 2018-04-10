@@ -29,18 +29,16 @@
 <% if Settings.schedule.debug_indexes %>## Δράση <%= idx %> (#<%= event.id %>)<% end %>
 
 <%= event.team %><%= '  ' %>
-<strong><%= event.title %></strong><%= '  ' %>
-<% if event.sanitized_space %>**<%= event.place_description || "Χώρος διεξαγωγής" %>**: <%= event.sanitized_space&.name %><%= '  ' %>
-<% end %>**Είδος**: <%= t (event.kind || :other) %><%= '  ' %>
-**Ημερομηνίες**:
-
-<% event.active_repetitions.each do |repetition| %>
- * <%= format_one_repetition repetition, time: true, hide_space: event.active_repetitions.one? %>
-<% end %><%= ' ' %>
+**<%= event.title %>**<%= '  ' %>
+<% if event.sanitized_space %>**<%= event.place_description || "Χώρος διεξαγωγής" %>**: <% if event.sanitized_space&.display.presence.blank? %><%= event.sanitized_space&.name %><%= '  ' %><% unless event.sanitized_space.address&.blank? %>
+<%= event.sanitized_space.address %><% end %><% else %><%= event.sanitized_space&.display %><% end %><%= '  ' %><% end %>
+**<% if many_repetitions? event.active_repetitions %>Ημερομηνίες<% else %>Ημερομηνία<% end %>**: <%= format_many_repetitions event.active_repetitions, time: !repetitions_same_time?(event, active: true) %><% if repetitions_same_time?(event, active: true) and (time = common_time(event, active: true)) %><%= '  ' %>
+**<%= event.time_description || (event.active_repetitions.first.duration ? "Ώρες" : "Ώρα") %>**: <%= time %><% if event.active_repetitions.first.extra == "εργάσιμες ημέρες" %> (εργάσιμες ημέρες)<% end %><% end %><% event.properties.select{ |prop| (prop.position || 0) < 0 }.each do |prop|  %><%= '  ' %>
+**<%= prop.name %>**: <%= prop.value %><% end %>
 
 <%= event.abstract.to_s.strip %>
 
-<% event.properties.each do |prop|  %>
+<% event.properties.select{ |prop| (prop.position || 0) >= 0 }.each do |prop|  %>
   **<%= prop.name %>**: <%= prop.value %><%= '  ' %>
 <% end %>
 

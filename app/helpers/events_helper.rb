@@ -3,8 +3,9 @@ module EventsHelper
     @events.group_by(&attribute).sort_by{|key,entries| entries.count}.reverse
   end
 
-  def repetitions_same_time?(event)
+  def repetitions_same_time?(event, options = {})
     common_time = nil
+    repetitions = options[:active] ? event.active_repetitions : event.repetitions
 
     event.repetitions.select {|x| x.time?}.each do |repetition|
       if common_time.nil?
@@ -17,8 +18,8 @@ module EventsHelper
     true
   end
 
-  def common_time(event)
-    repetitions = event.repetitions.select { |x| x.time? }
+  def common_time(event, options = {})
+    repetitions = (options[:active] ? event.active_repetitions : event.repetitions).select { |x| x.time? }
 
     if repetitions.any?
       format_time repetitions.first
@@ -31,7 +32,7 @@ module EventsHelper
     return unless rep
     formatted = I18n.l rep.date.to_time, format: :sched
     if rep.duration
-      "από %s έως %s" % [formatted, I18n.l(rep.end_time.to_time, format: :sched)]
+      "Από %s έως %s" % [formatted, I18n.l(rep.end_time.to_time, format: :sched)]
     else
       formatted
     end
@@ -47,7 +48,7 @@ module EventsHelper
   end
 
   def format_one_repetition(rep, options = {})
-    string = (options[:capitalise]) ? 'Από %s έως %s' : 'από %s έως %s'
+    string = (options[:capitalise] or true) ? 'Από %s έως %s' : 'από %s έως %s'
     if rep.end_date
       string %= [format_one_date(rep.date), format_one_date(rep.end_date)]
     else
@@ -62,8 +63,14 @@ module EventsHelper
       string += ' ' + format_time(rep)
     end
 
-    unless rep.extra.blank?
-      string += " (%s)" % rep.extra
+    # TODO: More general rule for "εργάσιμες μέρες"
+    unless rep.extra.blank? or (rep.extra == "εργάσιμες ημέρες" and not options[:time])
+      if rep.extra.split(' ').size > 3
+        string += '  \n'
+      else
+        string += ' '
+      end
+      string += "(%s)" % rep.extra
     end
 
     string

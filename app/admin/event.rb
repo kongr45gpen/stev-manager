@@ -22,7 +22,7 @@ ActiveAdmin.register Event do
                  :submitter_attributes => [:id, :surname, :name, :phone, :email],
                  :repetitions_attributes => [:id, :date, :time, :end_date, :duration,
                                              :space_override_id, :extra, :separate, :_destroy],
-                 :properties_attributes => [:id, :name, :value, :_destroy],
+                 :properties_attributes => [:id, :name, :value, :position, :_destroy],
                  :space_attributes => [:id, :name, :address, :display],
                  :fields => []]
     permitted
