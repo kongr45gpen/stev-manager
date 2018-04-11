@@ -27,4 +27,27 @@ class ProfessorWeek::Event < ApplicationRecord
   def date_dates
     self[:date_dates].map{|d| d.to_date.to_s}
   end
+
+  def sanitized_organiser
+    if organiser.to_s.blank?
+      lab = submitters.group_by{|sub| sub.lab}.map(&:first).reject{|val| val.to_s.empty?}
+      sector = submitters.group_by{|sub| sub.sector}.map(&:first).reject{|val| val.to_s.empty?}
+      school = submitters.group_by{|sub| sub.school}.map(&:first).reject{|val| val.to_s.empty?}
+
+      response = []
+      unless lab.empty?
+        response.push lab.map{|v| (v.include? "Εργαστήριο") ? v : "Εργαστήριο " + v}.join(', ')
+      end
+      unless sector.empty? or lab == sector
+        response.push sector.map{|v| (v.include? "Τομέας") ? v : "Τομέας " + v}.join(', ')
+      end
+      unless school.empty?
+        response.push school.map{|v| (v.include? "Τμήμα") ? v : "Τμήμα " + v}.join(', ')
+      end
+
+      response.join(', ')
+    else
+      organiser
+    end
+  end
 end

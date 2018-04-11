@@ -92,6 +92,7 @@ el:
   duration_hours: "Διάρκεια σε Ώρες"
   surveys: "Έρευνες"
   download_in_excel: "Λήψη σε Excel"
+  organiser: "Διοργάνωση"
   words:
     zero: "-"
     one: "%{count} λέξη"
