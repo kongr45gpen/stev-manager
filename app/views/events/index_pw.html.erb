@@ -8,6 +8,7 @@
         <div class="actions"><a href="<%= admin_professor_week_event_url(event) %>" class="btn btn-default btn-block">#<%= idx %></a>
         <a href="<%= edit_admin_professor_week_event_url(event) %>" class="btn btn-default btn-block"><i class="glyphicon glyphicon-edit"></i></a>
         <p class="text-center"><small><%= event.id %></small></p>
+        <p class="text-center"><small><%= t :position %></small>: <%= event.position %></p>
         </div>
       </div>
       <div class="media-body">

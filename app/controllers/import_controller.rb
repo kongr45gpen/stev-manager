@@ -73,6 +73,15 @@ class ImportController < ApplicationController
     end
   end
 
+  def process_pw_positions
+    i = 0
+    ProfessorWeek::Event.all.reject{|event| event.position.to_i.nonzero?}.sort_by(&:id).each do |event|
+      event.position = i
+      event.save
+      i += 1
+    end
+  end
+
   private
 
   def parse_events(data)

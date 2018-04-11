@@ -6,6 +6,8 @@ class ProfessorWeek::Event < ApplicationRecord
   serialize :fields, Array
   serialize :date_dates, Array
 
+  default_scope { order(position: :asc) }
+
   accepts_nested_attributes_for :submitters,  :allow_destroy => true
   accepts_nested_attributes_for :repetitions, :allow_destroy => true
 
@@ -26,6 +28,10 @@ class ProfessorWeek::Event < ApplicationRecord
 
   def date_dates
     self[:date_dates].map{|d| d.to_date.to_s}
+  end
+
+  def active_submitters
+    submitters.reject(&:hidden?)
   end
 
   def sanitized_organiser

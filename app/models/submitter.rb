@@ -9,6 +9,6 @@ class Submitter < ApplicationRecord
     end
 
     def male?
-        name[-1] == "ς" or name[-1] == "λ"
+        name[-1] == "ς" or name[-1] == "λ" or name[-1] == "ν"
     end
 end

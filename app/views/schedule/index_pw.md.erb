@@ -22,16 +22,16 @@
 **Είδος**: <%= event.fields.map{|fiel| t fiel, locale: :el}.join(', ') %><%= '  ' %>
 **Τίτλος**: <%= event.title %><%= '  ' %>
 **Σύντομη περιγραφή**: <%= event.abstract.to_s.strip %><%= '  ' %>
-**Διοργάνωση**: <%= event.sanitized_organiser %><%= '  ' %>
-**<%= if event.submitters.many? then
-  "Υπεύθυνοι"
-else
-  event.submitters&.first&.male? ? "Υπεύθυνος" : "Υπεύθυνη"
-end %>**:
+**Διοργάνωση**: <%= event.sanitized_organiser %><%= '  ' %><% if event.active_submitters.any? %>
+<% if event.active_submitters.many? %>
+  **Υπεύθυνοι**
+<% else %>
+  **<%= event.submitters&.first&.male? ? "Υπεύθυνος" : "Υπεύθυνη" %>**
+<% end %>:
 
 <% event.submitters.each do |submi| %>
   * <%= submi.full_name %>, <%= submi.property %>
-<% end %><%= '  ' %>
+<% end %><%= '  ' %><% end %>
 **Τόπος**: <%= event.space %><%= '  ' %>
 **Διάρκεια**: <%= event.date_duration %>'<%= '  ' %>
 **Ηλικίες που απευθύνεται**: <%= event.ages.to_s.gsub(/[[:digit:]]+/, '**\0**') %><%= '  ' %>

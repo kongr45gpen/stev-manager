@@ -15,9 +15,10 @@ ActiveAdmin.register ProfessorWeek::Event do
     permitted = [:title, :kind, :space, :status, :scheduled, :hidden, :ages, :organiser,
                  :registration_required, :registration_email, :registration_deadline,
                  :details_costs, :details_dates, :description, :abstract,
+                 :position,
                  :collaborator_count, :student_count, :volunteer_count,
                  :date_repetition_count, :date_repetition_other, :date_duration, :date_start, :date_duration_total, :date_dates => [],
-                 submitter_attributes: %i[id surname name phone email phone_other lab sector],
+                 submitters_attributes: %i[id surname name phone email phone_other lab sector hidden],
                  repetitions_attributes: %i[id date duration _destroy]
                  ]
     permitted
@@ -85,6 +86,7 @@ ActiveAdmin.register ProfessorWeek::Event do
             f.input :hidden
             f.input :status
             f.input :scheduled
+            f.input :position
           end
         end
       end
@@ -121,6 +123,7 @@ ActiveAdmin.register ProfessorWeek::Event do
             t.input :phone
             t.input :phone_other
             t.input :email
+            t.input :hidden
           end
         end
       end

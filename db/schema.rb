@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180411110812) do
+ActiveRecord::Schema.define(version: 20180411140206) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -76,7 +76,6 @@ ActiveRecord::Schema.define(version: 20180411110812) do
     t.string   "fields"
     t.boolean  "hidden"
     t.text     "ages"
-    t.text     "space"
     t.boolean  "registration_required"
     t.string   "registration_email"
     t.integer  "registration_max"
@@ -101,6 +100,8 @@ ActiveRecord::Schema.define(version: 20180411110812) do
     t.integer  "date_duration_total"
     t.string   "date_dates"
     t.text     "organiser"
+    t.text     "space"
+    t.integer  "position"
   end
 
   create_table "professor_week_events_submitters", force: :cascade do |t|
@@ -192,6 +193,7 @@ ActiveRecord::Schema.define(version: 20180411110812) do
     t.string   "sector"
     t.string   "lab"
     t.string   "phone_other"
+    t.boolean  "hidden"
   end
 
   create_table "users", force: :cascade do |t|

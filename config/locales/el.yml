@@ -93,6 +93,7 @@ el:
   surveys: "Έρευνες"
   download_in_excel: "Λήψη σε Excel"
   organiser: "Διοργάνωση"
+  position: "Θέση"
   words:
     zero: "-"
     one: "%{count} λέξη"
