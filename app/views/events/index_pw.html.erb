@@ -25,7 +25,7 @@
         <div><%= simple_format(event.description) %></div>
         <div><strong><%= t :abstract %>:</strong> <%= simple_format(event.abstract, {}, wrapper_tag: 'p') %></div>
         <p><strong><%= t 'activerecord.attributes.professor_week/event.ages' %>:</strong> <%= simple_format(event.ages, {}, wrapper_tag: 'span') %></p>
-        <p><strong><%= t :space %>:</strong> <%= simple_format(event.space, {}, wrapper_tag: 'span') %></p>
+        <p><strong><%= t :space %>:</strong> <%= simple_format(event.space.to_s, {}, wrapper_tag: 'span') %></p>
 
         <div class="row-flex">
           <div class="col-flex col-flex-large">

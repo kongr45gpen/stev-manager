@@ -79,7 +79,6 @@ ActiveRecord::Schema.define(version: 20180402095842) do
     t.integer  "scheduled"
     t.boolean  "hidden"
     t.text     "ages"
-    t.text     "organiser"
     t.boolean  "registration_required"
     t.string   "registration_email"
     t.integer  "registration_max"
@@ -101,6 +100,7 @@ ActiveRecord::Schema.define(version: 20180402095842) do
     t.time     "date_start"
     t.integer  "date_duration_total"
     t.string   "date_dates"
+    t.text     "organiser"
     t.index ["space_id"], name: "index_professor_week_events_on_space_id"
   end
 
@@ -168,7 +168,6 @@ ActiveRecord::Schema.define(version: 20180402095842) do
   create_table "spaces", force: :cascade do |t|
     t.string   "name"
     t.string   "address"
-    t.string   "contact_phone"
     t.integer  "capacity"
     t.text     "technical_details"
     t.text     "logistic_details"

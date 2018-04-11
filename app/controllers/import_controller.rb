@@ -49,7 +49,7 @@ class ImportController < ApplicationController
       end
 
       # Do not trust date_repetition_count
-      repetition_count = ((event.date_duration_total.presence || 0) / (event.date_duration.nonzero? || 1)).floor
+      repetition_count = ((event.date_duration_total.presence || 0) / (event.date_duration&.nonzero? || 1)).floor
       event.date_dates_dates.each do |d|
         (1..repetition_count).each do |r|
           time = event.date_start + (r-1) * event.date_duration_total.minutes / repetition_count
