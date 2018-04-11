@@ -19,7 +19,7 @@
 
 **Είδος**: <%= event.fields.map{|fiel| t fiel, locale: :el}.join(', ') %><%= '  ' %>
 **Τίτλος**: <%= event.title %><%= '  ' %>
-<% if event.space %>**Χώρος διεξαγωγής**: <%= event.space&.name %><%= '  ' %>
+<% unless event.space.to_s.blank? %>**Χώρος διεξαγωγής**: <%= event.space %><%= '  ' %>
 <% end %>
 **Σύντομη περιγραφή**: <%= event.abstract.to_s.strip %><%= '  ' %>
 **Διοργάνωση**: <%= event.organiser || event.submitters.first&.lab %><%= '  ' %>
@@ -30,7 +30,7 @@
 <% end %><%= '  ' %>
 **Τόπος**: <%= event.space %><%= '  ' %>
 **Διάρκεια**: <%= event.date_duration %> λεπτά<%= '  ' %>
-**Ηλικίες που απευθύνεται**: <%= event.ages.gsub!(/[[:digit:]]+/, '**\0**') %><%= '  ' %>
+**Ηλικίες που απευθύνεται**: <%= event.ages.to_s.gsub!(/[[:digit:]]+/, '**\0**') %><%= '  ' %>
 **Ημερομηνίες διεξαγωγής**: <%= event.date_dates_dates.map{ |date| I18n.l date, format: :quick, locale: :el }.join(', ') %><%= '  ' %>
 **Ώρες έναρξης της δράσης**:
 
