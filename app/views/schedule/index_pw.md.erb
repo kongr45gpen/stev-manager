@@ -24,10 +24,10 @@
 **Σύντομη περιγραφή**: <%= event.abstract.to_s.strip %><%= '  ' %>
 **Διοργάνωση**: <%= event.sanitized_organiser %><%= '  ' %><% if event.active_submitters.any? %>
 <% if event.active_submitters.many? %>
-  **Υπεύθυνοι**
+  **Υπεύθυνοι**:
 <% else %>
-  **<%= event.submitters&.first&.male? ? "Υπεύθυνος" : "Υπεύθυνη" %>**
-<% end %>:
+  **<%= event.submitters&.first&.male? ? "Υπεύθυνος" : "Υπεύθυνη" %>**:
+<% end %>
 
 <% event.submitters.each do |submi| %>
   * <%= submi.full_name %>, <%= submi.property %>
@@ -47,7 +47,6 @@
   * <%= time %>
 <% end %><% end %><%= '  ' %>
 <% if event.registration_required %>**Δηλώσεις Συμμετοχής**: [**<%= event.registration_email %>**](mailto:<%= event.registration_email %>)
-<% if event.registration_deadline %> μέχρι **<%= I18n.l event.registration_deadline.to_date, format: :tiny, locale: :el %>**<% end %>
 <%- end %>
 
 ---------------

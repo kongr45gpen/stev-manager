@@ -18,7 +18,7 @@ ActiveAdmin.register ProfessorWeek::Event do
                  :position,
                  :collaborator_count, :student_count, :volunteer_count,
                  :date_repetition_count, :date_repetition_other, :date_duration, :date_start, :date_duration_total, :date_dates => [],
-                 submitters_attributes: %i[id surname name phone email phone_other lab sector hidden],
+                 submitters_attributes: %i[id surname name phone email phone_other lab sector hidden property school faculty],
                  repetitions_attributes: %i[id date duration _destroy]
                  ]
     permitted
@@ -76,7 +76,7 @@ ActiveAdmin.register ProfessorWeek::Event do
         column do
           f.inputs do
             f.input :id, input_html: { disabled: true }
-            f.input :title, hint: I18n.t(:useful_symbols) + ": - – — “ ” « »"
+            f.input :title, as: :text, input_html: { rows: 1 }, hint: I18n.t(:useful_symbols) + ": - – — “ ” « »"
             f.input :organiser, input_html: { rows: 1 }
             f.input :space, input_html: { rows: 1 }
           end
