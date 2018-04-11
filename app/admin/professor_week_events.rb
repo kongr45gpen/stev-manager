@@ -12,7 +12,7 @@ ActiveAdmin.register ProfessorWeek::Event do
 #   permitted
 # end
   permit_params do
-    permitted = [:title, :kind, :space_id, :status, :scheduled, :hidden, :ages, :organiser,
+    permitted = [:title, :kind, :space, :status, :scheduled, :hidden, :ages, :organiser,
                  :registration_required, :registration_email, :registration_deadline,
                  :details_costs, :details_dates, :description, :abstract,
                  :collaborator_count, :student_count, :volunteer_count,
@@ -38,7 +38,7 @@ ActiveAdmin.register ProfessorWeek::Event do
     actions
   end
 
-  includes :space, :submitters, :repetitions
+  includes :submitters, :repetitions
 
   sidebar :repetitions, only: %i[show edit] do
     resource.repetitions.each do |repetition|
@@ -68,17 +68,6 @@ ActiveAdmin.register ProfessorWeek::Event do
     end
   end
 
-  sidebar :space, only: %i[show edit] do
-    attributes_table_for professor_week_event.space do
-      row(:name) { auto_link professor_week_event.space }
-      row :display
-      row 'Actions' do
-        a 'New', href: new_admin_space_path
-        a 'Edit', href: edit_admin_space_path(professor_week_event.space)
-      end
-    end
-  end
-
   form do |f|
     f.actions
     f.panel 'Information' do
@@ -88,7 +77,7 @@ ActiveAdmin.register ProfessorWeek::Event do
             f.input :id, input_html: { disabled: true }
             f.input :title
             f.input :organiser, input_html: { rows: 1 }
-            f.input :space
+            f.input :space, input_html: { rows: 1 }
           end
         end
         column do
