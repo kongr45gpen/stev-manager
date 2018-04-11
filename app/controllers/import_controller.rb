@@ -76,9 +76,16 @@ class ImportController < ApplicationController
   def process_pw_positions
     i = 0
     ProfessorWeek::Event.all.reject{|event| event.position.to_i.nonzero?}.sort_by(&:id).each do |event|
-      event.position = i
+      event.position = i*10
       event.save
       i += 1
+    end
+  end
+
+  def reset_pw_positions
+    ProfessorWeek::Event.all.each do |event|
+      event.position = 0
+      event.save
     end
   end
 

@@ -45,4 +45,5 @@ Rails.application.routes.draw do
   match '/import/process/pw/volunteers', to: 'import#upload_pw_volunteers', via: :post
   match '/import/process/pw/repetitions', to: 'import#process_pw_repetitions', via: :post
   match '/import/process/pw/positions', to: 'import#process_pw_positions', via: :post
+  match '/import/reset/pw/positions', to: 'import#reset_pw_positions', via: :post
 end
