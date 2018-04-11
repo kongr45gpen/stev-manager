@@ -29,6 +29,10 @@ class EventsController < ApplicationController
     @events = sort_events Event.all, false
   end
 
+  def places_pw
+    @events = ProfessorWeek::Event.all
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

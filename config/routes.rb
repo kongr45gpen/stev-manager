@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'events/export'
-
   devise_for :users, ActiveAdmin::Devise.config
 
   get 'landing/index'
@@ -14,6 +12,8 @@ Rails.application.routes.draw do
   resources :events, only: [:index]
   get '/events/stats'
   get '/events/pw', to: 'events#index_pw'
+  get '/events/export'
+  get '/events/pw/places', to: 'events#places_pw'
 
   get '/volunteers', to: 'volunteers#index'
   get '/volunteers/export'
