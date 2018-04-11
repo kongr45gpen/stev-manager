@@ -30,7 +30,7 @@
 <% end %>
 
 <% event.submitters.each do |submi| %>
-  * <%= submi.full_name %>, <%= submi.property %>
+  * <%= submi.full_name %>, <%= submi.property.gsub(/Αν[α|ά]πλ\./, 'Αν.') %>
 <% end %><%= '  ' %><% end %>
 **Τόπος**: <%= event.space %><%= '  ' %>
 **Διάρκεια**: <%= event.date_duration %>'<%= '  ' %>
