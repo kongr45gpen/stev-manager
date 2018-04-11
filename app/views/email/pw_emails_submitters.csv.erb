@@ -1,0 +1,25 @@
+<%=
+  CSV.generate(headers: true) do |csv|
+    csv << [:email, :stev_id, :stev_class, :name, 'Foreign Key']
+
+    $instance = Settings.instance_slug + ' ' if Settings.instance_slug
+
+    ProfessorWeek::Event.all.each do |event|
+      event.submitters.each do |submitter|
+        emails = submitter.email&.split(/[\,\/]/) || []
+
+        emails.each_with_index do |email, idx|
+          $id_string = emails.many? ? ' ' + idx.to_s : nil
+
+          csv << [
+              email,
+              submitter.id,
+              submitter.class.name,
+              submitter.full_name,
+              $instance.to_s + submitter.class.name + ' ' + submitter.id.to_s + $id_string.to_s
+          ]
+        end
+      end
+    end
+  end
+%>
