@@ -204,6 +204,15 @@ module EventsHelper
 
     props
   end
+
+  def get_interval(event)
+    daily_repetitions = event.repetitions.group_by{|rep| rep.date.to_date}&.first&.second || []
+    if daily_repetitions.size <= 1
+      0
+    else
+      (daily_repetitions[1].date.to_time - daily_repetitions[0].date.to_time) / 60 - (event.date_duration || 0)
+    end
+  end
 end
 
 class String

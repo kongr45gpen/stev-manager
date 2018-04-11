@@ -34,9 +34,14 @@
 **Ημερομηνίες διεξαγωγής**: <%= event.date_dates_dates.map{ |date| I18n.l date, format: :quick, locale: :el }.join(', ') %><%= '  ' %>
 **Ώρες έναρξης της δράσης**:
 
+<% if (event.repetitions.group_by{|rep| rep.date.to_date}.first&.second&.size || 0) >= 7 %>
+<% repetitions = event.repetitions.sort_by(&:date) %>
+<%= I18n.l repetitions.first.date.to_time, format: :sched, locale: :el %> – <%= I18n.l (repetitions.last.date.to_time + (event.date_duration&.minutes || 0)), format: :sched, locale: :el %>
+κάθε <%= ((event&.date_duration || 0) + get_interval(event)).round %>'
+<% else %>
 <% event.repetitions.group_by{|repet| I18n.l repet.date.to_time, format: :sched, locale: :el }.each do |time, repet| %>
   * <%= time %>
-<% end %><%= '  ' %>
+<% end %><% end %><%= '  ' %>
 <% if event.registration_required %>**Δηλώσεις Συμμετοχής**: [**<%= event.registration_email %>**](mailto:<%= event.registration_email %>)
 <% if event.registration_deadline %> μέχρι **<%= I18n.l event.registration_deadline.to_date, format: :tiny, locale: :el %>**<% end %>
 <%- end %>
