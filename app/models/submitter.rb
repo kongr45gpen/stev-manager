@@ -7,4 +7,8 @@ class Submitter < ApplicationRecord
     def full_name
         surname.to_s + ' ' + name.to_s
     end
+
+    def male?
+        name[-1] == "ς" or name[-1] == "λ"
+    end
 end
