@@ -75,7 +75,7 @@ ActiveAdmin.register ProfessorWeek::Event do
         column do
           f.inputs do
             f.input :id, input_html: { disabled: true }
-            f.input :title
+            f.input :title, hint: I18n.t(:useful_symbols) + ": - – — “ ” « »"
             f.input :organiser, input_html: { rows: 1 }
             f.input :space, input_html: { rows: 1 }
           end
