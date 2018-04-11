@@ -50,9 +50,10 @@ class ImportController < ApplicationController
 
       # Do not trust date_repetition_count
       repetition_count = ((event.date_duration_total.presence || 0) / (event.date_duration&.nonzero? || 1)).floor
+      interval = (event.date_duration_total.to_f - event.date_duration.to_f * repetition_count) / ((repetition_count - 1).nonzero? || 1)
       event.date_dates_dates.each do |d|
         (1..repetition_count).each do |r|
-          time = event.date_start + (r-1) * event.date_duration_total.minutes / repetition_count
+          time = event.date_start + (r-1) * ((event.date_duration_total + interval) / repetition_count).minutes
 
           repetition = ProfessorWeek::Repetition.new(
             date: DateTime.new(d.year, d.month, d.day, time.hour, time.min, time.sec),
@@ -63,6 +64,12 @@ class ImportController < ApplicationController
           repetition.save
         end
       end
+
+      unless event.space&.empty?
+        event.space = event.details_space
+      end
+
+      event.save
     end
   end
 
