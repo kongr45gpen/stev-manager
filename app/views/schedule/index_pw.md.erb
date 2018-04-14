@@ -32,8 +32,8 @@
 <% event.submitters.each do |submi| %>
   * <%= submi.full_name %>, <%= submi.property.gsub(/Αν[α|ά]πλ\./, 'Αν.') %>
 <% end %><%= '  ' %><% end %>
-**Τόπος**: <%= event.space %><%= '  ' %>
-**Διάρκεια**: <%= event.date_duration %>'<%= '  ' %>
+**Τόπος**: <%= event.space %><%= '  ' %><% unless event.date_duration.to_s.blank? %>
+**Διάρκεια**: <%= event.date_duration %>'<%= '  ' %><% end %>
 **Ηλικίες που απευθύνεται**: <%= event.ages.to_s.gsub(/[[:digit:]]+/, '**\0**') %><%= '  ' %>
 **<%= dates_only.many? ? "Ημερομηνίες" : "Ημερομηνία" %> διεξαγωγής**: <%= dates_only.join(', ') %><%= '  ' %>
 **<%= (event.repetitions.group_by{|rep| rep.date.to_date}.first&.second&.size || 0) != 1 ? "Ώρες" : "Ώρα" %> έναρξης της δράσης**:
@@ -46,7 +46,7 @@
 <% event.repetitions.group_by{|repet| I18n.l repet.date.to_time, format: :sched, locale: :el }.each do |time, repet| %>
   * <%= time %>
 <% end %><% end %><%= '  ' %>
-<% if event.registration_required %>**Δηλώσεις Συμμετοχής**: [**<%= event.registration_email %>**](mailto:<%= event.registration_email %>)
+<% if event.registration_required %>**Δήλωση Συμμετοχής (απαιτείται)**: <%= event.registration_email %>
 <%- end %>
 
 ---------------
