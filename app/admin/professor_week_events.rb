@@ -12,8 +12,8 @@ ActiveAdmin.register ProfessorWeek::Event do
 #   permitted
 # end
   permit_params do
-    permitted = [:title, :kind, :space, :status, :scheduled, :hidden, :ages, :organiser,
-                 :registration_required, :registration_email, :registration_deadline,
+    permitted = [:title, :kind, :space, :status, :scheduled, :hidden, :ages, :organiser, :fields,
+                 :registration_required, :registration_email, :registration_deadline, :registration_max,
                  :details_costs, :details_dates, :description, :abstract,
                  :position,
                  :collaborator_count, :student_count, :volunteer_count,

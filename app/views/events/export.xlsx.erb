@@ -3,14 +3,23 @@
   wb = p.workbook
 
   wb.styles do |s|
-    $green = s.add_style :bg_color => "22FF99", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true}
-    $red = s.add_style :bg_color => "DD3311", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
-    $yellow = s.add_style :bg_color => "EEEE55", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
-    $orange = s.add_style :bg_color => "EEAA55", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
-    $white = s.add_style :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
-    $black = s.add_style :bg_color => "00", :fg_color => "FF", :sz => 14, :alignment => { :horizontal=> :center }, :border => { :style => :thin, :color => "CC" }
-    $blue =  s.add_style  :bg_color => "0000FF", :fg_color => "FF", :sz => 20, :alignment => { :horizontal=> :center }
+
+    if not @formal
+        $green = s.add_style :bg_color => "22FF99", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true}
+        $red = s.add_style :bg_color => "DD3311", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+        $yellow = s.add_style :bg_color => "EEEE55", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+        $orange = s.add_style :bg_color => "EEAA55", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+        $white = s.add_style :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+        $blue =  s.add_style  :bg_color => "0000FF", :fg_color => "FF", :sz => 20, :alignment => { :horizontal=> :center }
+    else
+        $green = $red = $yellow = $orange = $white = $blue = s.add_style :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+        $orange = s.add_style :bg_color => "FFEECC", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+        $red    = s.add_style :bg_color => "FFEEEE", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+        $cyan   = s.add_style :bg_color => "E0EEFF", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+    end
+
     $bold = s.add_style :b => true
+    $black = s.add_style :bg_color => "00", :fg_color => "FF", :sz => 14, :alignment => { :horizontal=> :center }, :border => { :style => :thin, :color => "CC" }
     $very_bold = s.add_style :sz => 14, :b => true
     $align_left = s.add_style :alignment => { :horizontal => :left }
     $wrap_text = s.add_style :alignment => { :horizontal => :left, :wrap_text => true}
@@ -30,62 +39,112 @@
 
 
     wb.add_worksheet(:name => Settings.schedule.title.truncate(27)) do |sheet|
-      sheet.add_row ["ID", "Δημιουργός", "E-Mail", "Τηλέφωνο",
-       "Τίτλος Δράσης", "Ομάδα", "Είδος", "Άλλο", "Ημερομηνίες", "Χώρος", "30 λέξεις"], :style => $black
+      if not @formal
+          sheet.add_row ["ID", "Δημιουργός", "E-Mail", "Τηλέφωνο",
+           "Τίτλος Δράσης", "Ομάδα", "Είδος", "Άλλο", "Ημερομηνίες", "Χώρος", "30 λέξεις"], :style => $black
 
-      @events.each do |event|
-        if not event.hidden?
-          style = $white
-          if event.cancelled?
-            style = $red
-          elsif event.pending?
-            style = $orange
-          elsif event.scheduling?
-            style = $yellow
-          elsif event.confirmed?
-            style = $green
+          @events.each do |event|
+            if not event.hidden?
+            style = $white
+            if event.cancelled?
+              style = $red
+            elsif event.pending?
+              style = $orange
+            elsif event.scheduling?
+                style = $yellow
+              elsif event.confirmed?
+                style = $green
+              end
+
+              row = []
+              row.push [event.id, style]
+              row.push [event.submitter&.full_name, style]
+              row.push [event.submitter&.email, style]
+              row.push [event.submitter&.phone.to_s, style]
+              row.push [event.title, style]
+              row.push format_property(event.team, event)
+              row.push [I18n.t(event.kind.presence || :other), style]
+              row.push [event.other&.strip, style]
+              row.push [format_event_repetitions(event, active: true), (($red if event.no_schedule?) or ($yellow if event.pending_schedule?) or ($green if event.scheduled?) or $white)]
+              row.push format_property(event.sanitized_space&.name, event)
+              row.push format_property(event.abstract&.strip, event)
+    
+              sheet.add_row row.map(&:first), style: row.map(&:second), :height => 32
+    
+              # Title
+              sheet.rows.last.cells[4].b = true
+            end
+          end
+    
+          # Phone number
+          sheet.column_info[3].width = 20
+    
+          # Title
+          sheet.column_info[4].width = 40
+    
+          # Team
+          sheet.column_info[5].width = 35
+    
+          # Other
+          sheet.column_info[7].width = 30
+    
+          # Dates
+          sheet.column_info[8].width = 25
+    
+          # Space
+          sheet.column_info[9].width = 25
+    
+          # Abstract
+          sheet.column_info[10].width = 50
+        else
+          sheet.add_row ["Υπεύθυνος", "E-Mail", "Τηλέφωνο",
+           "Τίτλος Δράσης", "Ομάδα", "Είδος", "Ημερομηνίες", "Χώρος", "Περιγραφή"], :style => $black
+
+          @events.each do |event|
+            if not event.hidden?
+            style = $white
+            rt = Axlsx::RichText.new
+            repetitions = format_event_repetitions(event,active:true).scan(/[0-9\:\/]+|[^0-9\:\/]+/).each_with_index{ |str,idx| rt.add_run(str, b: idx.odd?)}
+
+              row = []
+              row.push [event.submitter&.full_name, $green]
+              row.push [event.submitter&.email, $green]
+              row.push [event.submitter&.phone.to_s, $green]
+              row.push [event.title, $cyan]
+              row.push [event.team, $cyan]
+              row.push [I18n.t(event.kind.presence || :other), style]
+              row.push [rt, $orange]
+              row.push [event.sanitized_space&.name, $red]
+              row.push format_property(event.abstract&.strip, event)
+    
+              sheet.add_row row.map(&:first), style: row.map(&:second), :height => 40
+    
+              # Title
+              sheet.rows.last.cells[3].b = true
+            end
           end
 
-          row = []
-          row.push [event.id, style]
-          row.push [event.submitter&.full_name, style]
-          row.push [event.submitter&.email, style]
-          row.push [event.submitter&.phone.to_s, style]
-          row.push [event.title, style]
-          row.push format_property(event.team, event)
-          row.push [I18n.t(event.kind.presence || :other), style]
-          row.push [event.other&.strip, style]
-          row.push [format_event_repetitions(event, active: true), (($red if event.no_schedule?) or ($yellow if event.pending_schedule?) or ($green if event.scheduled?) or $white)]
-          row.push format_property(event.sanitized_space&.name, event)
-          row.push format_property(event.abstract&.strip, event)
-
-          sheet.add_row row.map(&:first), style: row.map(&:second), :height => 32
-
+          # Contact person
+          sheet.column_info[0].width = 32
+    
+          # Phone number
+          sheet.column_info[2].width = 20
+    
           # Title
-          sheet.rows.last.cells[4].b = true
+          sheet.column_info[3].width = 55
+    
+          # Team
+          sheet.column_info[4].width = 42
+    
+          # Dates
+          sheet.column_info[6].width = 25
+    
+          # Space
+          sheet.column_info[7].width = 25
+    
+          # Abstract
+          sheet.column_info[8].width = 70
         end
-      end
-
-      # Phone number
-      sheet.column_info[3].width = 20
-
-      # Title
-      sheet.column_info[4].width = 40
-
-      # Team
-      sheet.column_info[5].width = 35
-
-      # Other
-      sheet.column_info[7].width = 30
-
-      # Dates
-      sheet.column_info[8].width = 25
-
-      # Space
-      sheet.column_info[9].width = 25
-
-      # Abstract
-      sheet.column_info[10].width = 50
     end
   end
 

@@ -27,6 +27,10 @@ class EventsController < ApplicationController
 
   def export
     @events = sort_events Event.all, false
+    @formal = params[:final]
+  end
+
+  def export_pw
   end
 
   def places_pw

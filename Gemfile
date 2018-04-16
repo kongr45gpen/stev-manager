@@ -85,4 +85,4 @@ gem 'pandoc-ruby'
 gem "activeadmin_addons", "~> 1.4"
 
 # Added at 2018-03-26 10:02:12 +0300 by kongr45gpen:
-gem "axlsx", "~> 2.0"
+gem "axlsx", "~> 3.0.0.pre"

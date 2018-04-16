@@ -24,12 +24,12 @@
 **Σύντομη περιγραφή**: <%= event.abstract.to_s.strip %><%= '  ' %>
 **Διοργάνωση**: <%= event.sanitized_organiser %><%= '  ' %><% if event.active_submitters.any? %>
 <% if event.active_submitters.many? %>
-  **Υπεύθυνοι**:
+  **<%= event.active_submitters&.none?(&:male?) ? "Υπεύθυνες" : "Υπεύθυνοι" %>**:
 <% else %>
-  **<%= event.submitters&.first&.male? ? "Υπεύθυνος" : "Υπεύθυνη" %>**:
+  **<%= event.active_submitters&.first&.male? ? "Υπεύθυνος" : "Υπεύθυνη" %>**:
 <% end %>
 
-<% event.submitters.each do |submi| %>
+<% event.active_submitters.each do |submi| %>
   * <%= submi.full_name %>, <%= submi.property.gsub(/Αν[α|ά]πλ\./, 'Αν.') %>
 <% end %><%= '  ' %><% end %>
 **Τόπος**: <%= event.space %><%= '  ' %><% unless event.date_duration.to_s.blank? %>
