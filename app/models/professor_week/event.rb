@@ -34,6 +34,23 @@ class ProfessorWeek::Event < ApplicationRecord
     submitters.reject(&:hidden?)
   end
 
+  def repetitions_by_dates
+    repetitions.group_by{|rep| rep.date.to_date}
+  end
+
+  def repetition_dates
+    repetitions_by_dates.map(&:first)
+  end
+
+  def repetitions_by_times
+    repetitions.group_by{|rep| rep.date.to_time}
+  end
+
+  def repetition_times
+    repetitions_by_times.map(&:first)
+  end
+
+
   def sanitized_organiser
     if organiser.to_s.blank?
       lab = submitters.group_by{|sub| sub.lab}.map(&:first).reject{|val| val.to_s.empty?}

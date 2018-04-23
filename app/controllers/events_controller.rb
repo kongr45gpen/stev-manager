@@ -30,7 +30,23 @@ class EventsController < ApplicationController
     @formal = params[:final]
   end
 
-  def export_pw
+  def export_pw   
+    events = ProfessorWeek::Event.all
+    if params[:separate]
+        @separate = true
+        @events = {}
+        events.each do |event|
+            event.date_dates_dates.each do |date|
+                @events[date] = [] if @events[date].nil?
+                @events[date].push event
+            end
+        end
+
+        @events = @events.sort.to_h.map{|k,v| [I18n.l(k,format: :sched,locale: :el), v]}
+    else
+        @separate = false
+        @events = { Settings.schedule.title.truncate(27) => events }
+    end
   end
 
   def places_pw

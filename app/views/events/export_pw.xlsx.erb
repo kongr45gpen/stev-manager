@@ -1,0 +1,66 @@
+<%=
+  p = Axlsx::Package.new
+  wb = p.workbook
+
+  wb.styles do |s|
+    $green = $red = $yellow = $orange = $white = $blue = s.add_style :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+    $orange = s.add_style :bg_color => "FFEECC", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+    $red    = s.add_style :bg_color => "FFEEEE", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+    $cyan   = s.add_style :bg_color => "E0EEFF", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+    $green  = s.add_style :bg_color => "FAEFFF", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+    $bold = s.add_style :b => true
+    $black = s.add_style :bg_color => "00", :fg_color => "FF", :sz => 14, :alignment => { :horizontal=> :center }, :border => { :style => :thin, :color => "CC" }
+    $very_bold = s.add_style :sz => 14, :b => true
+    $align_left = s.add_style :alignment => { :horizontal => :left }
+    $wrap_text = s.add_style :alignment => { :horizontal => :left, :wrap_text => true}
+
+    def format_property(property, event = nil)
+      property = property.to_s
+      if property.blank?
+        style = $orange
+      elsif event.fresh?
+        style = $white
+      else
+        style = $green
+      end
+
+      [property, style]
+    end
+
+    @events.each do |events|
+    wb.add_worksheet(:name => events.first) do |sheet|
+          sheet.add_row ["ID", "Υπεύθυνοι", "Τίτλος Δράσης", "Ημερομηνίες", "Ώρες", "Χώρος", "Σύντομη περιγραφή"
+           ], :style => $black
+
+          events.second.each do |event|
+            if not event.hidden?
+              style = $white
+
+              row = []
+              row.push [event.id, style]
+              row.push [event.active_submitters.map{|su| "%s (%s, %s), %s" % [su.full_name,su.property,su.school,su.email]}.join("\n"), style]
+              row.push [event.title, $cyan]
+              row.push [event.repetition_dates.map{ |date| I18n.l date, format: :tiny,  locale: :el }.join(', '), style]
+              row.push [event.repetition_times.map{ |time| I18n.l time, format: :sched, locale: :el }.uniq.join(', '), style]
+              row.push [event.space, $green]
+              row.push [event.abstract, style]
+    
+              sheet.add_row row.map(&:first), style: row.map(&:second), :height => 50
+    
+              # Title
+              sheet.rows.last.cells[2].b = true
+            end
+          end
+
+          sheet.column_info[1].width = 65
+          sheet.column_info[2].width = 80
+          sheet.column_info[3].width = 10
+          sheet.column_info[4].width = 10
+          sheet.column_info[5].width = 40
+          sheet.column_info[6].width = 85
+    end
+  end
+  end
+
+  raw p.to_stream.string
+  %>
