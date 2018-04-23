@@ -1,11 +1,12 @@
 <%= bootstrap_form_tag(url: email_path) do |f| %>
 
 <p>
-  <a class="btn btn-default" href="<%= email_sw_volunteers_path format: :csv %>"><%= t :student_week %> e-mails</a>
-  <a class="btn btn-default" href="<%= email_sw_submitters_path format: :csv %>"><%= t :student_week %> submitter e-mails</a>
+  <a class="btn btn-default" href="<%= email_sw_volunteers_path format: :csv %>"><%= t :student_week %> <% t :volunteer %> e-mails</a>
+  <a class="btn btn-default" href="<%= email_sw_submitters_path format: :csv %>"><%= t :student_week %> <% t :submitter %> e-mails</a>
 </p>
   <p>
-    <a class="btn btn-default" href="<%= email_pw_submitters_path format: :csv %>"><%= t :professor_week %> submitter e-mails</a>
+    <a class="btn btn-default" href="<%= email_pw_volunteers_path format: :csv %>"><%= t :professor_week %> <% t :volunteer %> e-mails</a>
+    <a class="btn btn-default" href="<%= email_pw_submitters_path format: :csv %>"><%= t :professor_week %> <% t :submitter %> e-mails</a>
   </p>
 
 <dl class="dl-horizontal">

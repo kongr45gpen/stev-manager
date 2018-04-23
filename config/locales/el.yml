@@ -94,6 +94,8 @@ el:
   download_in_excel: "Λήψη σε Excel"
   organiser: "Διοργάνωση"
   position: "Θέση"
+  volunteer: "Εθελοντής"
+  submitter: "Υπεύθυνος"
   words:
     zero: "-"
     one: "%{count} λέξη"

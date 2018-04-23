@@ -8,6 +8,9 @@ class EmailController < ApplicationController
   def sw_emails
   end
 
+  def pw_emails
+  end
+
   def sw_emails_submitters
   end
 

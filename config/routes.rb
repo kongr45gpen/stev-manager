@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/events/pw', to: 'events#index_pw'
   get '/events/export'
   get '/events/pw/places', to: 'events#places_pw'
+  get '/events/pw/export', to: 'events#export_pw'
 
   get '/volunteers', to: 'volunteers#index'
   get '/volunteers/export'
@@ -23,6 +24,7 @@ Rails.application.routes.draw do
   get '/email', to: 'email#index'
   match '/email', to: 'email#procmails', via: :post
   get '/email/sw/volunteers', to: 'email#sw_emails'
+  get '/email/pw/volunteers', to: 'email#pw_emails'
   get '/email/sw/submitters', to: 'email#sw_emails_submitters'
   get '/email/pw/submitters', to: 'email#pw_emails_submitters'
 
