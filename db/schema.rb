@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180411140206) do
+ActiveRecord::Schema.define(version: 20180425114746) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -69,6 +69,18 @@ ActiveRecord::Schema.define(version: 20180411140206) do
     t.integer  "space_id"
     t.index ["space_id"], name: "index_events_on_space_id"
     t.index ["submitter_id"], name: "index_events_on_submitter_id"
+  end
+
+  create_table "form_submissions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "form"
+    t.text     "payload"
+    t.integer  "audit_id"
+    t.string   "ip_address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["audit_id"], name: "index_form_submissions_on_audit_id"
+    t.index ["user_id"], name: "index_form_submissions_on_user_id"
   end
 
   create_table "professor_week_events", force: :cascade do |t|
@@ -136,8 +148,9 @@ ActiveRecord::Schema.define(version: 20180411140206) do
     t.boolean  "updates"
     t.integer  "gender"
     t.boolean  "joined"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.text     "available_dates"
   end
 
   create_table "properties", force: :cascade do |t|

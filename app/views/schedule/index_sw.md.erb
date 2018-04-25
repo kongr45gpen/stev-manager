@@ -1,0 +1,6 @@
+Τελευταία ενημέρωση: <%= I18n.l DateTime.now, locale: :el %> (#<%= Audited::Audit.last.id %>)
+
+<% if Settings.schedule.draft %>
+**Πρόχειρο**
+<% end %>
+

@@ -22,3 +22,7 @@ email:
   default_to: ~
 professor_week_event_dates: [ '2018-05-06', '2018-05-13', '2018-05-20' ]
 instance_slug: awesome_event
+professor_week_student_times:
+  - "09:00 - 11:00"
+  - "11:00 - 13:00"
+  - "15:00 - 21:00"

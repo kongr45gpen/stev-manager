@@ -95,7 +95,12 @@ el:
   organiser: "Διοργάνωση"
   position: "Θέση"
   volunteer: "Εθελοντής"
+  volunteers: "Εθελοντές"
   submitter: "Υπεύθυνος"
+  submitters: "Υπεύθυνοι"
+  availability_dates: "Ημερομηνίες Διαθεσιμότητας"
+  full_name: "Ονοματεπώνυμο"
+  error: "Προσοχή"
   words:
     zero: "-"
     one: "%{count} λέξη"

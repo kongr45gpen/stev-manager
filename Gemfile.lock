@@ -145,6 +145,7 @@ GEM
     gem_config (0.3.1)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    greeklish (0.0.2)
     has_scope (0.7.2)
       actionpack (>= 4.1)
       activesupport (>= 4.1)
@@ -321,6 +322,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   config
   devise
+  greeklish (~> 0.0.2)
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)

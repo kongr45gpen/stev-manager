@@ -39,6 +39,8 @@ Rails.application.routes.draw do
 
   get 'surveys', to: 'surveys#index'
   get 'surveys/dates'
+  post 'surveys/dates', to: 'surveys#dates_process'
+  get 'surveys/thanks'
 
   get '/import', to: 'import#index'
   match '/import/process', to: 'import#upload', via: :post

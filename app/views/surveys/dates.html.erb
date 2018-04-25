@@ -1,32 +1,66 @@
-<h2>Test</h2>
+<h2><%= t :availability_dates %></h2>
+
+<% @errors.each do |error| %>
+  <div class="alert alert-danger"><strong><%= t :error %></strong>! <%= error %></div>
+<% end %>
 
 <%= bootstrap_form_tag do |f| %>
-  <%= f.text_field 'Ονοματεπώνυμο' %>
+  <%= f.text_field :full_name, label: I18n.t(:full_name) %>
 
-  <p>
-  <b>Ποιές Κυριακές είστε διαθέσιμοι;</b>
-  <%= f.form_group :may_6, label: {text: "6 Μαΐου"} do %>
-    <%= f.check_box :may_6_0, label: "09:00-10:00", inline: true %>
-    <%= f.check_box :may_6_1, label: "11:00-12:00", inline: true %>
-    <%= f.check_box :may_6_2, label: "13:00-14:00", inline: true %>
-  <% end %>  <%= f.form_group :may_13, label: {text: "13 Μαΐου"} do %>
-    <%= f.check_box :may_13_0, label: "09:00-10:00", inline: true %>
-    <%= f.check_box :may_13_1, label: "11:00-12:00", inline: true %>
-    <%= f.check_box :may_13_2, label: "13:00-14:00", inline: true %>
-  <% end %>  <%= f.form_group :may_20, label: {text: "20 Μαΐου"} do %>
-    <%= f.check_box :may_20_0, label: "09:00-10:00", inline: true %>
-    <%= f.check_box :may_20_1, label: "11:00-12:00", inline: true %>
-    <%= f.check_box :may_20_2, label: "13:00-14:00", inline: true %>
-  <% end %>
-  <% f.check_box :nope, label: "Δεν είμαι διαθέσιμος καμία Κυριακή" %>
-  </p>
+  <div>
+    <b>Ποιές Κυριακές είστε διαθέσιμοι;</b>
+    <table class="table table-striped table-useful">
+      <thead>
+      <tr>
+        <th></th>
+        <% Settings.professor_week_event_dates.each do |date| %>
+          <th><%= I18n.l date.to_date, format: :day %></th>
+        <% end %>
+      </tr>
+      </thead>
+      <tbody>
+      <% Settings.professor_week_student_times.each do |time| %>
+        <tr>
+          <th><%= time %></th>
+          <% Settings.professor_week_event_dates.each do |date| %>
+            <td>
+              <div class="styled-input-single styled-input--square"
+                   title="<%= I18n.l date.to_date, format: :day %> <%= time %>"
+              >
+                <input type="checkbox"
+                       name="availability-<%= date + '-' + time %>"
+                       id="checkbox-<%= time + '-' + date %>"
+                >
+                <label for="checkbox-<%= time + '-' + date %>"></label>
+              </div>
+            </td>
+          <% end %>
+      <% end %>
+      </tr>
+      </tbody>
+    </table>
 
-  <p>
-  <%= f.form_group :promotion, label: {text: "Επιθυμείτε να συμμετάσχετε στην προώθηση;"} do %>
-    <%= f.radio_button :promotion, 0, label: "Ναι" %>
-    <%= f.radio_button :promotion, 1, label: "Όχι", inline: true %>
-  <% end %>
-  </p>
+    <div class="styled-input-single styled-input--square styled-input--red">
+      <input type="checkbox"
+             name="not_available"
+             id="checkbox-not-available"
+      >
+      <label class="pad" for="checkbox-not-available">Δεν είμαι διαθέσιμος/η καμία Κυριακή.</label>
+    </div>
+  </div>
+
+  <div class="flat-checkbox">
+    <label for="preparation"><span class="ui">Επιθυμείτε να συμμετάσχετε στην προετοιμασία
+    και την προώθηση του <%= t :professor_week %>;</span><br>
+      <small class="text-muted">(και εκτός των Κυριακών που έχετε δηλώσει παραπάνω)</small>
+    </label>
+    <br>
+    <input type="checkbox" name="preparation" id="preparation"/><label for="preparation"><span class="ui"></span></label>
+    <p class="text-muted"><br></p>
+  </div>
+
+  <p><br></p>
+
 
   <%= f.submit "Υποβολή", class: "btn btn-primary" %>
 <% end %>

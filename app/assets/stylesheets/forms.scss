@@ -1,0 +1,25 @@
+// Place all the styles related to the Forms controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "styled_input";
+@import "flat_ui";
+
+
+
+
+table.table-useful {
+  width: auto;
+
+  tr {
+    th,td {
+      vertical-align: middle !important;
+      text-align: center !important;
+    }
+  }
+}
+
+
+label.pad, span.pad {
+  padding-left: 1em;
+}

@@ -4,4 +4,8 @@ class User < ApplicationRecord
   # :registerable, :recoverable, :validatable
   devise :database_authenticatable,
          :rememberable, :trackable
+
+  def to_s
+    '#' + id.to_s + ': ' + email
+  end
 end
