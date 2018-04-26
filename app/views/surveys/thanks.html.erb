@@ -1,5 +1,33 @@
+<% require 'date_time_with_duration' %>
+
 <div class="alert alert-success" role="alert">
   <p>Σας ευχαριστούμε για την υποβολή!</p>
 
   <p>Σε περίπτωση που επιθυμείτε κάποια αλλαγή, παρακαλούμε συμπληρώστε ξανά τη φόρμα.</p>
 </div>
+
+<p>Έχετε υποβάλει τα παρακάτω στοιχεία:</p>
+
+<table class="table">
+  <% @submission.payload.each do |payload| %>
+    <% next if [:volunteers].include? payload.first %>
+    <tr>
+      <th><%= t 'form.' + payload.first.to_s %></th>
+
+      <td>
+      <% Array(payload.second).each do |content| %>
+        <% if content.is_a? DateTime %>
+            <% end_time = Settings.professor_week_student_times.select{|t|
+             I18n.l(content.to_time, format: :sched) == I18n.l(t.to_time, format: :sched)
+            }&.first&.split(/ +/)&.third %>
+          <p><%= I18n.l content %><% if end_time %> &mdash; <%= end_time %><% end %></p>
+            <% elsif content == false %>
+          <p><%= t :false %></p>
+            <% else %>
+        <p><%= content %></p>
+            <% end %>
+      <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>

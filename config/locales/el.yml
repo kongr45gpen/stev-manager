@@ -101,6 +101,13 @@ el:
   availability_dates: "Ημερομηνίες Διαθεσιμότητας"
   full_name: "Ονοματεπώνυμο"
   error: "Προσοχή"
+  false: "Όχι"
+  on: "Ναι"
+  form:
+    name: "Ονοματεπώνυμο"
+    availability: "Διαθεσιμότητα"
+    dates_available: "Διαθέσιμες Κυριακές"
+    preparation: "Συμμετοχή στην προετοιμασία"
   words:
     zero: "-"
     one: "%{count} λέξη"

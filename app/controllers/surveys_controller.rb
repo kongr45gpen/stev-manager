@@ -1,3 +1,5 @@
+require 'date_time_with_duration'
+
 class SurveysController < ApplicationController
   include SurveysHelper
   before_action :setup
@@ -24,7 +26,7 @@ class SurveysController < ApplicationController
     Settings.professor_week_event_dates.each do |date|
       Settings.professor_week_student_times.each do |time|
         if request.parameters['availability-' + date + '-' + time]
-          dates_available.push (date + ' ' + time).to_datetime
+          dates_available.push DateTimeWithDuration.parse_with_duration(date + ' ' + time)
         end
       end
     end
@@ -39,6 +41,7 @@ class SurveysController < ApplicationController
     end
 
     payload = {
+        name: request.parameters[:full_name],
         volunteers: volunteers,
         dates_available: dates_available,
         preparation: preparation
@@ -52,13 +55,14 @@ class SurveysController < ApplicationController
       audit = volunteers.first.audits.last
     end
 
-    FormSubmission.new(
+    @submission = FormSubmission.new(
                                    user: current_user,
                                    form: :dates,
                                    payload: payload,
                                    audit_id: audit&.id,
                                    ip_address: request.remote_ip
-    ).save
+    )
+    @submission.save
 
     render :thanks
   end
