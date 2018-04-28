@@ -34,6 +34,9 @@ class SurveysController < ApplicationController
     if dates_available.empty? and not not_available
       @errors.push "Δεν έχετε επιλέξει καμία Κυριακή."
     end
+    if not_available and not dates_available.empty?
+      @errors.push "Έχετε επιλέξει ότι δεν είστε διαθέσιμοι καμία Κυριακή, ενώ έχετε ενεργοποιήσει κάποιες ημερομηνίες!"
+    end
 
     if @errors.any?
       render :dates

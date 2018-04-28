@@ -22,7 +22,9 @@
             }&.first&.split(/ +/)&.third %>
           <p><%= I18n.l content %><% if end_time %> &mdash; <%= end_time %><% end %></p>
             <% elsif content == false %>
-          <p><%= t :false %></p>
+         <p>Όχι</p>
+           <% elsif content == "on" %>
+            <p>Ναι</p>
             <% else %>
         <p><%= content %></p>
             <% end %>

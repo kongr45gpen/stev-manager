@@ -7,6 +7,8 @@
 <%= bootstrap_form_tag do |f| %>
   <%= f.text_field :full_name, label: I18n.t(:full_name) %>
 
+  <p><br></p>
+
   <div>
     <b>Ποιές Κυριακές είστε διαθέσιμοι;</b>
     <table class="table table-striped table-useful">
@@ -49,8 +51,11 @@
     </div>
   </div>
 
+  <p><br></p>
+
+
   <div class="flat-checkbox">
-    <label for="preparation"><span class="ui">Επιθυμείτε να συμμετάσχετε στην προετοιμασία
+    <label for="preparation" style="font-size:inherit;"><span class="ui">Επιθυμείτε να συμμετάσχετε στην προετοιμασία
     και την προώθηση του <%= t :professor_week %>;</span><br>
       <span class="text">(και εκτός των Κυριακών που έχετε δηλώσει παραπάνω)</span>
     </label>
@@ -64,3 +69,5 @@
 
   <%= f.submit "Υποβολή", class: "btn btn-primary" %>
 <% end %>
+
+  <p><br></p>
