@@ -72,6 +72,21 @@ class SurveysController < ApplicationController
     @errors = []
   end
 
+  def results
+    authenticate_user!
+
+    if request.method == "POST"
+      submission = FormSubmission.find(params[:form_submission])
+
+      audit = dates_update_volunteer ProfessorWeek::Volunteer.find(params[:id]), submission.payload
+      submission.audited_audit = audit
+      submission.save
+    end
+
+    @survey = params[:survey]
+    @submissions = FormSubmission.where form: @survey
+  end
+
   private
   def dates_update_volunteer(volunteer, payload)
     volunteer.update_attributes!(

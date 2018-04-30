@@ -1,0 +1,70 @@
+<h1>Surveys#results</h1>
+
+<h3>Quick stats</h3>
+<p>Total submissions: <strong><%= @submissions.size %></strong></p>
+<p>Distinct submissions: <strong>
+  <%= @submissions.group_by {|s| s.audited_audit&.auditable}.size %>
+</strong></p>
+
+<% @submissions.each do |submission| %>
+  <div class="media">
+    <div class="media-left volunteer-icon">
+      <span>#<%= submission.id %></span>
+      <% if submission.audited_audit %>
+        <a href=""
+           class="label label-success">
+          Ok
+        </a>
+      <% else %>
+        <a class="label label-lg label-danger">
+          Failure
+        </a>
+      <% end %>
+    </div>
+    <div class="media-body">
+      <% if @survey == 'dates' %>
+        <!--        TODO: Move this into a partial-->
+        <h2 class="media-heading">
+          <%= submission.payload[:name] %>
+        </h2>
+        <p><strong>
+          <%= t 'form.dates_available' %>:
+        </strong>
+          <% submission.payload[:dates_available].each do |date| %>
+            <span class="label label-default"><%= date %></span>
+          <% end %></p>
+
+        <div class="row">
+          <div class="col-md-4">
+            <p>
+              <strong><%= t 'form.matched_volunteers' %></strong>
+              <span class="label <%= (submission.payload[:volunteers].one? && "label-success") || (submission.payload[:volunteers].empty? && "label-default") || "label-primary" %>">
+              <%= submission.payload[:volunteers].size %>
+            </span>
+            </p>
+            <p>
+              <strong><%= t 'form.preparation' %></strong>
+              <span class="label <%= submission.payload[:preparation] ? "label-primary" : "label-default" %>">
+              <%= submission.payload[:preparation] %>
+            </span>
+            </p>
+          </div>
+          <div class="list-group col-md-8">
+            <% submission.payload[:volunteers].each do |volun| %>
+              <%= link_to volun.full_name, edit_admin_professor_week_volunteer_path(volun), class: "list-group-item" %>
+            <% end %>
+          </div>
+        </div>
+
+        <% unless submission.audited_audit %>
+          <%= bootstrap_form_tag(layout: :inline) do |f| %>
+            Reassign to <%= t :volunteer %>:
+            <%= f.hidden_field :form_submission, value: submission.id %>
+            <%= f.text_field :id %>
+            <%= f.submit %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
