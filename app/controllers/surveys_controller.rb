@@ -53,9 +53,7 @@ class SurveysController < ApplicationController
     audit = nil
     if volunteers.one?
       # Only one volunteer. We have found a match!
-      volunteers.first.update_attributes!(available_dates: dates_available, audit_comment: "Form Submission: dates")
-      volunteers.first.save
-      audit = volunteers.first.audits.last
+      dates_update_volunteer volunteers.first, payload
     end
 
     @submission = FormSubmission.new(
@@ -72,5 +70,15 @@ class SurveysController < ApplicationController
 
   def setup
     @errors = []
+  end
+
+  private
+  def dates_update_volunteer(volunteer, payload)
+    volunteer.update_attributes!(
+        available_dates: payload[:dates_available],
+        audit_comment: "Form Submission: dates")
+    volunteer.save
+
+    volunteer.audits.last
   end
 end

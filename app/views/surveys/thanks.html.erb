@@ -15,20 +15,22 @@
       <th><%= t 'form.' + payload.first.to_s %></th>
 
       <td>
-      <% Array(payload.second).each do |content| %>
-        <% if content.is_a? DateTime %>
-            <% end_time = Settings.professor_week_student_times.select{|t|
-             I18n.l(content.to_time, format: :sched) == I18n.l(t.to_time, format: :sched)
+        <% Array(payload.second).each do |content| %>
+          <% if content.is_a? DateTime %>
+            <% end_time = Settings.professor_week_student_times.select {|t|
+              I18n.l(content.to_time, format: :sched) == I18n.l(t.to_time, format: :sched)
             }&.first&.split(/ +/)&.third %>
-          <p><%= I18n.l content %><% if end_time %> &mdash; <%= end_time %><% end %></p>
-            <% elsif content == false %>
-         <p>Όχι</p>
-           <% elsif content == "on" %>
+            <p><%= I18n.l content %>
+              <% if end_time %> &mdash; <%= end_time %>
+              <% end %></p>
+          <% elsif content == false %>
+            <p>Όχι</p>
+          <% elsif content == "on" %>
             <p>Ναι</p>
-            <% else %>
-        <p><%= content %></p>
-            <% end %>
-      <% end %>
+          <% else %>
+            <p><%= content %></p>
+          <% end %>
+        <% end %>
       </td>
     </tr>
   <% end %>

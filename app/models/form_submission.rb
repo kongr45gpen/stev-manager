@@ -1,6 +1,7 @@
 class FormSubmission < ApplicationRecord
   belongs_to :user
-  has_one :audit
+  belongs_to :audited_audit, class_name: "Audited::Audit"
+  audited
 
   serialize :payload
 end
