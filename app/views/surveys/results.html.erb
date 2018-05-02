@@ -10,7 +10,7 @@
 <% if @survey == 'dates' %>
   <dl class="dl-horizontal">
     <% ProfessorWeek::Volunteer.all.map(&:available_dates).flatten
-           .reduce({}) {|h, i| h[i] = h[i].to_i + 1; h}.each do |date| %>
+           .reduce({}) {|h, i| h[i] = h[i].to_i + 1; h}.sort.to_h.each do |date| %>
       <dt><%= l date.first.to_date, format: :sched %> <%= l date.first.to_time, format: :sched %></dt>
       <dd><%= date.second %></dd>
     <% end %>

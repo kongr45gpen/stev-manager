@@ -6,7 +6,7 @@ class ProfessorWeek::Volunteer < ApplicationRecord
 
   def available_dates
     # TODO: Fix this next year
-    self[:available_dates].scan(/([A-Za-z]{3}, \d+ [A-Za-z]{3} \d+ \d+:\d+:\d+ \+\d+)/).map(&:first).map(&:to_datetime)
+    self[:available_dates]&.scan(/([A-Za-z]{3}, \d+ [A-Za-z]{3} \d+ \d+:\d+:\d+ \+\d+)/)&.map(&:first)&.map(&:to_datetime) || []
   end
 
   def full_name
