@@ -6,6 +6,18 @@
   <%= @submissions.group_by {|s| s.audited_audit&.auditable}.size %>
 </strong></p>
 
+<h3>Survey Specific</h3>
+<% if @survey == 'dates' %>
+  <dl class="dl-horizontal">
+    <% ProfessorWeek::Volunteer.all.map(&:available_dates).flatten
+           .reduce({}) {|h, i| h[i] = h[i].to_i + 1; h}.each do |date| %>
+      <dt><%= l date.first.to_date, format: :sched %> <%= l date.first.to_time, format: :sched %></dt>
+      <dd><%= date.second %></dd>
+    <% end %>
+  </dl>
+<% end %>
+
+<h2>Submissions</h2>
 <% @submissions.each do |submission| %>
   <div class="media">
     <div class="media-left volunteer-icon">

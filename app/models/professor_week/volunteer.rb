@@ -2,6 +2,13 @@ class ProfessorWeek::Volunteer < ApplicationRecord
   audited
   enum gender: { other: 0, male: 1, female: 2 }
 
+  # serialize :available_dates
+
+  def available_dates
+    # TODO: Fix this next year
+    self[:available_dates].scan(/([A-Za-z]{3}, \d+ [A-Za-z]{3} \d+ \d+:\d+:\d+ \+\d+)/).map(&:first).map(&:to_datetime)
+  end
+
   def full_name
     surname.to_s + ' ' + name.to_s
   end
