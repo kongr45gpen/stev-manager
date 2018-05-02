@@ -3,7 +3,7 @@
 <h3>Quick stats</h3>
 <p>Total submissions: <strong><%= @submissions.size %></strong></p>
 <p>Distinct submissions: <strong>
-  <%= @submissions.group_by {|s| s.audited_audit&.auditable}.size %>
+  <%= $distinct = @submissions.group_by {|s| s.audited_audit&.auditable}.size %>
 </strong></p>
 
 <h3>Survey Specific</h3>
@@ -15,6 +15,11 @@
       <dd><%= date.second %></dd>
     <% end %>
   </dl>
+
+<p><strong><%= t 'form.preparation' %></strong>:
+    <% preparations = @submissions.group_by {|s| s.audited_audit&.auditable}.map(&:second).map(&:last).count{|f| f.payload[:preparation]} %>
+    <%= preparations %> <span class="text-muted">(<%= 100 * preparations/$distinct %>%)</span>
+</p>
 <% end %>
 
 <h2>Submissions</h2>
@@ -34,6 +39,7 @@
       <% end %>
     </div>
     <div class="media-body">
+      <small class="text-muted"><%= l submission.created_at.in_time_zone('Europe/Athens') %></small>
       <% if @survey == 'dates' %>
         <!--        TODO: Move this into a partial-->
         <h2 class="media-heading">

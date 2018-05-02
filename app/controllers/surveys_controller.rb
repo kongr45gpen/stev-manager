@@ -53,14 +53,14 @@ class SurveysController < ApplicationController
     audit = nil
     if volunteers.one?
       # Only one volunteer. We have found a match!
-      dates_update_volunteer volunteers.first, payload
+      audit = dates_update_volunteer volunteers.first, payload
     end
 
     @submission = FormSubmission.new(
                                    user: current_user,
                                    form: :dates,
                                    payload: payload,
-                                   audit_id: audit&.id,
+                                   audited_audit_id: audit&.id,
                                    ip_address: request.remote_ip
     )
     @submission.save
