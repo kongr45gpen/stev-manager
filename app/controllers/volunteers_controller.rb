@@ -26,8 +26,6 @@ class VolunteersController < ApplicationController
         end
       end
 
-      console
-
       @volunteers = @volunteers.sort.to_h.map{|k,v| [I18n.l(k,format: :sched,locale: :el), v.sort_by(&:surname).uniq]}
     else
       @separate = false

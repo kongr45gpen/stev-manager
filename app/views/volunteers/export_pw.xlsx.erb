@@ -20,6 +20,7 @@
                                  .flatten
                                  .uniq
                                  .select{|ad| I18n.l(ad.to_date,format: :sched,locale: :el) == volunteers.first}
+                                 .sort
                                  .map do |time|
           [time, Settings.professor_week_student_times.select {|t|
             I18n.l(time.to_time, format: :sched) == I18n.l(t.to_time, format: :sched)

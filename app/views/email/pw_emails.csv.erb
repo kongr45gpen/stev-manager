@@ -1,6 +1,6 @@
 <%=
   CSV.generate(headers: true) do |csv|
-    csv << %w{email stev_id stev_class name instance}
+    csv << %w{email stev_id stev_class name instance form_submitted}
 
     ProfessorWeek::Volunteer.all.each do |volunteer|
       csv << [
@@ -8,7 +8,8 @@
           volunteer.id,
           volunteer.class.name,
           volunteer.full_name,
-          Settings.instance_slug
+          Settings.instance_slug,
+          volunteer.available_dates&.present? ? true : false
       ]
     end
   end
