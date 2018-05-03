@@ -1,0 +1,55 @@
+<%=
+  p = Axlsx::Package.new
+  wb = p.workbook
+
+  wb.styles do |s|
+    $green = $red = $yellow = $orange = $white = $blue = s.add_style :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+    $orange = s.add_style :bg_color => "FFEECC", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+    $red    = s.add_style :bg_color => "FFEEEE", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+    $cyan   = s.add_style :bg_color => "E0EEFF", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+    $green  = s.add_style :bg_color => "FAEFFF", :border => { :style => :thin, :color => "00" }, :alignment => { :horizontal => :left, :wrap_text => true }
+    $bold = s.add_style :b => true
+    $black = s.add_style :bg_color => "00", :fg_color => "FF", :sz => 14, :alignment => { :horizontal=> :center }, :border => { :style => :thin, :color => "CC" }
+    $very_bold = s.add_style :sz => 14, :b => true
+    $align_left = s.add_style :alignment => { :horizontal => :left }
+    $wrap_text = s.add_style :alignment => { :horizontal => :left, :wrap_text => true}
+
+    @volunteers.each do |volunteers|
+        # TODO: Include all student week from config
+        times = volunteers.second.map(&:available_dates)
+                                 .flatten
+                                 .uniq
+                                 .select{|ad| I18n.l(ad.to_date,format: :sched,locale: :el) == volunteers.first}
+                                 .map do |time|
+          [time, Settings.professor_week_student_times.select {|t|
+            I18n.l(time.to_time, format: :sched) == I18n.l(t.to_time, format: :sched)
+          }&.first]
+        end
+
+        wb.add_worksheet(:name => volunteers.first) do |sheet|
+          sheet.add_row ["ID", "Επώνυμο", "Όνομα", "Τηλέφωνο", "E-Mail", times.map(&:second), "Σύνολο", "Συμμετοχή σε προετοιμασία"
+           ].flatten, :style => $black
+
+          volunteers.second.each do |volunteer|
+              style = $white
+
+              row = []
+              row.push [volunteer.id, style]
+              row.push [volunteer.surname, style]
+              row.push [volunteer.name, style]
+              row.push [volunteer.phone, style]
+              row.push [volunteer.email, style]
+              times.each{|time| volunteer.available_dates.include?(time.first) ? row.push(["✓", $green]) : row.push([" ", $red])}
+              row.push [volunteer.available_dates.size, style]
+              row.push volunteer.preparation? ? ["Ναι", $green] : ["Όχι", $red]
+    
+              sheet.add_row row.map(&:first), style: row.map(&:second)
+
+              #sheet.rows.last.cells[2].b = true
+          end
+    end
+  end
+  end
+
+  raw p.to_stream.string
+%>

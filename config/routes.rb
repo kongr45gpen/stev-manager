@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'surveys/results'
-
   devise_for :users, ActiveAdmin::Devise.config
 
   get 'landing/index'
@@ -20,6 +18,7 @@ Rails.application.routes.draw do
 
   get '/volunteers', to: 'volunteers#index'
   get '/volunteers/export'
+  get '/volunteers/pw/export', to: 'volunteers#export_pw'
   get '/volunteers/stats'
   get '/volunteers/stats_active'
 
@@ -43,6 +42,7 @@ Rails.application.routes.draw do
   get 'surveys/dates'
   post 'surveys/dates', to: 'surveys#dates_process'
   get 'surveys/thanks'
+  get 'surveys/results'
   match 'surveys/results/:survey', to: 'surveys#results', via: [:get, :post]
 
   get '/import', to: 'import#index'
