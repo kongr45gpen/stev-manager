@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +37,22 @@ class Instance
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $end_date;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="instance")
+     */
+    private $events;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Volunteer", mappedBy="instance")
+     */
+    private $volunteers;
+
+    public function __construct()
+    {
+        $this->events = new ArrayCollection();
+        $this->volunteers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -85,6 +103,68 @@ class Instance
     public function setEndDate(?\DateTimeInterface $end_date): self
     {
         $this->end_date = $end_date;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->setInstance($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->contains($event)) {
+            $this->events->removeElement($event);
+            // set the owning side to null (unless already changed)
+            if ($event->getInstance() === $this) {
+                $event->setInstance(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Volunteer[]
+     */
+    public function getVolunteers(): Collection
+    {
+        return $this->volunteers;
+    }
+
+    public function addVolunteer(Volunteer $volunteer): self
+    {
+        if (!$this->volunteers->contains($volunteer)) {
+            $this->volunteers[] = $volunteer;
+            $volunteer->setInstance($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVolunteer(Volunteer $volunteer): self
+    {
+        if ($this->volunteers->contains($volunteer)) {
+            $this->volunteers->removeElement($volunteer);
+            // set the owning side to null (unless already changed)
+            if ($volunteer->getInstance() === $this) {
+                $volunteer->setInstance(null);
+            }
+        }
 
         return $this;
     }
