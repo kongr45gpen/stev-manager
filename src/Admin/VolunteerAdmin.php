@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\BooleanType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -44,23 +45,56 @@ class VolunteerAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
-    {
-        $datagridMapper
-            ->add('surname')
-            ->add('name');
-    }
-
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
-            ->add('surname')
+            ->add('id')
+            ->addIdentifier('surname')
             ->add('name')
             ->add('instance')
             ->add('email')
             ->add('age')
             ->add('phone')
+            // You may also specify the actions you want to be displayed in the list
+            ->add('_action', null, [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ],
+                'row_align' => 'right',
+                'header_style' => 'width: 15%'
+            ])
+
+        ;
+    }
+
+    public function configureShowFields(ShowMapper $showMapper)
+    {
+        $showMapper
+            ->with('Personal Details', ['class' => 'col-md-6'])
+                ->add('surname')
+                ->add('name')
+                ->add('father_name')
+                ->add('email')
+                ->add('age')
+                ->add('phone')
+            ->end()
+            ->with('Volunteer Details', ['class' => 'col-md-6'])
+                ->add('property')
+                ->add('school')
+                ->add('level')
+                ->add('subscription')
+                ->add('updates')
+                ->add('joined')
+                ->add('preparation')
+            ->end()
+            ->with('Miscellaneous')
+                ->add('health')
+                ->add('interests')
+                ->add('gender')
+                ->add('availability')
+            ->end()
         ;
     }
 }

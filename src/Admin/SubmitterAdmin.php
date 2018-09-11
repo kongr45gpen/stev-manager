@@ -33,18 +33,11 @@ class SubmitterAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
-    {
-        $datagridMapper
-            ->add('surname')
-            ->add('name');
-    }
-
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
-            ->add('surname')
+            ->add('id')
+            ->addIdentifier('surname')
             ->add('name')
             ->add('email')
             ->add('property')

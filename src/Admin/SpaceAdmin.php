@@ -24,16 +24,25 @@ class SpaceAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name', TextType::class)
-            ->add('address', TextareaType::class, ['required' => false])
-            ->add('display', TextareaType::class, ['required' => false])
-            ->add('capacity', NumberType::class, ['required' => false])
-            ->add('technical_details', TextareaType::class, ['required' => false])
-            ->add('logistic_details', TextareaType::class, ['required' => false])
-            ->add('contact_name', TextType::class, ['required' => false])
-            ->add('contact_email', TextType::class, ['required' => false])
-            ->add('contact_phone', TextType::class, ['required' => false])
-            ->add('contact_information', TextType::class, ['required' => false])
+            ->with('Basics', ['class' => 'col-md-9'])
+                ->add('name', TextType::class)
+                ->add('address', TextareaType::class, ['required' => false])
+                ->add('display', TextareaType::class, [
+                    'required' => false,
+                    'help' => 'How the space will be displayed on the schedule'
+                ])
+                ->add('capacity', NumberType::class, ['required' => false])
+            ->end()
+            ->with('Contact', ['class' => 'col-md-3'])
+                ->add('contact_name', TextType::class, ['required' => false])
+                ->add('contact_email', TextType::class, ['required' => false])
+                ->add('contact_phone', TextType::class, ['required' => false])
+                ->add('contact_information', TextType::class, ['required' => false])
+            ->end()
+            ->with('Details')
+                ->add('technical_details', TextareaType::class, ['required' => false])
+                ->add('logistic_details', TextareaType::class, ['required' => false])
+            ->end()
 //            ->add('data', TextareaType::class, ['disabled' => true])
         ;
     }
@@ -47,8 +56,8 @@ class SpaceAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
-            ->add('name')
+            ->add('id')
+            ->addIdentifier('name')
             ->add('address')
             ->add('capacity')
             ->add('contact_name')
