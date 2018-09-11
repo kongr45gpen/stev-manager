@@ -37,17 +37,17 @@ class Event
     /**
      * @ORM\Column(type="smallint")
      */
-    private $status;
+    private $status = 0;
 
     /**
      * @ORM\Column(type="smallint")
      */
-    private $scheduled;
+    private $scheduled = 0;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $hidden;
+    private $hidden = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Space", inversedBy="events")

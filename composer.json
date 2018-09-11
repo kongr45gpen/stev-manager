@@ -6,6 +6,8 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "sensio/framework-extra-bundle": "^5.1",
+        "sonata-project/admin-bundle": "^3.39",
+        "sonata-project/doctrine-orm-admin-bundle": "^3.6",
         "symfony/asset": "*",
         "symfony/console": "*",
         "symfony/expression-language": "*",
@@ -72,7 +74,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "4.1.*"
         }
     }
