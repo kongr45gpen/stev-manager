@@ -7,7 +7,7 @@
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-{% if instance.colour %}{{ instance.colour }}{% else %}dark{% endif %}">
+<nav class="navbar navbar-expand-md navbar-dark bg-{% if instance|default and instance.colour %}{{ instance.colour }}{% else %}dark{% endif %}">
 
     {% if instance|default(null) %}
         <ul class="navbar-nav">
@@ -70,9 +70,22 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('sonata_admin_redirect') }}">Admin</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('sonata_user_admin_security_logout') }}">Logout</a>
+            </li>
         </ul>
     </div>
 </nav>
+
+{% if app.request.hasPreviousSession %}
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="flash-{{ type }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
 
 {% block container %}
     <main class="container" role="main">

@@ -1,0 +1,18 @@
+{% extends sonata_block.templates.block_base %}
+
+{% block block %}
+    <h3>Stev Manager</h3>
+    <p>
+        <a class="btn btn-primary btn-block btn-lg" href="{{ path('landing') }}"><i
+                    class="fa fa-undo" aria-hidden="true"></i> Back to base
+        </a>
+    </p>
+
+    <div class="text-center">
+        <div class="btn-group btn-sm" role="group" aria-label="Links to Instances">
+            {% for instance in instance_repository.findAll %}
+            <a class="btn btn-default" href="{{ path('instance', {instance: instance.id}) }}">{{ instance.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
