@@ -1,4 +1,7 @@
 {
+    "beberlei/doctrineextensions": {
+        "version": "v1.1.4"
+    },
     "cocur/slugify": {
         "version": "v3.1"
     },
@@ -94,6 +97,9 @@
     },
     "monolog/monolog": {
         "version": "1.23.0"
+    },
+    "nesbot/carbon": {
+        "version": "2.1.0"
     },
     "nikic/php-parser": {
         "version": "v4.0.3"

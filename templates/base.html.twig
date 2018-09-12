@@ -66,8 +66,12 @@
             </div>
         </nav>
 
+        {% block container %}
+            <main class="container" role="main">
+                {% block body %}{% endblock %}
+            </main>
+        {% endblock %}
 
-        {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
         <script src="{{ asset('build/app.js') }}"></script>
     </body>

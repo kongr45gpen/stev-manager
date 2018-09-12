@@ -252,4 +252,24 @@ class Submitter
     {
         return $this->getName() . " " . $this->getSurname();
     }
+
+    public function describe(): string
+    {
+        $details = [
+            $this->getName() . " " . $this->getSurname(),
+            $this->getProperty(),
+            $this->getFaculty(),
+            $this->getSchool(),
+            $this->getSector(),
+            $this->getLab(),
+            $this->getPhone(),
+            $this->getPhoneOther()
+        ];
+
+        $details = array_filter($details, function($detail) {
+            return $detail !== null && trim($detail) != '';
+        });
+
+        return implode(', ', $details);
+    }
 }

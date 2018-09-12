@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event index{% endblock %}
+
+{% block body %}
+    <h1>Event index</h1>
+
+    {% for event in events %}
+        <hr>
+        <div class="media" {% if event.hidden %}style=opacity:0.3{% endif %}>
+            <div class="media-left">
+                <a href="" class="media-object event-kind" data-kind="{{ event.kind|default() }}">
+                    <img src="" alt="">
+                </a>
+            </div>
+            <div class="media-body">
+                <span class="text-muted">{{ event.team }}</span>
+                <h3 class="media-heading">
+                    <a href="{{ path('admin_app_event_edit', {id: event.id}) }}">
+                        {{ event.title }}
+                    </a><br>
+                    {#<small class="event-team"><%= event.team %>#}
+                    {#<span class="label label-event-<%= kind %>"><%=t kind %></span>#}
+                    {#</small>#}
+                </h3>
+
+                <ul class="list-unstyled">
+                    {% for submitter in event.submitters %}
+                        <li class="text-small">
+                            {{ submitter.describe }},
+                            <a href="mailto:{{ submitter.email }}">{{ submitter.email|default('No e-mail') }}</a>
+                            {% if submitter.hidden %}
+                                <div class="badge badge-danger pull-right">hidden</div>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                {% if not event.repetitions.empty %}
+                    <div class="list-group">
+                        {% for repetition in event.repetitions %}
+                            <div class="list-group-item">
+                                {{ repetition.date|date }}
+                                {% if repetition.endDate %}
+                                    &mdash;
+                                    {{ repetition.end_date|date }}
+                                {% endif %}
+
+                                {% if repetition.spaceOverride %}
+                                    <span class="label label-default">{{ repetition.spaceOverride }}</span>
+                                {% endif %}
+                                {% if repetition.extra != '' %}
+                                    <span class="label label-primary">{{ repetition.extra }}</span>
+                                {% endif %}
+
+                                <span class="float-right">
+                                    {% if repetition.time %}
+                                        <span class="badge badge-primary">{{ repetition.date|date('h:i') }}
+                                            {% if repetition.duration %}
+                                                &mdash;
+                                                {{ repetition.date.copy.addMinutes(repetition.duration)|date('h:i') }}
+                                            {% endif %}
+                                        </span>
+                                    {% elseif repetition.duration %}
+                                        <span class="badge badge-info">{{ repetition.duration }}
+                                            mins</span>
+                                    {% endif %}
+
+                                    <span class="badge alert-warning">
+                                        <a href="{{ path('admin_app_repetition_edit', {id: repetition.id}) }}" aria-label="Edit">
+                                           <span class="glyphicon glyphicon-pencil"></span>Edit
+                                        </a>
+                                    </span>
+                                </span>
+                            </div>
+                            {#<div class="list-group-item list-group-item-primary">#}
+                                {#<strong>Dates:</strong> format_many_repetitions#}
+                            {#</div>#}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="media-right event-no">
+                #{{ loop.index }}
+                <a href="{{ path('admin_app_event_edit', {id: event.id}) }}" class="btn btn-default">Edit</a>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}

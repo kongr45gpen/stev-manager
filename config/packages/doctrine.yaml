@@ -15,6 +15,10 @@ doctrine:
             charset: utf8mb4
             collate: utf8mb4_unicode_ci
 
+        types:
+            datetime: DoctrineExtensions\Types\CarbonDateTimeType
+            date: DoctrineExtensions\Types\CarbonDateType
+            time: DoctrineExtensions\Types\CarbonTimeType
         url: '%env(resolve:DATABASE_URL)%'
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
