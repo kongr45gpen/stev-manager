@@ -169,6 +169,11 @@ class Instance
         return $this;
     }
 
+    public function getActive()
+    {
+        return true;
+    }
+
     public function __toString()
     {
         return $this->getName();

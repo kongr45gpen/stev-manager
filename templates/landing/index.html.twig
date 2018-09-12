@@ -20,7 +20,8 @@
         .flex-center {
             align-items: center;
             display: flex;
-            justify-content: center;
+            justify-content: space-around;
+            flex-direction: column;
         }
 
         .position-ref {
@@ -67,11 +68,15 @@
 
             <div class="links">
                 {% for instance in instances %}
-                    <a href="{{ instance.name }}">{{ instance.name }}</a>
+                    <a href="{{ path('instance', { instance: instance.id }) }}">{{ instance.name }}</a>
                 {% endfor %}
 
             </div>
         </div>
+
+        <footer class="landing-footer text-muted">
+            <small>Icon set: <em>Multimedia Collection</em> by <a href="https://www.flaticon.com/authors/gregor-cresnar">Gregor Cresnar</a></small>
+        </footer>
     </div>
 {% endblock %}
 
