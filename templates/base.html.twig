@@ -28,20 +28,21 @@
 
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav mr-auto">
+                    {% set controller = app.request.attributes.get('_controller') %}
                     {% if instance|default(null) %}
-                        <li class="nav-item active">
+                        <li class="nav-item {% if 'InstanceController' in controller %}active{% endif %}">
                             <a class="nav-link" href="{{ path('instance', {instance: instance.id}) }}">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Events</a>
+                        <li class="nav-item {% if 'EventController' in controller %}active{% endif %}">
+                            <a class="nav-link" href="{{ path('event_index', {instance: instance.id}) }}">Events</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {% if 'VolunteerController' in controller %}active{% endif %}">
                             <a class="nav-link" href="#">Volunteers</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {% if 'ImportController' in controller %}active{% endif %}">
                             <a class="nav-link" href="#">Import</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {% if 'ExportController' in controller %}active{% endif %}">
                             <a class="nav-link" href="#">Export</a>
                         </li>
                     {% else %}
@@ -53,9 +54,13 @@
                 <ul class="navbar-nav my-2 my-md-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="{{ path('landing') }}" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Instances</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown01">
-                            {% for instance in instances|default([]) %}
-                                <a class="dropdown-item" href="{{ path('instance', {instance: instance.id}) }}">{{ instance.name }}</a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01">
+                            {% for menu_instance in instance_repository.findAll|default([]) %}
+                                <a
+                                        class="dropdown-item {% if menu_instance.id == instance.id %}active{% endif %}"
+                                        href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({instance: menu_instance.id})) }}">
+                                    {{ menu_instance.name }}
+                                </a>
                             {% endfor %}
                         </div>
                     </li>
