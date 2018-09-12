@@ -4,6 +4,7 @@ namespace App\Admin;
 
 
 use App\Entity\Instance;
+use App\Entity\Repetition;
 use App\Entity\Space;
 use App\Entity\Submitter;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -27,45 +28,60 @@ class EventAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            // TODO: Disable editing instance if we're not creating a new event
-            ->with('Instance')
-                ->add('instance', EntityType::class, [
-                    'class' => Instance::class,
-    //                'disabled' => true
-                ])
+            ->tab('General')
+                // TODO: Disable editing instance if we're not creating a new event
+                ->with('Instance')
+                    ->add('instance', EntityType::class, [
+                        'class' => Instance::class,
+        //                'disabled' => true
+                    ])
+                ->end()
+                ->with('Basic Information', ['class' => 'col-md-9'])
+                    ->add('team', TextType::class, ['required' => false])
+                    ->add('title', TextType::class)
+                    ->add('space', ModelListType::class, [
+                        'class' => Space::class,
+                        'required' => false,
+                        'btn_delete' => false
+                    ])
+                ->end()
+                ->with('Status information', ['class' => 'col-md-3'])
+                    ->add('status', NumberType::class, ['required' => false])
+                    ->add('scheduled', NumberType::class, ['required' => false])
+                    ->add('hidden', CheckboxType::class, ['required' => false])
+                ->end()
+                ->with('Submitters')
+                    ->add('submitters', CollectionType::class, [
+                        'required' => false,
+                    ], [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+        //                'sortable' => 'position',
+                    ])
+                ->end()
+                ->with('Data', ['description' => 'Instance-specific data of the event'])
+                    ->add('data', ImmutableArrayType::class, [
+                        'required' => false,
+                        'keys' => [
+                            ['content', TextareaType::class, [
+                                'sonata_help' => 'Set the content',
+                                'required' => false
+                            ]],
+                            ['public', CheckboxType::class, [
+                                'sonata_help' => 'Set the public',
+                                'required' => false
+                            ]],
+                        ]
+                    ])
+                ->end()
             ->end()
-            ->with('Basic Information', ['class' => 'col-md-9'])
-                ->add('team', TextType::class, ['required' => false])
-                ->add('title', TextType::class)
-                ->add('space', ModelListType::class, [
-                    'class' => Space::class,
-                    'required' => false,
-                    'btn_delete' => false
-                ])
-            ->end()
-            ->with('Status information', ['class' => 'col-md-3'])
-                ->add('status', NumberType::class, ['required' => false])
-                ->add('scheduled', NumberType::class, ['required' => false])
-                ->add('hidden', CheckboxType::class, ['required' => false])
-            ->end()
-            ->with('Submitters')
-                ->add('submitters', CollectionType::class, [
-                    'required' => false,
-                ], [
-                    'edit' => 'inline',
-                    'inline' => 'table',
-    //                'sortable' => 'position',
-                ])
-            ->end()
-            ->with('Data', ['description' => 'Instance-specific data of the event'])
-                ->add('data', ImmutableArrayType::class, [
-                    'keys' => [
-                        ['content', TextareaType::class, [
-                            'sonata_help' => 'Set the content'
-                        ]],
-                        ['public', CheckboxType::class, []],
-                    ]
-                ])
+            ->tab('Repetitions')
+                ->add('repetitions', CollectionType::class, [
+                        'required' => false,
+                    ], [
+                        'edit' => 'inline',
+                        'inline' => false,
+                    ])
             ->end()
         ;
     }

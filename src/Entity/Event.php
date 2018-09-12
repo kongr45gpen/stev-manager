@@ -64,9 +64,15 @@ class Event
      */
     private $data = [];
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Repetition", mappedBy="event", orphanRemoval=true, cascade={"persist"})
+     */
+    private $repetitions;
+
     public function __construct()
     {
         $this->submitters = new ArrayCollection();
+        $this->repetitions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,5 +200,41 @@ class Event
         $this->data = $data;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Repetition[]
+     */
+    public function getRepetitions(): Collection
+    {
+        return $this->repetitions;
+    }
+
+    public function addRepetition(Repetition $repetition): self
+    {
+        if (!$this->repetitions->contains($repetition)) {
+            $this->repetitions[] = $repetition;
+            $repetition->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepetition(Repetition $repetition): self
+    {
+        if ($this->repetitions->contains($repetition)) {
+            $this->repetitions->removeElement($repetition);
+            // set the owning side to null (unless already changed)
+            if ($repetition->getEvent() === $this) {
+                $repetition->setEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getTitle() ?: "New Event";
     }
 }
