@@ -7,8 +7,7 @@
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-
+<nav class="navbar navbar-expand-md navbar-dark bg-{% if instance.colour %}{{ instance.colour }}{% else %}dark{% endif %}">
 
     {% if instance|default(null) %}
         <ul class="navbar-nav">
