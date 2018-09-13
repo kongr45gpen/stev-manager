@@ -26,3 +26,8 @@ $primary: darken(#428bca, 20%);
 .text-small {
     font-size: 10pt;
 }
+
+// Bootstrap's default custom file input doesn't work great
+.custom-file-input {
+    //opacity: 1;
+}

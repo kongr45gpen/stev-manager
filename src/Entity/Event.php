@@ -30,9 +30,9 @@ class Event
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $team;
+    private $team = "";
 
     /**
      * @ORM\Column(type="smallint")
@@ -84,6 +84,11 @@ class Event
      */
     private $long_description;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $uniqueId;
+
     public function __construct()
     {
         $this->submitters = new ArrayCollection();
@@ -124,7 +129,7 @@ class Event
         return $this->team;
     }
 
-    public function setTeam(string $team): self
+    public function setTeam(?string $team): self
     {
         $this->team = $team;
 
@@ -201,6 +206,13 @@ class Event
         if ($this->submitters->contains($submitter)) {
             $this->submitters->removeElement($submitter);
         }
+
+        return $this;
+    }
+
+    public function removeSubmitters(): self
+    {
+        $this->submitters->clear();
 
         return $this;
     }
@@ -285,6 +297,18 @@ class Event
     public function setLongDescription(?string $long_description): self
     {
         $this->long_description = $long_description;
+
+        return $this;
+    }
+
+    public function getUniqueId(): ?int
+    {
+        return $this->uniqueId;
+    }
+
+    public function setUniqueId(?int $uniqueId): self
+    {
+        $this->uniqueId = $uniqueId;
 
         return $this;
     }

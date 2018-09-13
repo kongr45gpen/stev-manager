@@ -17,6 +17,7 @@ use Sonata\CoreBundle\Form\Type\BooleanType;
 use Sonata\CoreBundle\Form\Type\ImmutableArrayType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
@@ -37,6 +38,7 @@ class EventAdmin extends AbstractAdmin
                     ])
                 ->end()
                 ->with('Basic Information', ['class' => 'col-md-9'])
+                    ->add('unique_id', TextType::class, ['required' => false, 'disabled' => true])
                     ->add('team', TextType::class, ['required' => false])
                     ->add('title', TextType::class)
                     ->add('space', ModelListType::class, [
@@ -66,18 +68,49 @@ class EventAdmin extends AbstractAdmin
         //                'sortable' => 'position',
                     ])
                 ->end()
+            ->end()
+            ->tab('Data', ['description' => 'Instance-specific data of the event'])
                 ->with('Data', ['description' => 'Instance-specific data of the event'])
                     ->add('data', ImmutableArrayType::class, [
                         'required' => false,
                         'keys' => [
-                            ['content', TextareaType::class, [
-                                'sonata_help' => 'Set the content',
-                                'required' => false
+                            ['audience', TextType::class, ['sonata_help'=>'Event ages','required'=>false]],
+                            ['comment',TextType::class,['required'=>false]],
+                            ['categories',ImmutableArrayType::class,[
+                                'required'=>false,
+                                'keys' => [
+                                    ['experiment',CheckboxType::class,['required'=>false]],
+                                    ['observation',CheckboxType::class,['required'=>false]],
+                                    ['lab',CheckboxType::class,['required'=>false]],
+                                    ['presentation',CheckboxType::class,['required'=>false]],
+                                    ['game',CheckboxType::class,['required'=>false]],
+                                    ['demonstration',CheckboxType::class,['required'=>false]]
+                                ]
                             ]],
-                            ['public', CheckboxType::class, [
-                                'sonata_help' => 'Set the public',
-                                'required' => false
+                            ['volunteers',ImmutableArrayType::class,[
+                                'required'=>false,
+                                'keys' => [
+                                    ['cooperator_count',NumberType::class,['required'=>false]],
+                                    ['student_count',NumberType::class,['required'=>false]],
+                                    ['volunteer_count',NumberType::class,['required'=>false]],
+                                ]
                             ]],
+                            ['time',ImmutableArrayType::class,[
+                                'required'=>false,
+                                'keys' => [
+                                    ['start',TextType::class,['required'=>false]],
+                                    ['finish',TextType::class,['required'=>false]],
+                                    ['repetition_count',TextType::class,['required'=>false]],
+                                    ['other',TextareaType::class,['required'=>false]],
+                                ]
+                            ]],
+                            ['details',ImmutableArrayType::class,[
+                                'required'=>false,
+                                'keys' => [
+                                    ['equipment',TextareaType::class,['required'=>false]],
+                                    ['cost',TextareaType::class,['required'=>false]],
+                                ]
+                            ]]
                         ]
                     ])
                 ->end()

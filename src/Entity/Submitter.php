@@ -71,7 +71,7 @@ class Submitter
     /**
      * @ORM\Column(type="boolean")
      */
-    private $hidden;
+    private $hidden = false;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Event", mappedBy="submitters")
