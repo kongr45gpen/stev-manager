@@ -54,6 +54,7 @@ class CityWeekEventParser extends BaseEventParser
                         ->setPhoneOther($record["mobile$i"])
                         ->setEmail($record["email$i"]);
                     $event->addSubmitter($submitter);
+                    $events[] = $submitter;
                 }
             }
 
@@ -88,6 +89,7 @@ class CityWeekEventParser extends BaseEventParser
             $event->setInstance($instance);
 
             $this->entityManager->persist($event);
+            $events[] = $event;
         }
 
         $this->entityManager->flush();

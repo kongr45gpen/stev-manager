@@ -38,8 +38,12 @@ class ImportController extends Controller
                 throw new \Exception("Import for this instance type undefined");
             }
 
-            $parser->parse($file->getPathname(), $instance);
+            $entities = $parser->parse($file->getPathname(), $instance);
             $this->addFlash('success', "Entities added successfully");
+            return $this->render('import/success.html.twig', [
+                'entities' => $entities,
+                'instance' => $instance
+            ]);
         }
 
         return $this->render('import/index.html.twig', [

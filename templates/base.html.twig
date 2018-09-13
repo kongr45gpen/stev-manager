@@ -77,20 +77,22 @@
     </div>
 </nav>
 
-{% if app.request.hasPreviousSession %}
-    {% for type, messages in app.session.flashbag.all() %}
-        {% for message in messages %}
-            <div class="flash-{{ type }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endfor %}
-{% endif %}
-
 {% block container %}
     <main class="container" role="main">
+        <br>
+        {% block alerts %}
+            {% if app.request.hasPreviousSession %}
+                {% for type, messages in app.session.flashbag.all() %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ type }}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+        {% endblock %}
+
         {% block breadcrumbs %}
-            <br>
             {% set controller = app.request.attributes.get('_controller')|slice(15)|replace({'Controller':''})|split('::') %}
 
             <nav aria-label="breadcrumb">
