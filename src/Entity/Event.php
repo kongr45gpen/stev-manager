@@ -55,7 +55,7 @@ class Event
     private $space;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Submitter", inversedBy="events")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Submitter", inversedBy="events", cascade={"persist"})
      */
     private $submitters;
 
@@ -68,6 +68,21 @@ class Event
      * @ORM\OneToMany(targetEntity="App\Entity\Repetition", mappedBy="event", orphanRemoval=true, cascade={"persist"})
      */
     private $repetitions;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $short_description;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $long_description;
 
     public function __construct()
     {
@@ -236,5 +251,41 @@ class Event
     public function __toString()
     {
         return $this->getTitle() ?: "New Event";
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getShortDescription(): ?string
+    {
+        return $this->short_description;
+    }
+
+    public function setShortDescription(?string $short_description): self
+    {
+        $this->short_description = $short_description;
+
+        return $this;
+    }
+
+    public function getLongDescription(): ?string
+    {
+        return $this->long_description;
+    }
+
+    public function setLongDescription(?string $long_description): self
+    {
+        $this->long_description = $long_description;
+
+        return $this;
     }
 }

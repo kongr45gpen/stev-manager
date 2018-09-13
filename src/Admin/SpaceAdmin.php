@@ -26,10 +26,14 @@ class SpaceAdmin extends AbstractAdmin
         $formMapper
             ->with('Basics', ['class' => 'col-md-9'])
                 ->add('name', TextType::class)
-                ->add('address', TextareaType::class, ['required' => false])
+                ->add('address', TextareaType::class, [
+                    'required' => false,
+                    'attr' => ['rows' => '1']
+                ])
                 ->add('display', TextareaType::class, [
                     'required' => false,
-                    'help' => 'How the space will be displayed on the schedule'
+                    'help' => 'How the space will be displayed on the schedule',
+                    'attr' => ['rows' => '1']
                 ])
                 ->add('capacity', NumberType::class, ['required' => false])
             ->end()
@@ -39,8 +43,10 @@ class SpaceAdmin extends AbstractAdmin
                 ->add('contact_phone', TextType::class, ['required' => false])
                 ->add('contact_information', TextType::class, ['required' => false])
             ->end()
-            ->with('Details')
+            ->with('Technical Details', ['class' => 'col-md-6'])
                 ->add('technical_details', TextareaType::class, ['required' => false])
+            ->end()
+            ->with('Logistic Details', ['class' => 'col-md-6'])
                 ->add('logistic_details', TextareaType::class, ['required' => false])
             ->end()
 //            ->add('data', TextareaType::class, ['disabled' => true])
