@@ -5,12 +5,15 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  */
 class Event
 {
+    use TimestampableEntity;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -55,7 +58,7 @@ class Event
     private $space;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Submitter", inversedBy="events", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Submitter", inversedBy="events", orphanRemoval=true, cascade={"persist"})
      */
     private $submitters;
 
