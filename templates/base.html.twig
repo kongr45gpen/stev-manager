@@ -41,6 +41,9 @@
                 <li class="nav-item {% if 'VolunteerController' in controller %}active{% endif %}">
                     <a class="nav-link" href="#">Volunteers</a>
                 </li>
+                <li class="nav-item {% if 'CalendarController' in controller %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('calendar', {instance: instance.id}) }}">Calendar</a>
+                </li>
                 <li class="nav-item {% if 'ImportController' in controller %}active{% endif %}">
                     <a class="nav-link" href="{{ path('import', {instance: instance.id}) }}">Import</a>
                 </li>
@@ -54,6 +57,7 @@
             {% endif %}
         </ul>
         <ul class="navbar-nav my-2 my-md-0">
+            {% if instance %}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="{{ path('landing') }}" id="dropdown01"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Instances</a>
@@ -67,6 +71,7 @@
                     {% endfor %}
                 </div>
             </li>
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('sonata_admin_redirect') }}">Admin</a>
             </li>

@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello {{ controller_name }}!{% endblock %}
+
+{% block body %}
+    <div id="calendar" style="height: 800px;"></div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        let calendar = new Calendar('#calendar', {
+            defaultView: 'day',
+            taskView: true,
+            template: {
+                monthGridHeader: function(model) {
+                    var date = new Date(model.date);
+                    var template = '<span class="tui-full-calendar-weekday-grid-date">' + date.getDate() + '</span>';
+                    return template;
+                }
+            }
+        });
+    </script>
+    {{ parent() }}
+{% endblock %}

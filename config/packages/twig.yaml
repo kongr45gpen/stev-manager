@@ -5,3 +5,4 @@ twig:
     form_themes: ['form/layout.html.twig']
     globals:
         instance_repository: '@App\Repository\InstanceRepository'
+        instance: ~
