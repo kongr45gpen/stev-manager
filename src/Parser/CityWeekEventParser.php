@@ -79,6 +79,7 @@ class CityWeekEventParser extends BaseEventParser
                 'time' => [
                     'start' => $record["time_start"],
                     'finish' => $record["time_finish"],
+                    'duration' => $record["duration"],
                     'repetition_count' => $record["repetition_count"],
                     'other' => $record["repetition_other"]
                 ],

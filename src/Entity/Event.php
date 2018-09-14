@@ -225,6 +225,13 @@ class Event
         return $this->data;
     }
 
+    public function getDataAsObject(): \stdClass
+    {
+        if (!$this->data) return new \stdClass();
+
+        return json_decode(json_encode($this->data), false);
+    }
+
     public function setData(array $data): self
     {
         $this->data = $data;
@@ -259,6 +266,13 @@ class Event
                 $repetition->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function removeRepetitions(): self
+    {
+        $this->repetitions->clear();
 
         return $this;
     }

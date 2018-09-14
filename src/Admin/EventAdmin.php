@@ -90,9 +90,9 @@ class EventAdmin extends AbstractAdmin
                             ['volunteers',ImmutableArrayType::class,[
                                 'required'=>false,
                                 'keys' => [
-                                    ['cooperator_count',NumberType::class,['required'=>false]],
-                                    ['student_count',NumberType::class,['required'=>false]],
-                                    ['volunteer_count',NumberType::class,['required'=>false]],
+                                    ['cooperator_count',TextType::class,['required'=>false]],
+                                    ['student_count',TextType::class,['required'=>false]],
+                                    ['volunteer_count',TextType::class,['required'=>false]],
                                 ]
                             ]],
                             ['time',ImmutableArrayType::class,[
@@ -100,6 +100,7 @@ class EventAdmin extends AbstractAdmin
                                 'keys' => [
                                     ['start',TextType::class,['required'=>false]],
                                     ['finish',TextType::class,['required'=>false]],
+                                    ['duration',TextType::class,['required'=>false,'sonata_help'=>'Duration in minutes']],
                                     ['repetition_count',TextType::class,['required'=>false]],
                                     ['other',TextareaType::class,['required'=>false]],
                                 ]

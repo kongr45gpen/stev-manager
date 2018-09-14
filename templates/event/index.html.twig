@@ -55,10 +55,10 @@
 
                                 <span class="float-right">
                                     {% if repetition.time %}
-                                        <span class="badge badge-primary">{{ repetition.date|date('h:i') }}
+                                        <span class="badge badge-primary">{{ repetition.date|date('H:i') }}
                                             {% if repetition.duration %}
                                                 &mdash;
-                                                {{ repetition.date.copy.addMinutes(repetition.duration)|date('h:i') }}
+                                                {{ repetition.date.copy.addMinutes(repetition.duration)|date('H:i') }}
                                             {% endif %}
                                         </span>
                                     {% elseif repetition.duration %}

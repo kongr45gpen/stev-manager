@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,6 +14,10 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Instance
 {
     use TimestampableEntity;
+
+    const STUDENT_WEEK = 1;
+    const PROFESSOR_WEEK = 2;
+    const CITY_WEEK = 3;
 
     /**
      * @ORM\Id()
@@ -91,7 +96,7 @@ class Instance
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStartDate(): ?Carbon
     {
         return $this->start_date;
     }
