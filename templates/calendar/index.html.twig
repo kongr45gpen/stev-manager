@@ -7,18 +7,40 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript">
-        let calendar = new Calendar('#calendar', {
-            defaultView: 'day',
-            taskView: true,
-            template: {
-                monthGridHeader: function(model) {
-                    var date = new Date(model.date);
-                    var template = '<span class="tui-full-calendar-weekday-grid-date">' + date.getDate() + '</span>';
-                    return template;
-                }
+    <script>
+        var stringToColour = function(str) {
+            str = str.repeat(27);
+            var hash = 0;
+            for (var i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
             }
-        });
+            var colour = '#';
+            for (var i = 0; i < 3; i++) {
+                var value = (hash >> (i * 8)) & 0xFF;
+                colour += ('00' + value.toString(16)).substr(-2);
+            }
+            return colour;
+        };
+
+        function createSchedules(calendar) {
+            calendar.createSchedules([
+                {% for event in events %}
+                {% for repetition in event.repetitions %}
+                {
+                    id: '{{ repetition.id }}',
+                    calendarId: '{{ event.id }}',
+                    title: '{{ event.title }}',
+                    color: '#ffffff',
+                    bgColor: stringToColour('{{ event.id }}'),
+                    category: 'time',
+                    dueDateClass: '',
+                    start: '{{ repetition.date.copy.setDateFrom().toRfc3339String }}',
+                    end: '{{ repetition.date.copy.setDateFrom().addMinutes(repetition.duration).toRfc3339String }}'
+                },
+                {% endfor %}
+                {% endfor %}
+            ]);
+        }
     </script>
-    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('build/calendar.js') }}"></script>
 {% endblock %}

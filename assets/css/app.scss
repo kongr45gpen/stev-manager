@@ -3,6 +3,7 @@ $primary: darken(#428bca, 20%);
 
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
+@import "~tui-calendar/dist/tui-calendar.css";
 
 .text-white-50 { color: rgba(255, 255, 255, .5); }
 

@@ -23,6 +23,5 @@ $('.custom-file-input').on('change', function() {
     $(this).next('.custom-file-label').addClass("selected").html(fileName);
 });
 
-const Calendar = require('tui-calendar');
 
 
