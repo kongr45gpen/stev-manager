@@ -27,37 +27,36 @@ class InstanceAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-                ->add('name', TextType::class)
-                ->add('type', ChoiceType::class, [
-                    'choices' => [
-                        Instance::STUDENT_WEEK=>'Student Week',
-                        Instance::PROFESSOR_WEEK=>'Professor Week',
-                        Instance::CITY_WEEK=>'City Week' ]
-                ])
-                ->add('start_date', DateTimeType::class, ['required' => false])
-            ->add('end_date', DateTimeType::class, ['required'=>false])
-             ->add('colour', ChoiceType::class, [
-                 'choices' => [
-                     'blue' => 'blue',
-                     'indigo' => 'indigo',
-                     'purple' => 'purple',
-                     'pink' => 'pink',
-                     'red' => 'red',
-                     'orange' => 'orange',
-                     'yellow' => 'yellow',
-                     'green' => 'green',
-                     'teal' => 'teal',
-                     'primary' => 'primary',
-                     'secondary' => 'secondary',
-                     'success' => 'success',
-                     'info' => 'info',
-                     'warning' => 'warning',
-                     'danger' => 'danger',
-                     'light' => 'light',
-                     'dark' => 'dark',
-                 ]
-             ])
-        ;
+            ->add('name', TextType::class)
+            ->add('type', ChoiceType::class, [
+                'choices' => [
+                    Instance::STUDENT_WEEK => 'Student Week',
+                    Instance::PROFESSOR_WEEK => 'Professor Week',
+                    Instance::CITY_WEEK => 'City Week']
+            ])
+            ->add('start_date', DateTimeType::class, ['required' => false])
+            ->add('end_date', DateTimeType::class, ['required' => false])
+            ->add('colour', ChoiceType::class, [
+                'choices' => [
+                    'blue' => 'blue',
+                    'indigo' => 'indigo',
+                    'purple' => 'purple',
+                    'pink' => 'pink',
+                    'red' => 'red',
+                    'orange' => 'orange',
+                    'yellow' => 'yellow',
+                    'green' => 'green',
+                    'teal' => 'teal',
+                    'primary' => 'primary',
+                    'secondary' => 'secondary',
+                    'success' => 'success',
+                    'info' => 'info',
+                    'warning' => 'warning',
+                    'danger' => 'danger',
+                    'light' => 'light',
+                    'dark' => 'dark',
+                ]
+            ]);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -73,7 +72,6 @@ class InstanceAdmin extends AbstractAdmin
             ->addIdentifier('name')
             ->add('type')
             ->add('start_date')
-            ->add('end_date')
-        ;
+            ->add('end_date');
     }
 }
