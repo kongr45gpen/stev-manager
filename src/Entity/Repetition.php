@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
@@ -21,6 +22,7 @@ class Repetition
 
     /**
      * @ORM\Column(type="datetime")
+     * @var Carbon
      */
     private $date;
 
@@ -74,14 +76,16 @@ class Repetition
         return $this->id;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?Carbon
     {
-        return $this->date;
+        // TODO: No, make sure original date is carbon?
+        return Carbon::instance($this->date);
     }
 
     public function setDate(\DateTimeInterface $date): self
     {
-        $this->date = $date;
+        // TODO: Carbonise
+        $this->date = Carbon::instance($date);
 
         return $this;
     }
@@ -101,6 +105,11 @@ class Repetition
     public function getEndDate(): ?\DateTimeInterface
     {
         return $this->end_date;
+    }
+
+    public function getEndTime(): ?Carbon
+    {
+        return $this->date->copy()->addMinutes($this->duration);
     }
 
     public function setEndDate(?\DateTimeInterface $end_date): self

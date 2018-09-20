@@ -275,4 +275,24 @@ class Submitter
 
         return implode(', ', $details);
     }
+
+    public function describeQuickly(): string
+    {
+        // TODO: Improve
+
+        $details = [
+            $this->getName() . " " . $this->getSurname(),
+            $this->getProperty(),
+            $this->getFaculty(),
+            $this->getSchool(),
+            $this->getSector(),
+            $this->getLab()
+        ];
+
+        $details = array_filter($details, function($detail) {
+            return $detail !== null && trim($detail) != '';
+        });
+
+        return implode(', ', $details);
+    }
 }
