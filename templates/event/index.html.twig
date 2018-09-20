@@ -36,6 +36,74 @@
                     {% endfor %}
                 </ul>
 
+                {% if event.data %}
+                    <div class="collapse" id="event-data-{{ event.id }}">
+                        <pre class="card card-body">
+                            <code class="language-yaml">
+                                {{- event.data|yaml_dump(2, true) -}}
+                            </code>
+                        </pre>
+                    </div>
+
+                    <div class="row mb-2 mx-0">
+                        {% if event.data.time|default %}
+                            <div class="col-lg">
+                                <div class="card card-data">
+                                    <div class="card-header">Time</div>
+                                    <div class="card-body">
+                                        <strong>Start &ndash; Finish</strong>:
+                                        <span class="badge badge-primary">{{ event.data.time.start }}</span>
+                                        &ndash;
+                                        <span class="badge badge-danger">{{ event.data.time.finish }}</span>
+                                        <br>
+                                        <strong>Duration</strong>:
+                                        <span class="badge badge-primary"><strong>{{ event.data.time.duration }}</strong> min</span>
+                                        &equiv;
+                                        <span class="badge badge-primary"><strong>{{ event.data.time.duration/60.0 }}</strong> h</span>
+                                        <br>
+                                        <strong>Repetitions</strong>:
+                                        <span class="badge badge-success">{{ event.data.time.repetition_count }}</span>
+                                        <br>
+                                        <strong>Other</strong>:
+                                        <em>{{ event.data.time.other }}</em>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="col-lg">
+                            <div class="card card-data">
+                                <div class="card-header">Audience</div>
+                                <div class="card-body">
+                                    <strong>Audience (ages)</strong>:
+                                    {{ event.data.audience|default('?') }}
+                                    <br>
+                                    <strong>Categories</strong>:
+                                    {{ event.data.categories|default([])|join(', ') }}
+                                </div>
+                            </div>
+                        </div>
+                        {% if event.data.volunteers|default %}
+                            <div class="col-lg">
+                                <div class="card card-data">
+                                    <div class="card-header">Volunteers</div>
+                                    <div class="card-body">
+                                        <dl class="row">
+                                            <dt class="col-sm-6">Cooperators:</dt>
+                                            <dd class="col-sm-6"><span class="badge badge-info">{{ event.data.volunteers.cooperator_count|default }}</span></dd>
+
+                                            <dt class="col-sm-6">Students:</dt>
+                                            <dd class="col-sm-6"><span class="badge badge-info">{{ event.data.volunteers.student_count|default }}</span></dd>
+
+                                            <dt class="col-sm-6">Volunteers:</dt>
+                                            <dd class="col-sm-6"><span class="badge badge-info">{{ event.data.volunteers.volunteer_count|default }}</span></dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
                 {% if not event.repetitions.empty %}
                     <div class="list-group">
                         {% for repetition in event.repetitions %}
@@ -67,14 +135,15 @@
                                     {% endif %}
 
                                     <span class="badge alert-warning">
-                                        <a href="{{ path('admin_app_repetition_edit', {id: repetition.id}) }}" aria-label="Edit">
+                                        <a href="{{ path('admin_app_repetition_edit', {id: repetition.id}) }}"
+                                           aria-label="Edit">
                                            <span class="glyphicon glyphicon-pencil"></span>Edit
                                         </a>
                                     </span>
                                 </span>
                             </div>
                             {#<div class="list-group-item list-group-item-primary">#}
-                                {#<strong>Dates:</strong> format_many_repetitions#}
+                            {#<strong>Dates:</strong> format_many_repetitions#}
                             {#</div>#}
                         {% endfor %}
                     </div>
@@ -82,9 +151,23 @@
             </div>
             <div class="media-right event-no">
                 #{{ loop.index }}
-                <a href="{{ path('admin_app_event_edit', {id: event.id}) }}" class="btn btn-default">Edit</a>
+                <a href="{{ path('admin_app_event_edit', {id: event.id}) }}"
+                   class="btn btn-default">Edit</a>
+                {% if event.data %}<a class="btn btn-secondary btn-sm lh-000" data-toggle="collapse"
+                                      href="#event-data-{{ event.id }}" role="button"
+                                      aria-expanded="false"
+                                      aria-controls="event-data-{{ event.id }}" title="Show data">
+                    <img class="img-invert m-1" src="{{ asset('assets/icons/settings.svg') }}"
+                         alt="" aria-hidden="true"
+                         width="14" height="14">
+                    </a>{% endif %}
             </div>
         </div>
     {% endfor %}
 
 {% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('build/events.js') }}"></script>
+{% endblock %}
+

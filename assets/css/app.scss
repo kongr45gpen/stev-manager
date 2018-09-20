@@ -4,18 +4,19 @@ $primary: darken(#428bca, 20%);
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
 @import "~tui-calendar/dist/tui-calendar.css";
+@import "~prismjs/themes/prism.css";
 
 .text-white-50 { color: rgba(255, 255, 255, .5); }
 
-.bg-purple { background-color: var(--purple); }
-.bg-red { background-color: var(--red); }
-.bg-yellow { background-color: var(--yellow); }
-.bg-green { background-color: var(--green); }
+@each $color, $value in $colors {
+    @include bg-variant(".bg-#{$color}", $value);
+}
 
 .border-bottom { border-bottom: 1px solid #e5e5e5; }
 
 .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
 
+.lh-000 { line-height: 0; }
 .lh-100 { line-height: 1; }
 .lh-125 { line-height: 1.25; }
 .lh-150 { line-height: 1.5; }
@@ -31,4 +32,21 @@ $primary: darken(#428bca, 20%);
 // Bootstrap's default custom file input doesn't work great
 .custom-file-input {
     //opacity: 1;
+}
+
+.media-body {
+    max-width: 100%;
+    overflow: auto;
+}
+
+.media-right {
+}
+
+.card-data {
+    overflow: auto;
+}
+
+pre {
+    overflow: auto;
+    max-width: 100%;
 }

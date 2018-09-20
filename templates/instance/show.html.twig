@@ -3,15 +3,15 @@
 {% block title %}Instance &mdash; {{ instance.name }}{% endblock %}
 
 {% block body %}
+    <h1>Instance &mdash; {{ instance.name }}</h1>
 
-    <main class="container" role="main">
-        <h1>Instance &mdash; {{ instance.name }}</h1>
+    <div class="breadcrumb">
+        {{ instance.startDate|date }} &mdash; {{ instance.endDate|date }}
+    </div>
 
-        <div class="breadcrumb">
-            {{ instance.startDate|date }} &mdash; {{ instance.endDate|date }}
-        </div>
+    <div class="row">
 
-        <a class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow"
+        <a class="d-flex align-items-center p-3 my-3 mx-3 text-white-50 bg-purple rounded box-shadow col-lg"
            href="{{ path('event_index', {instance: instance.id}) }}">
             <img class="mr-3 img-invert" src="{{ asset('assets/icons/book.svg') }}" alt=""
                  width="48" height="48">
@@ -21,32 +21,40 @@
             </div>
         </a>
 
-        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-green rounded box-shadow">
-            <img class="mr-3 img-invert" src="{{ asset('assets/icons/avatar.svg') }}" alt=""
+        <a class="d-flex align-items-center p-3 my-3 mx-3 text-white-50 bg-primary rounded box-shadow col-lg-3"
+           href="{{ path('calendar', {instance: instance.id}) }}">
+            <img class="mr-3 img-invert" src="{{ asset('assets/icons/calendar.svg') }}" alt=""
                  width="48" height="48">
             <div class="lh-100">
-                <h6 class="mb-0 text-white lh-100">Volunteers</h6>
-                <small>{{ instance.volunteers.count }} volunteers</small>
-            </div>
-        </div>
-
-        <a class="d-flex align-items-center p-3 my-3 text-white-50 bg-yellow rounded box-shadow"
-           href="{{ path('import', {instance: instance.id}) }}">
-            <img class="mr-3 img-invert" src="{{ asset('assets/icons/download-1.svg') }}" alt=""
-                 width="48" height="48">
-            <div class="lh-100">
-                <h6 class="mb-0 text-white lh-100">Import</h6>
+                <h6 class="mb-0 text-white lh-100">Calendar</h6>
             </div>
         </a>
 
-        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-red rounded box-shadow">
-            <img class="mr-3 img-invert" src="{{ asset('assets/icons/upload-1.svg') }}" alt=""
-                 width="48" height="48">
-            <div class="lh-100">
-                <h6 class="mb-0 text-white lh-100">Export</h6>
-            </div>
+    </div>
+
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-green rounded box-shadow">
+        <img class="mr-3 img-invert" src="{{ asset('assets/icons/avatar.svg') }}" alt=""
+             width="48" height="48">
+        <div class="lh-100">
+            <h6 class="mb-0 text-white lh-100">Volunteers</h6>
+            <small>{{ instance.volunteers.count }} volunteers</small>
         </div>
+    </div>
 
+    <a class="d-flex align-items-center p-3 my-3 text-white-50 bg-yellow rounded box-shadow"
+       href="{{ path('import', {instance: instance.id}) }}">
+        <img class="mr-3 img-invert" src="{{ asset('assets/icons/download-1.svg') }}" alt=""
+             width="48" height="48">
+        <div class="lh-100">
+            <h6 class="mb-0 text-white lh-100">Import</h6>
+        </div>
+    </a>
 
-    </>
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-red rounded box-shadow">
+        <img class="mr-3 img-invert" src="{{ asset('assets/icons/upload-1.svg') }}" alt=""
+             width="48" height="48">
+        <div class="lh-100">
+            <h6 class="mb-0 text-white lh-100">Export</h6>
+        </div>
+    </div>
 {% endblock %}

@@ -9,6 +9,7 @@
     "webpack-notifier": "^1.6.0"
   },
   "dependencies": {
+    "prismjs": "^1.15.0",
     "tui-calendar": "nhnent/tui.calendar"
   }
 }

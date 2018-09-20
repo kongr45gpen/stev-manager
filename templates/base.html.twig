@@ -83,7 +83,7 @@
 </nav>
 
 {% block container %}
-    <main class="container" role="main">
+    <main class="{% block container_class %}container{% endblock %}" role="main">
         <br>
         {% block alerts %}
             {% if app.request.hasPreviousSession %}
