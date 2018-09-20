@@ -5,24 +5,25 @@
 {% block body %}
     <div class="card-deck card-export">
         <div class="card bg-purple text-white text-center" style="width: 18rem;">
-            <div class="card-header">Events</div>
+            <div class="card-header">{% trans %}Events{% endtrans %}</div>
             <img class="card-img-top p-5 img-invert" src="{{ asset('assets/icons/book.svg') }}"
                  alt="Event icon">
             <div class="card-body">
-                <h3 class="display-4">Export Events</h3>
+                <h3 class="display-4">{% trans %}Export Events{% endtrans %}</h3>
             </div>
 
             <div class="card-body">
-                <a class="btn btn-outline-light btn-lg btn-block" href="{{ path('export_events_docx', {instance: instance.id}) }}">Export as Word document</a>
+                <a class="btn btn-outline-light btn-lg btn-block"
+                   href="{{ path('export_events_docx', {instance: instance.id}) }}">{% trans %}Export as Word document{% endtrans %}</a>
             </div>
         </div>
 
         <div class="card bg-green text-white text-center" style="width: 18rem;">
-            <div class="card-header">Volunteers</div>
+            <div class="card-header">{% trans %}Volunteers{% endtrans %}</div>
             <img class="card-img-top p-5 img-invert" src="{{ asset('assets/icons/avatar.svg') }}"
                  alt="Event icon">
             <div class="card-body">
-                <h3 class="display-4">Export Volunteers</h3>
+                <h3 class="display-4">{% trans %}Export Volunteers{% endtrans %}</h3>
             </div>
 
             <div class="card-body">

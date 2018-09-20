@@ -9,11 +9,12 @@ use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style\Font;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\TranslatorInterface;
 use Zend\Escaper\Escaper;
 
-class ExportController extends AbstractController
+class ExportController extends Controller
 {
     /**
      * @Route("/instance/{instance}/export", name="export")
@@ -30,7 +31,6 @@ class ExportController extends AbstractController
      */
     public function exportEventsToDocx(Instance $instance, TranslatorInterface $translator)
     {
-        // TODO: This route is actually docx
         $phpWord = new PhpWord();
 
         $section = $phpWord->addSection(['breakType' => 'continuous']);

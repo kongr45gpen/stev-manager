@@ -1,8 +1,21 @@
-category:
-  experiment: Πείραμα
-  observation: Παρατήρηση
-  lab: Δημιουργικό εργαστήριο
-  presentation: Παρουσίαση
-  game: Παιχνίδι
-  demonstration: Επίδειξη
-  museum: Μουσείο - Αρχείο - Συλλογή
+Events: Δράσεις
+category.experiment: Πείραμα
+category.observation: Παρατήρηση
+category.lab: 'Δημιουργικό εργαστήριο'
+category.presentation: Παρουσίαση
+category.game: Παιχνίδι
+category.demonstration: Επίδειξη
+category.museum: 'Μουσείο - Αρχείο - Συλλογή'
+Home: Home
+Calendar: Ημερολόγιο
+Import: Εισαγωγή
+Export: Εξαγωγή
+Instances: Διοργανώσεις
+Admin: Διαχείριση
+Logout: Αποσύνδεση
+Event: Event
+Index: Κατάλογος
+'Export Events': 'Εξαγωγή Δράσεων'
+'Export as Word document': 'Αποθήκευση ως αρχείου Word'
+Volunteers: Εθελοντές
+'Export Volunteers': 'Εξαγωγή Εθελοντών'
