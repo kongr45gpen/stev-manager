@@ -7,7 +7,7 @@
 
     {% for event in events %}
         <hr>
-        <div class="media" {% if event.hidden %}style=opacity:0.3{% endif %}>
+        <div class="media mb-5" {% if event.hidden %}style=opacity:0.3{% endif %}>
             <div class="media-left">
                 <a href="" class="media-object event-kind" data-kind="{{ event.kind|default() }}">
                     <img src="" alt="">
@@ -45,59 +45,87 @@
                         </pre>
                     </div>
 
-                    <div class="row mb-2 mx-0">
+                    <div class="card-deck mb-1 mx-0">
                         {% if event.data.time|default %}
-                            <div class="col-lg">
-                                <div class="card card-data">
-                                    <div class="card-header">Time</div>
+                                <div class="card card-data border-primary">
+                                    <div class="card-header">{% trans %}Time{% endtrans %}</div>
                                     <div class="card-body">
-                                        <strong>Start &ndash; Finish</strong>:
-                                        <span class="badge badge-primary">{{ event.data.time.start }}</span>
+                                        <strong>{% trans %}Start{% endtrans %}
+                                            &ndash; {% trans %}Finish{% endtrans %}</strong>:
+                                        <span class="badge badge-success">{{ event.data.time.start }}</span>
                                         &ndash;
-                                        <span class="badge badge-danger">{{ event.data.time.finish }}</span>
+                                        <span class="badge badge-warning">{{ event.data.time.finish }}</span>
                                         <br>
-                                        <strong>Duration</strong>:
-                                        <span class="badge badge-primary"><strong>{{ event.data.time.duration }}</strong> min</span>
+                                        <strong>{% trans %}Duration{% endtrans %}</strong>:
+                                        <span class="badge badge-primary"><strong>{{ event.data.time.duration }}</strong> {% trans %}minutes.short{% endtrans %}</span>
                                         &equiv;
-                                        <span class="badge badge-primary"><strong>{{ event.data.time.duration/60.0 }}</strong> h</span>
+                                        <span class="badge badge-primary"><strong>{{ event.data.time.duration/60.0 }}</strong> {% trans %}hours.short{% endtrans %}</span>
                                         <br>
-                                        <strong>Repetitions</strong>:
+                                        <strong>{% trans %}Repetitions{% endtrans %}</strong>:
                                         <span class="badge badge-success">{{ event.data.time.repetition_count }}</span>
                                         <br>
-                                        <strong>Other</strong>:
+                                        <strong>{% trans %}Other{% endtrans %}</strong>:
                                         <em>{{ event.data.time.other }}</em>
                                     </div>
                                 </div>
-                            </div>
                         {% endif %}
-                        <div class="col-lg">
-                            <div class="card card-data">
-                                <div class="card-header">Audience</div>
+                            <div class="card card-data border-info">
+                                <div class="card-header">{% trans %}Audience{% endtrans %}</div>
                                 <div class="card-body">
-                                    <strong>Audience (ages)</strong>:
+                                    <strong>{% trans %}Audience{% endtrans %}
+                                        ({% trans %}ages{% endtrans %})</strong>:
                                     {{ event.data.audience|default('?') }}
                                     <br>
-                                    <strong>Categories</strong>:
-                                    {{ event.data.categories|default([])|join(', ') }}
+                                    <strong>{% trans %}Categories{% endtrans %}</strong>:
+                                    {% for category in event.data.categories|default([]) %}
+                                        {%- if category is not same as(true) and category is not same as(false) -%}
+                                            {{ ('category.'~category)|trans -}}
+                                            {%- if not loop.last -%}, {% endif %}
+                                        {%- endif -%}
+                                    {% endfor %}
                                 </div>
                             </div>
-                        </div>
                         {% if event.data.volunteers|default %}
-                            <div class="col-lg">
-                                <div class="card card-data">
-                                    <div class="card-header">Volunteers</div>
+                                <div class="card card-data border-danger">
+                                    <div class="card-header">{% trans %}Volunteers{% endtrans %}</div>
                                     <div class="card-body">
                                         <dl class="row">
-                                            <dt class="col-sm-6">Cooperators:</dt>
-                                            <dd class="col-sm-6"><span class="badge badge-info">{{ event.data.volunteers.cooperator_count|default }}</span></dd>
+                                            <dt class="col-sm-6">{% trans %}Cooperators{% endtrans %}
+                                                :
+                                            </dt>
+                                            <dd class="col-sm-6"><span
+                                                        class="badge badge-info">{{ event.data.volunteers.cooperator_count|default }}</span>
+                                            </dd>
 
-                                            <dt class="col-sm-6">Students:</dt>
-                                            <dd class="col-sm-6"><span class="badge badge-info">{{ event.data.volunteers.student_count|default }}</span></dd>
+                                            <dt class="col-sm-6">{% trans %}Students{% endtrans %}
+                                                :
+                                            </dt>
+                                            <dd class="col-sm-6"><span
+                                                        class="badge badge-info">{{ event.data.volunteers.student_count|default }}</span>
+                                            </dd>
 
-                                            <dt class="col-sm-6">Volunteers:</dt>
-                                            <dd class="col-sm-6"><span class="badge badge-info">{{ event.data.volunteers.volunteer_count|default }}</span></dd>
+                                            <dt class="col-sm-6">{% trans %}Volunteers{% endtrans %}
+                                                :
+                                            </dt>
+                                            <dd class="col-sm-6"><span
+                                                        class="badge badge-info">{{ event.data.volunteers.volunteer_count|default }}</span>
+                                            </dd>
                                         </dl>
                                     </div>
+                                </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="row mb-2 mx-0">
+                        {% if event.data.details|default %}
+                            <div class="col-lg">
+                                <div class="card card-data bg-light">
+                                    <ul class="list-group list-group-flush">
+                                        {% for key, datum in event.data.details  %}
+                                            <li class="list-group-item bg-light"><strong>{{ key|trans }}</strong>:
+                                                <small>{{ datum|nl2br }}</small></li>
+                                        {% endfor %}
+                                    </ul>
                                 </div>
                             </div>
                         {% endif %}
@@ -105,7 +133,7 @@
                 {% endif %}
 
                 {% if not event.repetitions.empty %}
-                    <div class="list-group">
+                    <div class="list-group list-group-compact">
                         {% for repetition in event.repetitions %}
                             <div class="list-group-item">
                                 {{ repetition.date|date }}
@@ -131,13 +159,15 @@
                                         </span>
                                     {% elseif repetition.duration %}
                                         <span class="badge badge-info">{{ repetition.duration }}
-                                            mins</span>
+                                            {% trans %}minutes.short{% endtrans %}</span>
                                     {% endif %}
 
                                     <span class="badge alert-warning">
                                         <a href="{{ path('admin_app_repetition_edit', {id: repetition.id}) }}"
-                                           aria-label="Edit">
-                                           <span class="glyphicon glyphicon-pencil"></span>Edit
+                                           title="{% trans %}Edit{% endtrans %}">
+                                            <img class="p-1" width="20px" alt="Edit"
+                                                 aria-hidden="true"
+                                                 src="{{ asset('assets/icons/edit.svg') }}">
                                         </a>
                                     </span>
                                 </span>
@@ -152,11 +182,15 @@
             <div class="media-right event-no">
                 #{{ loop.index }}
                 <a href="{{ path('admin_app_event_edit', {id: event.id}) }}"
-                   class="btn btn-default">Edit</a>
+                   title="{% trans %}Edit{% endtrans %}"
+                   class="btn btn-primary btn-sm lh-100"><img class="img-invert m-1"
+                                                src="{{ asset('assets/icons/edit.svg') }}"
+                                                alt="" aria-hidden="true"
+                                                width="14" height="14"></a>
                 {% if event.data %}<a class="btn btn-secondary btn-sm lh-000" data-toggle="collapse"
                                       href="#event-data-{{ event.id }}" role="button"
                                       aria-expanded="false"
-                                      aria-controls="event-data-{{ event.id }}" title="Show data">
+                                      aria-controls="event-data-{{ event.id }}" title="{% trans %}Show data{% endtrans %}">
                     <img class="img-invert m-1" src="{{ asset('assets/icons/settings.svg') }}"
                          alt="" aria-hidden="true"
                          width="14" height="14">

@@ -1,0 +1,20 @@
+default: Προεπιλογή
+link_add: Προσθήκη
+link_list: Λίστα
+title_dashboard: Τίτλος
+confirm_exit: Έξοδος
+Admin: Διαχείριση
+action_show: Προβολή
+action_edit: Επεξεργασία
+action_delete: Διαγραφή
+all_elements: 'Όλα τα στοιχεία'
+btn_batch: Μαζικά
+label_export_download: Εξαγωγή
+export_format_json: 'Ως JSON'
+export_format_xml: 'Ως XML'
+export_format_csv: 'Ως CSV'
+export_format_xls: 'Ως XLS'
+list_results_count: Αριθμός
+label_per_page: 'ανά σελίδα'
+link_action_create: Νέο
+link_breadcrumb_dashboard: Αρχική

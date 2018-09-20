@@ -42,7 +42,7 @@ $primary: darken(#428bca, 20%);
 .media-right {
 }
 
-.card-data {
+.card-data .card-body {
     overflow: auto;
 }
 
@@ -53,6 +53,12 @@ $primary: darken(#428bca, 20%);
 .card-export img {
     width: 40%;
     margin: auto;
+}
+
+.list-group-compact {
+    .list-group-item {
+        padding: 0.3rem 1.25rem;
+    }
 }
 
 pre {

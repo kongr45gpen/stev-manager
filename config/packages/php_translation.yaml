@@ -6,8 +6,6 @@ translation:
 #    fallback_translation:
 #        service: 'google'
 #        api_key: 'foobar'
-    auto_add_missing_translations:
-        config_name: app
     configs:
         app:
             dirs: ["%kernel.project_dir%/templates", "%kernel.project_dir%/src"]

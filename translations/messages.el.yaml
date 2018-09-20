@@ -13,9 +13,48 @@ Export: Εξαγωγή
 Instances: Διοργανώσεις
 Admin: Διαχείριση
 Logout: Αποσύνδεση
-Event: Event
+Event: Δράση
 Index: Κατάλογος
 'Export Events': 'Εξαγωγή Δράσεων'
 'Export as Word document': 'Αποθήκευση ως αρχείου Word'
 Volunteers: Εθελοντές
 'Export Volunteers': 'Εξαγωγή Εθελοντών'
+Time: Ώρα
+Start: Έναρξη
+Finish: Λήξη
+Duration: Διάρκεια
+minutes.short: λ
+hours.short: ώ
+Repetitions: Επαναλήψεις
+Other: Άλλο
+Audience: Κοινό
+ages: ηλικίες
+Categories: Κατηγορίες
+Cooperators: Συνεργάτες
+Students: Φοιτητές
+Edit: Επεξεργασία
+'Show data': 'Προβολή δεδομένων'
+Volunteer: Εθελοντής
+Submitter: Υπεύθυνος
+Space: Χώρος
+Repetition: Επανάληψη
+Id: Id
+Surname: Επώνυμο
+Name: Όνομα
+Instance: Διοργάνωση
+Email: Email
+Age: Ηλικία
+Phone: Τηλέφωνο
+Action: Δράση
+'Volunteer List': 'Λίστα Εθελοντών'
+action_show: Προβολή
+Property: Ιδιότητα
+School: Σχολή
+'Phone Other': 'Κινητό Τηλέφωνο'
+Hidden: Κρυφό
+'Submitter List': 'Λίστα Υπευθύνων'
+Requests: Αιτήματα
+equipment: Εξοπλισμός
+costs: Κόστη
+cost: Κόστος
+category.: category.

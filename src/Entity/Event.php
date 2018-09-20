@@ -9,6 +9,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
+ * @todo Return data as object that nulls out
  */
 class Event
 {
