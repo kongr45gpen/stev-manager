@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Instance;
 use Carbon\Carbon;
+use Gedmo\Translator\TranslationInterface;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style\Font;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 use Zend\Escaper\Escaper;
 
 class ExportController extends AbstractController
@@ -24,9 +26,9 @@ class ExportController extends AbstractController
     }
 
     /**
-     * @Route("/instance/{instance}/export/events.docx", name="export_events_doc")
+     * @Route("/instance/{instance}/export/events.docx", name="export_events_docx")
      */
-    public function exportEventsToDoc(Instance $instance)
+    public function exportEventsToDocx(Instance $instance, TranslatorInterface $translator)
     {
         // TODO: This route is actually docx
         $phpWord = new PhpWord();
@@ -67,28 +69,9 @@ class ExportController extends AbstractController
             $section->addText("\nΚατηγορίες: ", $bold);
             foreach (($event->getDataAsObject()->categories ?? []) as $category) {
                 // TODO: Use i18n
-                $cat = null;
-                switch($category) {
-                    case 'experiment':
-                        $cat = "Πείραμα";
-                        break;
-                    case 'observation':
-                        $cat = "Παρατήρηση";
-                        break;
-                    case 'lab':
-                        $cat = "Δημιουργικό εργαστήριο";
-                        break;
-                    case 'presentation':
-                        $cat = "Παρουσίαση";
-                        break;
-                    case 'demonstration':
-                        $cat = "Επίδειξη";
-                        break;
+                if (is_string($category)) {
+                    $section->addListItem($translator->trans("category.$category",[],null,'el'));
                 }
-
-                if (!$cat) continue;
-
-                $section->addListItem($cat);
             }
 
             $section->addText("\nΏρες διεξαγωγής: ", $bold);
@@ -119,8 +102,12 @@ class ExportController extends AbstractController
 
         // TODO: Better file names
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
-        $objWriter->save('outpute.docx');
-        return $this->file('outpute.docx');
+        $fileName = tempnam(sys_get_temp_dir(), 'StevManager');
+        $objWriter->save($fileName);
 
+        // TODO: Mime type should be recognized from file?
+        $response = $this->file($fileName, $instance->getName() . ' ' . Carbon::now()->format('Ymd') . '.docx');
+        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        return $response;
     }
 }
