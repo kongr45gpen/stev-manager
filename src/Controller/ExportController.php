@@ -28,6 +28,7 @@ class ExportController extends AbstractController
      */
     public function exportEventsToDoc(Instance $instance)
     {
+        // TODO: This route is actually docx
         $phpWord = new PhpWord();
 
         $section = $phpWord->addSection(['breakType' => 'continuous']);
@@ -116,6 +117,7 @@ class ExportController extends AbstractController
             $section->addText("----------------------------------\n");
         }
 
+        // TODO: Better file names
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save('outpute.docx');
         return $this->file('outpute.docx');
