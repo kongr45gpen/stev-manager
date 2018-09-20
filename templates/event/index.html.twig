@@ -37,6 +37,7 @@
                 </ul>
 
                 {% if event.originalData %}
+                    {# TODO: Lazy load this - it might be a lot of data #}
                     <div class="collapse" id="event-original-data-{{ event.id }}">
                         <pre class="card card-body">
                             <code class="language-yaml">
@@ -68,7 +69,8 @@
                                         <strong>{% trans %}Duration{% endtrans %}</strong>:
                                         <span class="badge badge-primary"><strong>{{ event.data.time.duration }}</strong> {% trans %}minutes.short{% endtrans %}</span>
                                         &equiv;
-                                        <span class="badge badge-primary"><strong>{{ event.data.time.duration/60.0 }}</strong> {% trans %}hours.short{% endtrans %}</span>
+                                        {# TODO: Check if the duration is not a number? -#}
+                                        <span class="badge badge-primary"><strong>{{ (event.data.time.duration|number_format)/60.0 }}</strong> {% trans %}hours.short{% endtrans %}</span>
                                         <br>
                                         <strong>{% trans %}Repetitions{% endtrans %}</strong>:
                                         <span class="badge badge-success">{{ event.data.time.repetition_count }}</span>

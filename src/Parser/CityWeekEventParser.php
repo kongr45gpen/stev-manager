@@ -29,6 +29,11 @@ class CityWeekEventParser extends BaseEventParser
         $events = [];
 
         foreach ($records as $record) {
+            if (empty('webform_sid') && empty($record['webform_uid']) && empty($record['title'])) {
+                // Empty record, or useless row before header
+                continue;
+            }
+
             if ($record['webform_sid'] !== null) {
                 $event = $repository->findOneByUniqueId($record['webform_sid']);
             }
@@ -87,7 +92,7 @@ class CityWeekEventParser extends BaseEventParser
             ];
 
             $event->setData($data);
-            $event->setOriginalData($data);
+            $event->setOriginalData($data + ['record' => $record]);
             $event->setInstance($instance);
 
             $this->entityManager->persist($event);
