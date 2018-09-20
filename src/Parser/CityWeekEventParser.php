@@ -87,6 +87,7 @@ class CityWeekEventParser extends BaseEventParser
             ];
 
             $event->setData($data);
+            $event->setOriginalData($data);
             $event->setInstance($instance);
 
             $this->entityManager->persist($event);

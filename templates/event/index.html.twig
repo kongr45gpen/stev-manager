@@ -36,6 +36,15 @@
                     {% endfor %}
                 </ul>
 
+                {% if event.originalData %}
+                    <div class="collapse" id="event-original-data-{{ event.id }}">
+                        <pre class="card card-body">
+                            <code class="language-yaml">
+                                {{- event.originalData|yaml_dump(2, true) -}}
+                            </code>
+                        </pre>
+                    </div>
+                {% endif %}
                 {% if event.data %}
                     <div class="collapse" id="event-data-{{ event.id }}">
                         <pre class="card card-body">
@@ -187,6 +196,15 @@
                                                 src="{{ asset('assets/icons/edit.svg') }}"
                                                 alt="" aria-hidden="true"
                                                 width="14" height="14"></a>
+                {% if event.originalData %}<a class="btn bg-purple btn-sm lh-000" data-toggle="collapse"
+                                      href="#event-original-data-{{ event.id }}" role="button"
+                                      aria-expanded="false"
+                                      aria-controls="event-original-data-{{ event.id }}" title="{% trans %}Show original data{% endtrans %}">
+                    <img class="img-invert m-1" src="{{ asset('assets/icons/settings.svg') }}"
+                         alt="" aria-hidden="true"
+                         width="14" height="14"><br>
+                    <span class="btn-subtitle" title="{% trans %}Original{% endtrans %}">{% trans %}original.short{% endtrans %}</span>
+                    </a>{% endif %}
                 {% if event.data %}<a class="btn btn-secondary btn-sm lh-000" data-toggle="collapse"
                                       href="#event-data-{{ event.id }}" role="button"
                                       aria-expanded="false"

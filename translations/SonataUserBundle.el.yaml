@@ -16,3 +16,7 @@ filter.label_groups: filter.label_groups
 breadcrumb.link_user_list: breadcrumb.link_user_list
 filter.label_name: filter.label_name
 breadcrumb.link_group_list: breadcrumb.link_group_list
+title_user_authentication: title_user_authentication
+security.login.username: security.login.username
+security.login.password: security.login.password
+forgotten_password: forgotten_password

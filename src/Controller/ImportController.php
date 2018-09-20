@@ -27,6 +27,8 @@ class ImportController extends Controller
     {
         /** @var FormFactory $factory */
         $factory = $this->get('form.factory');
+        $em = $this->getDoctrine()->getManager();
+
 
         $form = $this->createFormBuilder()
             ->add('file', FileType::class)
@@ -57,6 +59,7 @@ class ImportController extends Controller
         $actionForm = $factory->createNamedBuilder('action')
             ->add('createRepetitions', SubmitType::class, ['attr'=>['class'=>'btn-primary']])
             ->add('deleteAndCreateRepetitions', SubmitType::class, ['attr'=>['class'=>'btn-danger']])
+            ->add('backupOriginalData', SubmitType::class, ['attr'=>['class'=>'btn-success']])
             ->getForm();
         $actionForm->handleRequest($request);
 
@@ -65,13 +68,25 @@ class ImportController extends Controller
                 $results = $this->calculateRepetitions($instance);
 
                 $totalRepetitions = array_reduce($instance->getEvents()->toArray(),function ($c,Event $i){return $c+$i->getRepetitions()->count();}, 0);
-                dump($totalRepetitions);
-                $this->addFlash('success', count($results) . "/$totalRepetitions repetitions forcefully added.");
+                $this->addFlash('success', count($results) . "/$totalRepetitions repetitions added.");
             } elseif ($actionForm->get('deleteAndCreateRepetitions')->isClicked()) {
                 $results = $this->calculateRepetitions($instance, true);
 
                 $totalRepetitions = array_reduce($instance->getEvents()->toArray(),function ($c,Event $i){return $c+$i->getRepetitions()->count();}, 0);
                 $this->addFlash('success', count($results) . "/$totalRepetitions repetitions forcefully added.");
+            } elseif ($actionForm->get('backupOriginalData')->isClicked()) {
+                $count = 0;
+
+                foreach ($instance->getEvents() as $event) {
+                    if ($event->getOriginalData() === null) {
+                        $count++;
+                        $event->setOriginalData($event->getData());
+                        $em->persist($event);
+                    }
+                }
+
+                $em->flush();
+                $this->addFlash('success', "$count original data packs added.");
             }
         }
 

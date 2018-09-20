@@ -93,6 +93,11 @@ class Event
      */
     private $uniqueId;
 
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $originalData = [];
+
     public function __construct()
     {
         $this->submitters = new ArrayCollection();
@@ -327,6 +332,18 @@ class Event
     public function setUniqueId(?int $uniqueId): self
     {
         $this->uniqueId = $uniqueId;
+
+        return $this;
+    }
+
+    public function getOriginalData(): ?array
+    {
+        return $this->originalData;
+    }
+
+    public function setOriginalData(?array $originalData): self
+    {
+        $this->originalData = $originalData;
 
         return $this;
     }
