@@ -46,6 +46,15 @@ $primary: darken(#428bca, 20%);
     overflow: auto;
 }
 
+.btn-outline-light:hover {
+    color: $body-color;
+}
+
+.card-export img {
+    width: 40%;
+    margin: auto;
+}
+
 pre {
     overflow: auto;
     max-width: 100%;

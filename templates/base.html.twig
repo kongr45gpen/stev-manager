@@ -48,7 +48,7 @@
                     <a class="nav-link" href="{{ path('import', {instance: instance.id}) }}">Import</a>
                 </li>
                 <li class="nav-item {% if 'ExportController' in controller %}active{% endif %}">
-                    <a class="nav-link" href="#">Export</a>
+                    <a class="nav-link" href="{{ path('export', {instance: instance.id}) }}">Export</a>
                 </li>
             {% else %}
                 <li class="nav-item">
