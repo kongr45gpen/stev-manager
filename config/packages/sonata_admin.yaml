@@ -1,6 +1,9 @@
 sonata_admin:
     title: 'Stev Manager Admin'
     dashboard:
+#        groups:
+#            my_group:
+#                icon:            '<i class="fa fa-edit"></i>'
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }
             - position: right

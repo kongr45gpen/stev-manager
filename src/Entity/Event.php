@@ -5,10 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
+ * @Gedmo\Loggable
  * @todo Return data as object that nulls out
  */
 class Event
@@ -25,36 +27,43 @@ class Event
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Instance", inversedBy="events")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $instance;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Gedmo\Versioned
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     private $team = "";
 
     /**
      * @ORM\Column(type="smallint")
+     * @Gedmo\Versioned
      */
     private $status = 0;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Gedmo\Versioned
      */
     private $scheduled = 0;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
      */
     private $hidden = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Space", inversedBy="events")
+     * @Gedmo\Versioned
      */
     private $space;
 
@@ -65,6 +74,7 @@ class Event
 
     /**
      * @ORM\Column(type="json")
+     * @Gedmo\Versioned
      */
     private $data = [];
 
@@ -75,21 +85,25 @@ class Event
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     private $type;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\Versioned
      */
     private $short_description;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\Versioned
      */
     private $long_description;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Gedmo\Versioned
      */
     private $uniqueId;
 

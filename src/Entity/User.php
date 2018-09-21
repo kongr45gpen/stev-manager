@@ -5,10 +5,12 @@ namespace App\Entity;
 use Sonata\UserBundle\Entity\BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Sonata\UserBundle\Model\UserInterface;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
+ * @Gedmo\Loggable
  */
 class User extends BaseUser
 {

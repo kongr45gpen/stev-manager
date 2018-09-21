@@ -6,10 +6,12 @@ use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\InstanceRepository")
+ * @Gedmo\Loggable
  */
 class Instance
 {
@@ -28,21 +30,25 @@ class Instance
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Gedmo\Versioned
      */
     private $name;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Gedmo\Versioned
      */
     private $type;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
      */
     private $start_date;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
      */
     private $end_date;
 
@@ -58,6 +64,7 @@ class Instance
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     private $colour;
 

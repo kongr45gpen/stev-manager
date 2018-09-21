@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Instance;
 use Carbon\Carbon;
+use Gedmo\Loggable\Entity\LogEntry;
+use Gedmo\Loggable\Entity\Repository\LogEntryRepository;
 use Gedmo\Translator\TranslationInterface;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
@@ -22,7 +24,9 @@ class ExportController extends Controller
     public function index(Instance $instance)
     {
         return $this->render('export/index.html.twig', [
-            'instance' => $instance
+            'date' => Carbon::now(),
+            'instance' => $instance,
+            'version' => $this->getVersion()
         ]);
     }
 
@@ -35,7 +39,7 @@ class ExportController extends Controller
 
         $section = $phpWord->addSection(['breakType' => 'continuous']);
         $section->addText("Πρόχειρο Πρόγραμμα {$instance->getName()}.\n");
-        $section->addText("Τελευταία ενημέρωση: " . Carbon::now()->toRfc822String());
+        $section->addText("Τελευταία ενημέρωση: " . Carbon::now()->toRfc822String() . " (έκδοση #{$this->getVersion()})");
         $section->addText("------------------\n\n<hr />\n\n");
 
         // Set up the styles
@@ -109,5 +113,20 @@ class ExportController extends Controller
         $response = $this->file($fileName, $instance->getName() . ' ' . Carbon::now()->format('Ymd') . '.docx');
         $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
         return $response;
+    }
+
+    private function getVersion()
+    {
+        /** @var LogEntryRepository $repository */
+        $repository = $this->getDoctrine()->getRepository('GedmoLoggable:LogEntry');
+
+        /** @var LogEntry $entry */
+        $entry = $repository->createQueryBuilder('l')
+            ->setMaxResults(1)
+            ->orderBy('l.id', 'DESC')
+            ->getQuery()
+            ->getSingleResult();
+
+        return $entry->getId();
     }
 }

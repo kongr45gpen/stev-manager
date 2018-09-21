@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RepetitionRepository")
+ * @Gedmo\Loggable
  */
 class Repetition
 {
@@ -22,43 +24,51 @@ class Repetition
 
     /**
      * @ORM\Column(type="datetime")
+     * @Gedmo\Versioned
      * @var Carbon
      */
     private $date;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
      */
     private $time;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
      */
     private $end_date;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     * @Gedmo\Versioned
      */
     private $duration;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="repetitions")
+     * @Gedmo\Versioned
      * @ORM\JoinColumn(nullable=false)
      */
     private $event;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Space")
+     * @Gedmo\Versioned
      */
     private $space_override;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\Versioned
      */
     private $extra;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
      */
     private $separate = false;
 
