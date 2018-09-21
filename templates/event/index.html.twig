@@ -36,6 +36,9 @@
                     {% endfor %}
                 </ul>
 
+                <p>{{ event.shortDescription|nl2br }}</p>
+                <p>{{ event.longDescription|nl2br }}</p>
+
                 {% if event.originalData %}
                     {# TODO: Lazy load this - it might be a lot of data #}
                     <div class="collapse" id="event-original-data-{{ event.id }}">

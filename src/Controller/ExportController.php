@@ -60,6 +60,9 @@ class ExportController extends Controller
                 $section->addText($escaper->escapeHtml($event->getTeam()));
             }
 
+            $section->addText("\nΠεριγραφή: ", $bold);
+            $section->addText($escaper->escapeHtml($event->getShortDescription()));
+
             $section->addText("\nΥπεύθυνοι καθηγητές: ", $bold);
             foreach ($event->getSubmitters() as $submitter) {
                 if (!$submitter->getHidden()) {
