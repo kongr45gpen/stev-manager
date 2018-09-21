@@ -24,5 +24,5 @@ return [
     Sonata\EasyExtendsBundle\SonataEasyExtendsBundle::class => ['all' => true],
     Sonata\UserBundle\SonataUserBundle::class => ['all' => true],
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
-    Translation\Bundle\TranslationBundle::class => ['all' => true],
+    Translation\Bundle\TranslationBundle::class => ['dev' => true],
 ];

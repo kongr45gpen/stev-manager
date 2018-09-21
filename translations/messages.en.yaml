@@ -17,9 +17,26 @@ minutes.short: min
 hours.short: h
 category.experiment: Experiment
 category.observation: Observation
-category.lab: Creative laboratory
+category.lab: 'Creative laboratory'
 category.presentation: Presentation
 category.game: Game
 category.demonstration: Demonstration
 category.museum: 'Museum - File - Collection'
-
+Event: Event
+Time: Time
+Start: Start
+Finish: Finish
+Duration: Duration
+Repetitions: Repetitions
+Other: Other
+Audience: Audience
+ages: ages
+Categories: Categories
+Cooperators: Cooperators
+Students: Students
+equipment: equipment
+cost: cost
+Edit: Edit
+'Show original data': 'Show original data'
+Original: Original
+'Show data': 'Show data'
