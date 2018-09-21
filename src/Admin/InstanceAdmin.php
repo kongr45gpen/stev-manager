@@ -30,9 +30,9 @@ class InstanceAdmin extends AbstractAdmin
             ->add('name', TextType::class)
             ->add('type', ChoiceType::class, [
                 'choices' => [
-                    Instance::STUDENT_WEEK => 'Student Week',
-                    Instance::PROFESSOR_WEEK => 'Professor Week',
-                    Instance::CITY_WEEK => 'City Week']
+                    'Student Week' => Instance::STUDENT_WEEK,
+                    'Professor Week' => Instance::PROFESSOR_WEEK,
+                    'City Week' => Instance::CITY_WEEK]
             ])
             ->add('start_date', DateTimeType::class, ['required' => false])
             ->add('end_date', DateTimeType::class, ['required' => false])

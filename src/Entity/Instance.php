@@ -32,7 +32,7 @@ class Instance
      * @ORM\Column(type="string", length=255)
      * @Gedmo\Versioned
      */
-    private $name;
+    private $name = "";
 
     /**
      * @ORM\Column(type="smallint")
