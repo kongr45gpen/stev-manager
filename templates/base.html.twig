@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
     <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
@@ -43,6 +44,9 @@
                 </li>
                 <li class="nav-item {% if 'CalendarController' in controller %}active{% endif %}">
                     <a class="nav-link" href="{{ path('calendar', {instance: instance.id}) }}">{% trans %}Calendar{% endtrans %}</a>
+                </li>
+                <li class="nav-item {% if 'FindAndReplaceController' in controller %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('find_and_replace', {instance: instance.id}) }}">{% trans %}Find & Replace{% endtrans %}</a>
                 </li>
                 <li class="nav-item {% if 'ImportController' in controller %}active{% endif %}">
                     <a class="nav-link" href="{{ path('import', {instance: instance.id}) }}">{% trans %}Import{% endtrans %}</a>
