@@ -20,6 +20,7 @@ Encore
     .addEntry('app', './assets/js/app.js')
     .addEntry('calendar', './assets/js/calendar.js')
     .addEntry('events', './assets/js/events.js')
+    .addEntry('search', './assets/js/search.js')
 
     /*
      * FEATURE CONFIG

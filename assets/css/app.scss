@@ -42,6 +42,41 @@ $primary: darken(#428bca, 20%);
 .media-right {
 }
 
+.media-quickshow {
+    width: 64px;
+    height: 64px;
+    background-color: #333;
+    color: white;
+
+    // Center horizontally & vertically
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: bold;
+    font-size: 30px;
+
+    &[data-type="Event"] {
+        background-color: #0b2e13;
+    }
+
+    &[data-type="Submitter"] {
+        background-color: #0c5460;
+    }
+
+    &[data-type="Repetition"] {
+        background-color: #1c7430;
+    }
+
+    &[data-type="Volunteer"] {
+        background-color: #721c24;
+    }
+
+    &[data-type="Space"] {
+        background-color: #6a0035;
+    }
+}
+
 .card-data .card-body {
     overflow: auto;
 }

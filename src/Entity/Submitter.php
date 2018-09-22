@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Annotations as App;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,12 +26,14 @@ class Submitter
 
     /**
      * @ORM\Column(type="text")
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $surname;
 
     /**
      * @ORM\Column(type="text")
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $name;
@@ -43,42 +46,49 @@ class Submitter
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $property;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $faculty;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $school;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $phone;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $phone_other;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $sector;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $lab;

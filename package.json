@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "prismjs": "^1.15.0",
+    "randexp": "^0.5.3",
     "tui-calendar": "nhnent/tui.calendar"
   }
 }

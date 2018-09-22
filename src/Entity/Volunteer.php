@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Annotations as App;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -30,24 +31,28 @@ class Volunteer
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $surname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $father_name;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $age;
@@ -60,24 +65,28 @@ class Volunteer
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $phone;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $property;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $school;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $level;
@@ -351,5 +360,8 @@ class Volunteer
         return $this;
     }
 
-
+    public function __toString(): string
+    {
+        return $this->getName() . " " . $this->getSurname();
+    }
 }

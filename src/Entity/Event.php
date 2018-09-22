@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Annotations as App;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -33,12 +34,14 @@ class Event
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $team = "";
@@ -74,6 +77,7 @@ class Event
 
     /**
      * @ORM\Column(type="json")
+     * @todo Make searchable
      * @Gedmo\Versioned
      */
     private $data = [];
@@ -91,12 +95,14 @@ class Event
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $short_description;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $long_description;

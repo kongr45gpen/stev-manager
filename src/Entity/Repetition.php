@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Annotations as App;
 use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -62,6 +63,7 @@ class Repetition
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @App\Searchable
      * @Gedmo\Versioned
      */
     private $extra;
@@ -187,5 +189,10 @@ class Repetition
         $this->separate = $separate;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->event->__toString() . " Repetition #" . ($this->getEvent()->getRepetitions()->indexOf($this) + 1);
     }
 }

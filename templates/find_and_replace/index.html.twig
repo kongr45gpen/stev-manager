@@ -5,33 +5,55 @@
 {% block body %}
     <h3>{% trans %}Find & Replace{% endtrans %}</h3>
 
-    <div class="btn-group btn-group-toggle btn-group-sm btn-block mb-3" data-toggle="buttons">
-        <label class="btn btn-light btn-sm w-100 active">
-            <input type="radio" name="options" id="option1" autocomplete="off" checked> Regular
-        </label>
-        <label class="btn btn-light btn-sm w-100">
-            <input type="radio" name="options" id="option2" autocomplete="off"> RegEx
-        </label>
-    </div>
-
-    <div class="input-group mb-3 input-group-lg">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+    <form id="js--search-form" autocomplete="on" method="GET" action="{{ path('find_and_replace_search', {instance: instance.id}) }}">
+        <div class="btn-group btn-group-toggle btn-group-sm btn-block mb-3" data-toggle="buttons">
+            <label class="btn btn-light btn-sm w-100 active">
+                <input id="js--search-type-regular" class="js--search-updater" type="radio" name="options" value="regular" checked> Regular
+            </label>
+            <label class="btn btn-light btn-sm w-100">
+                <input id="js--search-type-regex" class="js--search-updater" type="radio" name="options" value="regex"> RegEx
+            </label>
         </div>
-        <input type="text" class="form-control" placeholder="Search&hellip;" aria-label="Username"
-               aria-describedby="basic-addon1">
-    </div>
 
-    <div class="row">
-        <div class="col-md">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Replace&hellip;"
-                       aria-label="Username" aria-describedby="basic-addon1">
+        <div class="input-group mb-3 input-group-lg">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+            </div>
+            <input type="text" name="query" class="form-control js--search-updater" placeholder="Search&hellip;" aria-label="Username"
+                   aria-describedby="basic-addon1" id="js--search-query" autofocus="on" autocomplete="off">
+        </div>
+
+        <div class="row">
+            <div class="col-md">
+                <div class="input-group mb-3">
+                    <input type="text" name="replace" class="form-control js--search-updater" placeholder="Replace&hellip;"
+                           aria-label="Username" aria-describedby="basic-addon1" id="js--replace-query">
+                </div>
+            </div>
+            <div class="col-md-auto">
+                <button type="submit" class="btn btn-light" name="action" value="find"><i class="fas fa-search"></i> Find</button>
+                <button type="submit" class="btn btn-danger" name="action" value="replace"><i class="fab fa-searchengin"></i> Find &amp; Replace</button>
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-light dropdown-toggle" disabled data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        History
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <a class="dropdown-item" href="#">Dropdown link</a>
+                        <a class="dropdown-item" href="#">Dropdown link</a>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-auto">
-            <button type="submit" class="btn btn-light"><i class="fas fa-search"></i> Find</button>
-            <button type="submit" class="btn btn-danger"><i class="fab fa-searchengin"></i> Find &amp; Replace</button>
-        </div>
-    </div>
+
+        <p>
+            <span class="text-muted">{% trans %}Example{% endtrans %}</span>:
+            The square <strong id="js--example-original"></strong> rhymes.
+            <i class="fas fa-long-arrow-alt-right"></i>
+            The square <strong id="js--example-replace"></strong> rhymes.
+        </p>
+    </form>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('build/search.js') }}"></script>
 {% endblock %}
