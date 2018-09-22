@@ -42,9 +42,25 @@ Original: Original
 'Show data': 'Show data'
 'Find & Replace': 'Find & Replace'
 'Stev Manager': 'Stev Manager'
-FindAndReplace: FindAndReplace
+FindAndReplace: Find And Replace
 Example: Example
 Search: Search
 Submitter: Submitter
 Volunteer: Volunteer
 Space: Space
+Title: Title
+'Short description': 'Short description'
+Team: Team
+Surname: Surname
+Name: Name
+School: School
+Address: Address
+Property: Property
+Sector: Sector
+Lab: Lab
+Faculty: Faculty
+Display: Display
+Phone: Phone
+'Phone other': 'Phone other'
+'Father name': 'Father name'
+Age: Age

@@ -16,7 +16,16 @@
                 </h5>
                 <ul class="list-unstyled">
                     {% for property in match.properties %}
-                        <li><strong>{{ property.name|humanize|trans }}:</strong> {{ property.value }}</li>
+                        <li><strong>{{ property.name|humanize|trans }}:</strong>
+                        {% for part in property.parts -%}
+                            {%- if part.matched -%}
+                                <span class="badge badge-warning">{{- part.value -}}</span>
+                            {%- else -%}
+                                {# TODO: Truncate me #}
+                                {{- part.value -}}
+                            {%- endif -%}
+                        {%- endfor -%}
+                        </li>
                     {% endfor %}
                 </ul>
             </div>

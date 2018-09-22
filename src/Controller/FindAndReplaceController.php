@@ -53,7 +53,7 @@ class FindAndReplaceController extends AbstractController
         $searchResults = [];
 
         foreach ($entities as $entity) {
-            $match = new SearchMatch($entity, $request->query->get('query'), $type);
+            $match = new SearchMatch($entity, $request->query->get('query'), $type, $request->query->get('replace', null));
 
             if ($match->matched) {
                 $searchResults[] = $match;

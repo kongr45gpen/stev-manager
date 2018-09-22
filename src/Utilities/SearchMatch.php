@@ -50,7 +50,7 @@ class SearchMatch
      */
     private $query;
 
-    public function __construct($entity, $query, $type)
+    public function __construct($entity, $query, $type, $replace)
     {
         $this->entity = $entity;
         $this->query = $query;
@@ -75,7 +75,7 @@ class SearchMatch
                 if ($matcher($value)) {
                     // A match has been found!
                     // Store the property
-                    $this->properties[] = new SearchMatchProperty($property->getName(), $value, $type);
+                    $this->properties[] = new SearchMatchProperty($property->getName(), $value, $type, $query, $replace);
                     $this->matched = true;
                 }
             }
