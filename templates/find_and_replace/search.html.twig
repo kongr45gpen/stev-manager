@@ -1,0 +1,27 @@
+{% extends 0 ? 'base.html.twig' : 'empty.html.twig' %}
+
+{% block title %}Find & Replace{% endblock %}
+
+{% block body %}
+<div id="js--results" data-count="{{ matches|length }}">
+    {% for match in matches %}
+        <div class="media">
+            {% set class = match.class|split('\\')|last %}
+            <div class="mr-3 media-quickshow" aria-hidden="true" data-type="{{ class }}" title="{{ class|trans }}">
+                <span>{{ class|trans|first }}</span>
+            </div>
+            <div class="media-body">
+                <h5 class="mt-0">{{ match.entity }}<br>
+                    <small class="text-muted">{{ class|trans }}</small>
+                </h5>
+                <ul class="list-unstyled">
+                    {% for property in match.properties %}
+                        <li><strong>{{ property.name|humanize|trans }}:</strong> {{ property.value }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+

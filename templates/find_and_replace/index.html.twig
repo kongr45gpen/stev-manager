@@ -42,6 +42,13 @@
                         <a class="dropdown-item" href="#">Dropdown link</a>
                     </div>
                 </div>
+                <button type="submit" id="js--search-status-button" class="btn btn-success" disabled>
+                    Status: <strong id="js--search-status">Ready</strong>
+                    <i class="fas fa-check ml-1" id="js--search-status-icon"></i>
+                </button>
+                <button type="submit" class="btn btn-light" disabled>
+                    <strong id="js--search-status-count">0</strong> results found
+                </button>
             </div>
         </div>
 
@@ -52,6 +59,10 @@
             The square <strong id="js--example-replace"></strong> rhymes.
         </p>
     </form>
+
+    <div id="js--results-container">
+        <div id="js--results"></div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}

@@ -21,8 +21,6 @@ class SearchMatchProperty
 
     public function __construct($name, $value, int $matchType)
     {
-        dump("Found [$name]=={$value}");
-
         $this->name = $name;
         $this->value = $value;
         $this->matchType = $matchType;

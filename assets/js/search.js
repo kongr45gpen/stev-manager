@@ -15,6 +15,11 @@ $(document).ready(function() {
     const $choiceRegular = $("#js--search-type-regular");
     const $choiceRegex = $("#js--search-type-regex");
 
+    const $statusText = $("#js--search-status");
+    const $statusIcon = $("#js--search-status-icon");
+    const $statusButton= $("#js--search-status-button");
+    const $statusCounter = $("#js--search-status-count");
+
     $(".js--search-updater").on('change input', function() {
         const value = $findInput.val();
         const replace = $replaceInput.val();
@@ -36,6 +41,7 @@ $(document).ready(function() {
             randExp.min = 5;
             randExp.max = 10;
 
+            // TODO: Handle errors and ignore them. Wrong JS regex might be good PHP regex.
             input = randExp.gen();
 
             if (input.size >= 50) {
@@ -52,6 +58,44 @@ $(document).ready(function() {
         $placeholderOriginal.text(input);
         $placeholderReplaced.text(output);
 
+        $form.submit();
+    });
+
+    $form.submit(function(e) {
+        e.preventDefault();
+
+        // Display stuff
+        $statusText.html('Loading&hellip;');
+        $statusIcon.removeClass('fa-times fa-check');
+        $statusIcon.addClass('fa-spinner fa-spin');
+        $statusButton.removeClass('btn-danger btn-success');
+        $statusButton.addClass('btn-light');
+
+        $.ajax({
+            type: $form.attr('method'),
+            url: $form.attr('action'),
+            data: $form.serialize(),
+            success: function (data) {
+                $("#js--results-container").html(data);
+
+                // Display stuff (reset)
+                $statusText.html('Ready');
+                $statusIcon.addClass('fa-check');
+                $statusIcon.removeClass('fa-spinner fa-spin');
+                $statusButton.removeClass('btn-light');
+                $statusButton.addClass('btn-success');
+                $statusCounter.text($("#js--results").attr('data-count'));
+            },
+            error: function (data) {
+                console.error('An error occurred during the submission of the form.');
+
+                $statusText.html('Error');
+                $statusIcon.addClass('fa-times');
+                $statusIcon.removeClass('fa-spinner fa-spin');
+                $statusButton.removeClass('btn-light');
+                $statusButton.addClass('btn-danger');
+            },
+        });
     });
 
 });
