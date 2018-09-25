@@ -52,6 +52,7 @@ class Repetition
      * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="repetitions")
      * @Gedmo\Versioned
      * @ORM\JoinColumn(nullable=false)
+     * @var Event|null
      */
     private $event;
 
@@ -193,6 +194,10 @@ class Repetition
 
     public function __toString()
     {
-        return $this->event->__toString() . " Repetition #" . ($this->getEvent()->getRepetitions()->indexOf($this) + 1);
+        if ($this->event) {
+            return $this->event->__toString() . " Repetition #" . ($this->getEvent()->getRepetitions()->indexOf($this) + 1);
+        } else {
+            return "New Repetition";
+        }
     }
 }

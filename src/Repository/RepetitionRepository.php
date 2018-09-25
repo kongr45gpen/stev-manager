@@ -19,6 +19,15 @@ class RepetitionRepository extends ServiceEntityRepository
         parent::__construct($registry, Repetition::class);
     }
 
+    public function findByInstance($instance)
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.event', 'e', 'WITH', 'e.instance = :instance')
+            ->setParameter('instance', $instance)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Repetition[] Returns an array of Repetition objects
 //     */

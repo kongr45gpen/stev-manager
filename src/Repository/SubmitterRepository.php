@@ -19,6 +19,15 @@ class SubmitterRepository extends ServiceEntityRepository
         parent::__construct($registry, Submitter::class);
     }
 
+    public function findByInstance($instance)
+    {
+        return $this->createQueryBuilder('s')
+            ->join('s.events', 'e', 'WITH', 'e.instance = :instance')
+            ->setParameter('instance', $instance)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Submitter[] Returns an array of Submitter objects
 //     */

@@ -2,7 +2,6 @@
 
 namespace App\Admin;
 
-
 use App\Entity\Event;
 use App\Entity\Instance;
 use App\Entity\Space;
@@ -13,6 +12,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelHiddenType;
+use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\CoreBundle\Form\Type\BooleanType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -30,7 +30,7 @@ class RepetitionAdmin extends AbstractAdmin
     {
         $formMapper
             ->with('Basics', ['class' => 'col-md-6'])
-                ->add('event', ModelHiddenType::class)
+                ->add('event', ModelType::class)
                 ->add('date', DateTimeType::class)
                 ->add('time', CheckboxType::class, ['required' => false])
                 ->add('end_date', DateTimeType::class, ['required' => false])
@@ -47,16 +47,15 @@ class RepetitionAdmin extends AbstractAdmin
         ;
     }
 
-//    protected function configureListFields(ListMapper $listMapper)
-//    {
-//        $listMapper
-//            ->add('id')
-//            ->addIdentifier('name')
-//            ->add('address')
-//            ->add('capacity')
-//            ->add('contact_name')
-//            ->add('contact_email')
-//            ->add('contact_phone')
-//        ;
-//    }
+    protected function configureListFields(ListMapper $listMapper)
+    {
+        $listMapper
+            ->addIdentifier('id')
+            ->add('event')
+            ->add('date')
+            ->add('duration')
+            ->add('time')
+            ->add('end_date')
+        ;
+    }
 }

@@ -6,6 +6,7 @@ use App\Entity\Event;
 use App\Entity\Instance;
 use App\Utilities\SearchMatch;
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -34,17 +35,17 @@ class FindAndReplaceController extends AbstractController
             throw new HttpException(401, "Please do not throw empty search queries!");
         }
 
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
         /** @var Event[] $events */
         $events = $instance->getEvents()->toArray();
         $volunteers = $instance->getVolunteers()->toArray();
         $spaces = $this->getDoctrine()->getRepository('App:Space')->findAll();
 
         // TODO: Use the query builder for this
-        $submitters = $repetitions = [];
-        foreach ($events as $event) {
-            $submitters = array_merge($submitters, $event->getSubmitters()->toArray());
-            $repetitions = array_merge($repetitions, $event->getRepetitions()->toArray());
-        }
+        $submitters = $this->getDoctrine()->getRepository('App:Submitter')->findByInstance($instance);
+        $repetitions = $this->getDoctrine()->getRepository('App:Repetition')->findByInstance($instance);
 
         $entities = array_merge($events, $volunteers, $spaces, $submitters, $repetitions);
 
