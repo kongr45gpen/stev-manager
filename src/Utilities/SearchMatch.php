@@ -118,7 +118,7 @@ class SearchMatch
                 }
 
                 // Regex matching
-                return (boolean) preg_match('/' . $query . '/', $content);
+                return (boolean) preg_match('/' . $query . '/u', $content);
             };
         } elseif ($type === self::MATCH_REGULAR) {
             return function ($content) use ($query) {

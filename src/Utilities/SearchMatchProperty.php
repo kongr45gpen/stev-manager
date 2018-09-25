@@ -63,7 +63,7 @@ class SearchMatchProperty
         $parts = [];
 
         if ($this->matchType === SearchMatch::MATCH_REGEX) {
-            $regex = '/(' . $query . ')/';
+            $regex = '/(' . $query . ')/u';
 
             $start = 0;
 

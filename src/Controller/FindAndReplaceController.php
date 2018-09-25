@@ -31,10 +31,6 @@ class FindAndReplaceController extends AbstractController
      */
     public function search(Instance $instance, Request $request)
     {
-        if ($request->query->get('query','') === '') {
-            throw new HttpException(401, "Please do not throw empty search queries!");
-        }
-
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
@@ -53,11 +49,14 @@ class FindAndReplaceController extends AbstractController
 
         $searchResults = [];
 
-        foreach ($entities as $entity) {
-            $match = new SearchMatch($entity, $request->query->get('query'), $type, $request->query->get('replace', null));
+        if ($request->query->get('query','') !== '') {
+            // Search entities, only if the query is not empty
+            foreach ($entities as $entity) {
+                $match = new SearchMatch($entity, $request->query->get('query'), $type, $request->query->get('replace', null));
 
-            if ($match->matched) {
-                $searchResults[] = $match;
+                if ($match->matched) {
+                    $searchResults[] = $match;
+                }
             }
         }
 

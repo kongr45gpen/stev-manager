@@ -19,6 +19,9 @@ $(document).ready(function() {
     const $statusIcon = $("#js--search-status-icon");
     const $statusButton= $("#js--search-status-button");
     const $statusCounter = $("#js--search-status-count");
+    const $statusCounterButton = $("#js--search-status-count-button");
+
+    let currentRequest = null;
 
     $(".js--search-updater").on('change input', function() {
         const value = $findInput.val();
@@ -64,14 +67,22 @@ $(document).ready(function() {
     $form.submit(function(e) {
         e.preventDefault();
 
+        // Cancel previous request
+        if (currentRequest) {
+            console.log("Aborting current request")
+            currentRequest.abort();
+        }
+
         // Display stuff
         $statusText.html('Loading&hellip;');
-        $statusIcon.removeClass('fa-times fa-check');
+        $statusIcon.removeClass('fa-times fa-check fa-exclamation-triangle');
         $statusIcon.addClass('fa-spinner fa-spin');
-        $statusButton.removeClass('btn-danger btn-success');
+        $statusButton.removeClass('btn-danger btn-warning btn-success');
         $statusButton.addClass('btn-light');
+        $statusCounterButton.addClass('btn-light');
+        $statusCounterButton.removeClass('btn-danger');
 
-        $.ajax({
+        currentRequest = $.ajax({
             type: $form.attr('method'),
             url: $form.attr('action'),
             data: $form.serialize(),
@@ -79,12 +90,19 @@ $(document).ready(function() {
                 $("#js--results-container").html(data);
 
                 // Display stuff (reset)
-                $statusText.html('Ready');
-                $statusIcon.addClass('fa-check');
                 $statusIcon.removeClass('fa-spinner fa-spin');
                 $statusButton.removeClass('btn-light');
-                $statusButton.addClass('btn-success');
-                $statusCounter.text($("#js--results").attr('data-count'));
+                const count = $("#js--results").attr('data-count');
+                $statusCounter.text(count);
+                if (count == 0 && $findInput.val().length !== 0) {
+                    $statusButton.addClass('btn-warning');
+                    $statusText.html('Not Found');
+                    $statusIcon.addClass('fa-exclamation-triangle');
+                } else {
+                    $statusButton.addClass('btn-success');
+                    $statusText.html('Ready');
+                    $statusIcon.addClass('fa-check');
+                }
             },
             error: function (data) {
                 console.error('An error occurred during the submission of the form.');
