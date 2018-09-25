@@ -2,6 +2,8 @@
 
 namespace App\Utilities;
 
+use Symfony\Component\PropertyAccess\PropertyAccess;
+
 /**
  * A property of an App\Utilities\SearchMatch
  *
@@ -12,12 +14,7 @@ class SearchMatchProperty
 {
     private $name;
     private $value;
-    /**
-     * The type of the match (App\Utilities\SearchMatch constant)
-     *
-     * @var int
-     */
-    private $matchType;
+    private $replacedValue;
 
     /**
      * Matched parts
@@ -28,14 +25,21 @@ class SearchMatchProperty
      */
     private $parts;
 
-    public function __construct($name, $value, int $matchType, string $searchQuery, string $replaceQuery)
+    /**
+     * The corresponding SearchMatch of this property
+     *
+     * @var SearchMatch
+     */
+    private $parent;
+
+    public function __construct($name, $value, SearchMatch $parent)
     {
         $this->name = $name;
         $this->value = $value;
+        $this->parent = $parent;
 
-        $this->matchType = $matchType;
-
-        $this->parts = $this->splitToParts($searchQuery);
+        $this->parts = $this->splitToParts($parent->getQuery());
+        $this->replaceAll();
     }
 
     public function getName()
@@ -58,11 +62,22 @@ class SearchMatchProperty
         return $this->parts;
     }
 
+    /**
+     * The value, after the replacement function has ran on it
+     *
+     * @return mixed
+     */
+    public function getReplacedValue()
+    {
+        return $this->replacedValue;
+    }
+
     private function splitToParts($query)
     {
         $parts = [];
+        $matchType = $this->parent->getMatchType();
 
-        if ($this->matchType === SearchMatch::MATCH_REGEX) {
+        if ($matchType === SearchMatch::MATCH_REGEX) {
             $regex = '/(' . $query . ')/u';
 
             $start = 0;
@@ -82,7 +97,7 @@ class SearchMatchProperty
 
             // Add the last matched value
             $parts[] = ['value' => array_pop($matches), 'matched' => false];
-        } else if ($this->matchType === SearchMatch::MATCH_REGULAR) {
+        } else if ($matchType === SearchMatch::MATCH_REGULAR) {
             $matches = explode($query, $this->value);
             foreach($matches as $match) {
                 $parts[] = ['value' => $match, 'matched' => false];
@@ -90,14 +105,72 @@ class SearchMatchProperty
             }
             array_pop($parts);
         } else {
-            throw new \RuntimeException("Unknown Search Match type {$this->matchType}");
+            throw new \RuntimeException("Unknown Search Match type {$matchType}");
         }
 
         return $parts;
     }
 
-    private function replace(int $matchType, string $searchQuery, string $replaceQuery)
+    /**
+     * Replace all the occurrences in this property
+     *
+     * Only stores the value, doesn't do any actual replacing in the entity
+     *
+     * @param int|null $limit        The maximum number of replaces to run, or null to replace everything
+     */
+    public function replaceAll(int $limit = null)
     {
+        $searchQuery = $this->parent->getQuery();
+        $replaceQuery = $this->parent->getReplace();
 
+        if ($this->parent->getMatchType() === SearchMatch::MATCH_REGEX) {
+            $this->replacedValue = preg_replace("/$searchQuery/u", $replaceQuery, $this->value, $limit ?? -1);
+        } elseif ($this->parent->getMatchType() === SearchMatch::MATCH_REGULAR) {
+            $this->replacedValue = str_replace($searchQuery, $replaceQuery, $this->value, $limit);
+        } else {
+            throw new \RuntimeException("Unknown Search Match type {$this->parent->getMatchType()}");
+        }
+    }
+
+    /*
+     * Store the replaced value in the entity
+     */
+    private function performReplacement()
+    {
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        $propertyAccessor->setValue($this->parent->getEntity(), $this->name, $this->replacedValue);
+    }
+
+    /**
+     * Get a function that matches content against a query
+     *
+     * @param int $type The type of the match (App\Utilities\SearchMatch constant)
+     * @param string $query The search query string
+     */
+    public static function getMatcher(int $type, string $query): callable
+    {
+        if ($type === SearchMatch::MATCH_REGEX) {
+            return function ($content) use ($query) {
+                // Empty strings are evil
+                if (empty($content) || empty($query)) {
+                    return false;
+                }
+
+                // Regex matching
+                return (boolean) preg_match('/' . $query . '/u', $content);
+            };
+        } elseif ($type === SearchMatch::MATCH_REGULAR) {
+            return function ($content) use ($query) {
+                // Empty strings are evil
+                if (empty($content) || empty($query)) {
+                    return false;
+                }
+
+                // Linear search
+                return strpos($content, $query) !== false;
+            };
+        } else {
+            throw new \RuntimeException("Unknown search matching type $type");
+        }
     }
 }

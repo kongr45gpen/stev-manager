@@ -37,11 +37,18 @@ class SearchMatch
     private $properties = [];
 
     /**
-     * The matched class
+     * The matched entity class
      *
      * @var string
      */
     private $class;
+
+    /**
+     * The type of the match (App\Utilities\SearchMatch constant)
+     *
+     * @var int
+     */
+    private $matchType;
 
     /**
      * The search query string
@@ -50,15 +57,24 @@ class SearchMatch
      */
     private $query;
 
+    /**
+     * The replacement string
+     *
+     * @var string
+     */
+    private $replace;
+
     public function __construct($entity, $query, $type, $replace)
     {
         $this->entity = $entity;
         $this->query = $query;
+        $this->replace = $replace;
+        $this->matchType = $type;
 
         // Initialise dependencies and functions
         $reader = new AnnotationReader();
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $matcher = $this->getMatcher($type);
+        $matcher = SearchMatchProperty::getMatcher($type, $query);
 
         // Initialise reflection to get properties
         $reflClass = new \ReflectionClass($entity);
@@ -75,7 +91,7 @@ class SearchMatch
                 if ($matcher($value)) {
                     // A match has been found!
                     // Store the property
-                    $this->properties[] = new SearchMatchProperty($property->getName(), $value, $type, $query, $replace);
+                    $this->properties[] = new SearchMatchProperty($property->getName(), $value, $this);
                     $this->matched = true;
                 }
             }
@@ -100,38 +116,23 @@ class SearchMatch
         return $this->class;
     }
 
-    /**
-     * Get a function that matches content against a query
-     *
-     * @param int $type The type of the match (class constant)
-     */
-    private function getMatcher(int $type): callable
+    public function getQuery(): string
     {
-        // Store query for easy access
-        $query = $this->query;
-
-        if ($type === self::MATCH_REGEX) {
-            return function ($content) use ($query) {
-                // Empty strings are evil
-                if (empty($content) || empty($query)) {
-                    return false;
-                }
-
-                // Regex matching
-                return (boolean) preg_match('/' . $query . '/u', $content);
-            };
-        } elseif ($type === self::MATCH_REGULAR) {
-            return function ($content) use ($query) {
-                // Empty strings are evil
-                if (empty($content) || empty($query)) {
-                    return false;
-                }
-
-                // Linear search
-                return strpos($content, $query) !== false;
-            };
-        } else {
-            throw new \RuntimeException("Unknown search matching type $type");
-        }
+        return $this->query;
     }
+
+    public function getReplace(): string
+    {
+        return $this->replace;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMatchType(): int
+    {
+        return $this->matchType;
+    }
+
+
 }
