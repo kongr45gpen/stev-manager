@@ -32,6 +32,13 @@ class SearchMatchProperty
      */
     private $parent;
 
+    /**
+     * Whether this property is undoable
+     *
+     * @var boolean
+     */
+    private $undo = false;
+
     public function __construct($name, $value, SearchMatch $parent)
     {
         $this->name = $name;
@@ -70,6 +77,16 @@ class SearchMatchProperty
     public function getReplacedValue()
     {
         return $this->replacedValue;
+    }
+
+    public function getUndo(): bool
+    {
+        return $this->undo;
+    }
+
+    public function setUndo(bool $undo): void
+    {
+        $this->undo = $undo;
     }
 
     private function splitToParts($query)

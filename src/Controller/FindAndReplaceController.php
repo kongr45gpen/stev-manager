@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\Instance;
 use App\Utilities\SearchMatch;
+use Carbon\CarbonInterval;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
@@ -96,7 +97,7 @@ class FindAndReplaceController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($input = $post->get('replace-entity')) {
-                list($entity, $metadatum) = $this->requestToEntity($input);
+                list($entity, $metadatum, $property, $occurrence) = $this->requestToEntity($input);
 
                 // Get the version of the entity
                 /** @var LogEntry $oldVersion */
@@ -106,7 +107,11 @@ class FindAndReplaceController extends Controller
 
                 // Calculate the replacement
                 $match = new SearchMatch($entity, $post->get('query'), $this->typeStringToConst($post->get('options')), $post->get('replace'));
-                $match->replaceAll();
+                if ($property) {
+                    $match->getProperty($property)->performReplacement();
+                } else {
+                    $match->replaceAll();
+                }
                 $em->persist($entity);
                 $em->flush();
 
@@ -116,12 +121,24 @@ class FindAndReplaceController extends Controller
                     ->setMaxResults(1)
                     ->getSingleResult();
 
-
                 if ($undo = $newVersion->getVersion() !== $oldVersion->getVersion()) {
-                    // We have a new update
-                    $item = $cache->getItem($this->getCacheKey('undo', $entity))
+                    $item = $cache->getItem($this->getCacheKey('undo', $entity, $property))
+                        ->expiresAfter(CarbonInterval::hours(1))
                         ->set($oldVersion->getVersion());
                     $cache->save($item);
+                    if ($property) {
+                        foreach ($match->getProperties() as $currentProperty) {
+                            if ($cache->getItem($this->getCacheKey('undo', $entity, $property))->get()) {
+                                $currentProperty->setUndo(true);
+                            }
+                        }
+                        $undo = false; // No global undo
+                    } else {
+                        // We have a new update
+                        $item = $cache->getItem($this->getCacheKey('undo', $entity))
+                            ->set($oldVersion->getVersion());
+                        $cache->save($item);
+                    }
                 }
 
                 return $this->render('find_and_replace/search.html.twig', [
@@ -136,7 +153,6 @@ class FindAndReplaceController extends Controller
                 $setToVersion = $cache->getItem($this->getCacheKey('undo', $entity));
 
                 if (!$setToVersion->get()) {
-                    dump($cache->getItems());
                     throw new NotFoundHttpException("No undo action for this.");
                 }
 
@@ -187,26 +203,33 @@ class FindAndReplaceController extends Controller
      * Get the cache key for an action
      * @return string
      */
-    private function getCacheKey(string $action, $entity)
+    private function getCacheKey(string $action, $entity, string $property = null)
     {
         $user = $this->getUser();
         $userId = ($user) ? $user->getId() : 0;
         $class = str_replace('\\', '-', get_class($entity));
         $id = $entity->getId();
+        $extraProperty = ($property) ? ".$property" : "";
 
-        return "replace.$action.$userId.$class.$id";
+        return "replace.$action.$userId.$class.$id$extraProperty";
     }
 
     /**
      * Request parameter to [entity, metadatum] array
-     * @return [mixed, ClassMetadata]
+     * @return [mixed, ClassMetadata, string, int] [entity, metadata, property, occurrence]
      */
     private function requestToEntity(string $entityString)
     {
         $meta = $this->getDoctrine()->getManager()->getMetadataFactory()->getAllMetadata();
 
         // Make sure the provided class is a doctrine entity of ours
-        list($type, $id) = explode('.', $entityString);
+        $parts = explode('.', $entityString);
+        // list($type, $id, $property, $occurrence)
+        $type = $parts[0];
+        $id = $parts[1];
+        $property = (isset($parts[2])) ? $parts[2] : null;
+        $occurrence = (isset($parts[3])) ? $parts[3] : null;
+
         $metadatum = array_filter($meta, function(ClassMetadata $datum) use ($type) {
             return $datum->name === "App\\Entity\\$type" && $datum->namespace === "App\Entity";
         });
@@ -218,6 +241,6 @@ class FindAndReplaceController extends Controller
         $entity = $this->getDoctrine()->getRepository($metadatum->name)->find($id);
         if (!$entity) throw new NotFoundHttpException("Entity with such ID does not exist.");
 
-        return [$entity, $metadatum];
+        return [$entity, $metadatum, $property, $occurrence];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Utilities;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
@@ -109,6 +110,17 @@ class SearchMatch
     public function getProperties(): array
     {
         return $this->properties;
+    }
+
+    public function getProperty($name)
+    {
+        foreach ($this->properties as $property) {
+            if ($property->getName() === $name) {
+                return $property;
+            }
+        }
+
+        throw new NotFoundHttpException("Unknown property $name");
     }
 
     public function getClass(): string

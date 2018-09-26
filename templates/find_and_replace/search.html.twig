@@ -48,10 +48,15 @@
                     <div class="col-lg">
                         <ul class="list-unstyled list-properties">
                             {% for property in match.properties %}
+                                {% set propIdentifier = identifier ~ '.' ~ property.name %}
                                 <li>
                                     <aside class="float-right ml-1 mb-1">
-                                        <button type="submit" class="btn btn-light btn-sm" name="action" value="undo" title="Undo (this property)" disabled><i class="fas fa-undo"></i></button>
-                                        <button type="submit" class="btn btn-danger btn-sm" name="action" value="replace" title="Replace (this property)"><i class="fas fa-bolt"></i></button>
+                                        {% if property.undo %}
+                                        <button type="submit" class="btn btn-info btn-sm" name="undo-entity" value="{{ propIdentifier }}" title="Undo (this property)"><i class="fas fa-undo"></i></button>
+                                        {% else %}
+                                        <button type="submit" class="btn btn-light btn-sm" name="undo-entity" value="{{ propIdentifier }}" title="Undo (this property)" disabled><i class="fas fa-undo"></i></button>
+                                        {% endif %}
+                                        <button type="submit" class="btn btn-danger btn-sm" name="replace-entity" value="{{ propIdentifier }}" title="Replace (this property)"><i class="fas fa-bolt"></i></button>
                                     </aside>
                                     <strong>{{ property.name|humanize|trans }}:</strong>
                                     {{ property.replacedValue }}
