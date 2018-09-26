@@ -128,8 +128,8 @@ class ExportController extends Controller
             ->setMaxResults(1)
             ->orderBy('l.id', 'DESC')
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
 
-        return $entry->getId();
+        return ($entry) ? $entry->getId() : 0;
     }
 }

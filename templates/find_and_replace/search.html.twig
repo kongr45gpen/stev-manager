@@ -32,10 +32,12 @@
                     <div class="col-lg">
                         <ul class="list-unstyled list-properties">
                             {% for property in match.properties %}
+                                {% set propIdentifier = identifier ~ '.' ~ property.name %}
                                 <li><strong>{{ property.name|humanize|trans }}:</strong>
                                 {% for part in property.parts -%}
                                     {%- if part.matched -%}
-                                        <span class="badge badge-warning">{{- part.value -}}</span>
+                                        <a class="badge badge-warning" href="#"
+                                        data-target="{{ propIdentifier ~ '.' ~ loop.index }}">{{- part.value -}}</a>
                                     {%- else -%}
                                         {# TODO: Truncate me #}
                                         {{- part.value -}}

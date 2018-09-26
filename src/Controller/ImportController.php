@@ -111,7 +111,7 @@ class ImportController extends Controller
                 $data = $event->getDataAsObject();
                 $startTime = $data->time->start ?? null;
                 $finishTime = $data->time->finish ?? null;
-                if ($startTime === null || $finishTime === null) continue;
+                if ($startTime === null || $finishTime === null || $startTime === "" || $finishTime === "") continue;
                 $duration = $data->time->duration ?? 0;
                 $repetitions = (int) $data->time->repetition_count ?? 1;
                 /** @var Carbon $carbonStartTime */
