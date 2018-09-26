@@ -183,8 +183,6 @@ class SearchMatchProperty
             $this->parts[$n]['value'] = str_replace($searchQuery, $replaceQuery, $this->parts[$n]['value']);
         }
 
-        dump("New value: " . $this->parts[$n]['value']);
-
         // Join all the parts together again
         $this->replacedValue = join('', array_column($this->parts, 'value'));
     }

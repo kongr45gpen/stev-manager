@@ -134,7 +134,6 @@ $(document).ready(function() {
         const name = 'replace-entity';
         const value = $(this).attr('data-target');
 
-        console.log(name + '=>' + value);
         $("#js--results-form").trigger('submit', {
             caller: {
                 name: name,
@@ -146,16 +145,14 @@ $(document).ready(function() {
 
 
     $resultsContainer.on('submit', '#js--results-form', function (e, params) {
-        console.log(params);
-
         e.preventDefault();
 
         if (currentRequest) currentRequest.abort();
 
         let $pushedButton;
-
         const $replaceForm = $(this);
         let formData = $replaceForm.serializeArray();
+
         if (params !== undefined && params['caller'] !== undefined) {
             $pushedButton = params['caller']['selector'];
             formData.push({

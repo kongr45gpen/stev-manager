@@ -107,13 +107,12 @@ class FindAndReplaceController extends Controller
                 /** @var LogEntry $oldVersion */
                 $oldVersion = $logs->getLogEntriesQuery($entity)
                     ->setMaxResults(1)
-                    ->getSingleResult();
+                    ->getOneOrNullResult();
 
                 // Calculate the replacement
                 $match = new SearchMatch($entity, $post->get('query'), $this->typeStringToConst($post->get('options')), $post->get('replace'));
                 if ($property) {
                     if ($occurrence) {
-                        dump("I NEED TO REPLACE THE OCCUR! $property -> $occurrence");
                         $match->getProperty($property)->replaceOccurrence($occurrence);
                     }
                     $match->getProperty($property)->performReplacement();
@@ -127,9 +126,9 @@ class FindAndReplaceController extends Controller
                 /** @var LogEntry $newVersion */
                 $newVersion = $logs->getLogEntriesQuery($entity)
                     ->setMaxResults(1)
-                    ->getSingleResult();
+                    ->getOneOrNullResult();
 
-                if ($newVersion->getVersion() !== $oldVersion->getVersion()) {
+                if ($newVersion && $oldVersion && $newVersion->getVersion() !== $oldVersion->getVersion()) {
                     $item = $cache->getItem($this->getCacheKey('undo', $entity, $property))
                         ->expiresAfter(CarbonInterval::hours(1))
                         ->set($oldVersion->getVersion());
