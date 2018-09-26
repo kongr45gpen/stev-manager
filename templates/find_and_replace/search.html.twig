@@ -6,6 +6,7 @@
 <div id="js--results" data-count="{{ matches|length }}">
     {{ form_start(form, {attr: {id: 'js--results-form'}}) }}
     {% for match in matches %}
+        {% set identifier = match.class|split('\\')|last ~ '.' ~ match.entity.id %}
         <div class="media search-result js--results-result" id="js--results-result-{{ match.class|split('\\')|last }}-{{ match.entity.id }}">
             {% set class = match.class|split('\\')|last %}
             <div class="mr-3 media-quickshow" aria-hidden="true" data-type="{{ class }}" title="{{ class|trans }}">
@@ -14,8 +15,14 @@
             <div class="media-body">
                 <h5 class="mt-0 clearfix">{{ match.entity }}
                     <aside class="float-right p-2">
-                        <button type="submit" class="btn btn-light" name="action" value="undo" disabled><i class="fas fa-undo"></i> Undo</button>
-                        <button type="submit" class="btn btn-danger" name="replace-entity" value="{{ match.class|split('\\')|last ~ '.' ~ match.entity.id }}"
+                        {% if undo %}
+                        <button type="submit" class="btn btn-info" name="undo-entity" value="{{ identifier }}">
+                        {% else %}
+                        <button type="submit" class="btn btn-light" name="undo-entity" value="undo" disabled>
+                        {% endif %}
+                            <i class="fas fa-undo"></i> Undo
+                        </button>
+                        <button type="submit" class="btn btn-danger" name="replace-entity" value="{{ identifier }}"
                         {% if match.willBeTheSame %}disabled{% endif %}><i class="fas fa-bolt"></i> Replace</button>
                     </aside>
                     <br>

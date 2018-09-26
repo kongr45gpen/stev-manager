@@ -152,6 +152,8 @@ $(document).ready(function() {
             success: function (data) {
                 // console.log(data)
 
+                $pushedButton.html('<i class="fas fa-times" aria-hidden="true"></i> Unknown Error');
+
                 const $html = $(data);
                 $searchResult.html($html.find('.js--results-result').html());
 

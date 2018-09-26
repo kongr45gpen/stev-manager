@@ -8,7 +8,11 @@ use App\Utilities\SearchMatch;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Gedmo\Loggable\Entity\LogEntry;
+use Gedmo\Loggable\Entity\Repository\LogEntryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Cache\CacheItem;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Form;
@@ -21,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FindAndReplaceController extends AbstractController
+class FindAndReplaceController extends Controller
 {
     /**
      * @Route("/instance/{instance}/find", name="find_and_replace")
@@ -46,7 +50,7 @@ class FindAndReplaceController extends AbstractController
         $volunteers = $instance->getVolunteers()->toArray();
         $spaces = $this->getDoctrine()->getRepository('App:Space')->findAll();
 
-        // TODO: Use the query builder for this
+        // TODO: Eager fetch?
         $submitters = $this->getDoctrine()->getRepository('App:Submitter')->findByInstance($instance);
         $repetitions = $this->getDoctrine()->getRepository('App:Repetition')->findByInstance($instance);
 
@@ -71,7 +75,8 @@ class FindAndReplaceController extends AbstractController
         return $this->render('find_and_replace/search.html.twig', [
             'form' => $form->createView(),
             'matches' => $searchResults,
-            'instance' => $instance
+            'instance' => $instance,
+            'undo' => false
         ]);
     }
 
@@ -86,24 +91,18 @@ class FindAndReplaceController extends AbstractController
 
         $post = $request->request;
         $em = $this->getDoctrine()->getManager();
+        $logs = $em->getRepository('Gedmo\Loggable\Entity\LogEntry');
+        $cache = $this->get('cache.app');
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $meta = $em->getMetadataFactory()->getAllMetadata();
-            dump($meta);
-
             if ($input = $post->get('replace-entity')) {
-                // Make sure the provided class is a doctrine entity of ours
-                list($type, $id) = explode('.', $input);
-                $metadatum = array_filter($meta, function(ClassMetadata $datum) use ($type) {
-                    return $datum->name === "App\\Entity\\$type" && $datum->namespace === "App\Entity";
-                });
-                if (empty($metadatum)) throw new NotFoundHttpException("Couldn't find entity type {$type}");
-                /** @var ClassMetadata $metadatum */
-                $metadatum = reset($metadatum);
+                list($entity, $metadatum) = $this->requestToEntity($input);
 
-                // Find the entity itself
-                $entity = $em->getRepository($metadatum->name)->find($id);
-                if (!$entity) throw new NotFoundHttpException("Entity with such ID does not exist.");
+                // Get the version of the entity
+                /** @var LogEntry $oldVersion */
+                $oldVersion = $logs->getLogEntriesQuery($entity)
+                    ->setMaxResults(1)
+                    ->getSingleResult();
 
                 // Calculate the replacement
                 $match = new SearchMatch($entity, $post->get('query'), $this->typeStringToConst($post->get('options')), $post->get('replace'));
@@ -111,10 +110,49 @@ class FindAndReplaceController extends AbstractController
                 $em->persist($entity);
                 $em->flush();
 
+                // Get the changed version of the entity, after the flush
+                /** @var LogEntry $newVersion */
+                $newVersion = $logs->getLogEntriesQuery($entity)
+                    ->setMaxResults(1)
+                    ->getSingleResult();
+
+
+                if ($undo = $newVersion->getVersion() !== $oldVersion->getVersion()) {
+                    // We have a new update
+                    $item = $cache->getItem($this->getCacheKey('undo', $entity))
+                        ->set($oldVersion->getVersion());
+                    $cache->save($item);
+                }
+
                 return $this->render('find_and_replace/search.html.twig', [
                     'form' => $form->createView(),
                     'matches' => [$match],
-                    'instance' => $instance
+                    'instance' => $instance,
+                    'undo' => $undo
+                ]);
+            } elseif ($input = $post->get('undo-entity')) {
+                list($entity, $metadatum) = $this->requestToEntity($input);
+
+                $setToVersion = $cache->getItem($this->getCacheKey('undo', $entity));
+
+                if (!$setToVersion->get()) {
+                    dump($cache->getItems());
+                    throw new NotFoundHttpException("No undo action for this.");
+                }
+
+                $logs->revert($entity, $setToVersion->get());
+                $em->persist($entity);
+                $em->flush();
+                $setToVersion->set(null); // Do not undo again
+                $cache->save($setToVersion);
+
+                $match = new SearchMatch($entity, $post->get('query'), $this->typeStringToConst($post->get('options')), $post->get('replace'));
+
+                return $this->render('find_and_replace/search.html.twig', [
+                    'form' => $form->createView(),
+                    'matches' => [$match],
+                    'instance' => $instance,
+                    'undo' => false
                 ]);
             }
         }
@@ -136,8 +174,50 @@ class FindAndReplaceController extends AbstractController
             ->getForm();
     }
 
+    /**
+     * Convert a search type from the request to the class constant
+     * @return int A SearchMatch constant
+     */
     private function typeStringToConst(string $type) :int
     {
         return ($type === 'regex') ? SearchMatch::MATCH_REGEX : SearchMatch::MATCH_REGULAR;
+    }
+
+    /**
+     * Get the cache key for an action
+     * @return string
+     */
+    private function getCacheKey(string $action, $entity)
+    {
+        $user = $this->getUser();
+        $userId = ($user) ? $user->getId() : 0;
+        $class = str_replace('\\', '-', get_class($entity));
+        $id = $entity->getId();
+
+        return "replace.$action.$userId.$class.$id";
+    }
+
+    /**
+     * Request parameter to [entity, metadatum] array
+     * @return [mixed, ClassMetadata]
+     */
+    private function requestToEntity(string $entityString)
+    {
+        $meta = $this->getDoctrine()->getManager()->getMetadataFactory()->getAllMetadata();
+
+        // Make sure the provided class is a doctrine entity of ours
+        list($type, $id) = explode('.', $entityString);
+        $metadatum = array_filter($meta, function(ClassMetadata $datum) use ($type) {
+            return $datum->name === "App\\Entity\\$type" && $datum->namespace === "App\Entity";
+        });
+        if (empty($metadatum)) throw new NotFoundHttpException("Couldn't find entity type {$type}");
+        /** @var ClassMetadata $metadatum */
+        $metadatum = reset($metadatum);
+
+        // Find the entity itself
+        $entity = $this->getDoctrine()->getRepository($metadatum->name)->find($id);
+        if (!$entity) throw new NotFoundHttpException("Entity with such ID does not exist.");
+
+        return [$entity, $metadatum];
     }
 }
