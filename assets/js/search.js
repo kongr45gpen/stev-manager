@@ -201,6 +201,7 @@ $(document).ready(function() {
                 // Revert the design
                 $pushedButton.html(oldContent);
                 $pushedButton.attr('class', oldClasses);
+                $pushedButton.prop('disabled', false);
 
                 const $html = $(data);
                 if ($searchResult.length) {

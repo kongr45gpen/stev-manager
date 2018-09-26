@@ -169,7 +169,6 @@ class SearchMatch
     public function replaceAll()
     {
         foreach ($this->properties as $property) {
-            dump("I replace property {$property->getName()}");
             $property->performReplacement();
         }
     }

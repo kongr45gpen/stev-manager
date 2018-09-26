@@ -93,6 +93,7 @@ class FindAndReplaceController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             if ($post->get('replace-all')) {
                 foreach ($this->fetchAllEntities($instance) as $entity) {
+                    // TODO: Use form to get listed models instead of fetching them again?
                     $match = $this->replaceOneEntity($entity, $post);
                     if ($match->matched) $matches[] = $match;
                 }
@@ -132,8 +133,6 @@ class FindAndReplaceController extends Controller
 
     private function replaceOneEntity($entity, ParameterBag $post, $property = null, $occurrence = null)
     {
-        dump("I am ask to replace one entity {$entity->getId()}");
-
         $em = $this->getDoctrine()->getManager();
         $logs = $em->getRepository('Gedmo\Loggable\Entity\LogEntry');
         $cache = $this->get('cache.app');
