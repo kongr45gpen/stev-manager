@@ -96,9 +96,21 @@ $primary: darken(#428bca, 20%);
     }
 }
 
+.list-properties {
+    li {
+        clear: both;
+    }
+}
+
 .btn-subtitle {
     font-size: 6pt;
     color: white;
+}
+
+.search-result:not(:last-child) {
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
 }
 
 pre {

@@ -21,9 +21,13 @@ $(document).ready(function() {
     const $statusCounter = $("#js--search-status-count");
     const $statusCounterButton = $("#js--search-status-count-button");
 
+    const $replaceAllButton = $("#js--replace-all");
+    const $resultsContainer = $("#js--results-container");
+
     let currentRequest = null;
 
-    $(".js--search-updater").on('change input', function() {
+    $(".js--search-updater").on('input', function() { // TODO: Handle change events as well
+        // TODO: Do not re-search on same input?
         const value = $findInput.val();
         const replace = $replaceInput.val();
 
@@ -69,7 +73,6 @@ $(document).ready(function() {
 
         // Cancel previous request
         if (currentRequest) {
-            console.log("Aborting current request")
             currentRequest.abort();
         }
 
@@ -81,6 +84,7 @@ $(document).ready(function() {
         $statusButton.addClass('btn-light');
         $statusCounterButton.addClass('btn-light');
         $statusCounterButton.removeClass('btn-danger');
+        $replaceAllButton.prop('disabled', true);
 
         currentRequest = $.ajax({
             type: $form.attr('method'),
@@ -94,6 +98,9 @@ $(document).ready(function() {
                 $statusButton.removeClass('btn-light');
                 const count = $("#js--results").attr('data-count');
                 $statusCounter.text(count);
+                if (count != 0) {
+                    $replaceAllButton.prop('disabled', false);
+                }
                 if (count == 0 && $findInput.val().length !== 0) {
                     $statusButton.addClass('btn-warning');
                     $statusText.html('Not Found');
@@ -104,7 +111,12 @@ $(document).ready(function() {
                     $statusIcon.addClass('fa-check');
                 }
             },
-            error: function (data) {
+            error: function (rq) {
+                if (rq.statusText === 'abort') {
+                    // Not really an error
+                    return;
+                }
+
                 console.error('An error occurred during the submission of the form.');
 
                 $statusText.html('Error');
@@ -116,5 +128,69 @@ $(document).ready(function() {
         });
     });
 
+    $resultsContainer.on('submit', '#js--results-form', function (e) {
+        e.preventDefault();
+
+        if (currentRequest) currentRequest.abort();
+
+        const $replaceForm = $(this);
+        const $pushedButton = $replaceForm.find('button:focus'); // TODO: This is terrible
+        const $searchResult = $("#" + $pushedButton.parents('.js--results-result').attr('id'));
+        let formData = $replaceForm.serializeArray();
+        formData.push({
+            name: $pushedButton.attr('name'),
+            value: $pushedButton.attr('value')
+        });
+
+        $pushedButton.html('<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Loading&hellip;');
+        $pushedButton.prop('disabled', true);
+
+        $.ajax({
+            type: $replaceForm.attr('method'),
+            url: $replaceForm.attr('action'),
+            data: formData,
+            success: function (data) {
+                // console.log(data)
+
+                const $html = $(data);
+                $searchResult.html($html.find('.js--results-result').html());
+
+                // $("#js--results-container").html(data);
+                //
+                // // Display stuff (reset)
+                // $statusIcon.removeClass('fa-spinner fa-spin');
+                // $statusButton.removeClass('btn-light');
+                // const count = $("#js--results").attr('data-count');
+                // $statusCounter.text(count);
+                // if (count != 0) {
+                //     $replaceAllButton.prop('disabled', false);
+                // }
+                // if (count == 0 && $findInput.val().length !== 0) {
+                //     $statusButton.addClass('btn-warning');
+                //     $statusText.html('Not Found');
+                //     $statusIcon.addClass('fa-exclamation-triangle');
+                // } else {
+                //     $statusButton.addClass('btn-success');
+                //     $statusText.html('Ready');
+                //     $statusIcon.addClass('fa-check');
+                // }
+            },
+            error: function (rq) {
+                if (rq.statusText === 'abort') {
+                    // Not really an error
+                    return;
+                }
+
+                console.error('An error occurred during the submission of the form.');
+
+                $statusText.html('Error');
+                $statusIcon.addClass('fa-times');
+                $statusIcon.removeClass('fa-spinner fa-spin');
+                $statusButton.removeClass('btn-light');
+                $statusButton.addClass('btn-danger');
+                $pushedButton.html('<i class="fas fa-times" aria-hidden="true"></i> Error');
+            },
+        });
+    })
 });
 

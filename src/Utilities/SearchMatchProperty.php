@@ -135,10 +135,16 @@ class SearchMatchProperty
     /*
      * Store the replaced value in the entity
      */
-    private function performReplacement()
+    public function performReplacement()
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $propertyAccessor->setValue($this->parent->getEntity(), $this->name, $this->replacedValue);
+        $entity = $this->parent->getEntity();
+        $propertyAccessor->setValue($entity, $this->name, $this->replacedValue);
+
+        // Show the new information here
+        $this->value = $this->replacedValue;
+        $this->parts = $this->splitToParts($this->parent->getQuery());
+        $this->replaceAll();
     }
 
     /**

@@ -32,7 +32,6 @@
             </div>
             <div class="col-md-auto">
                 <button type="submit" class="btn btn-light" name="action" value="find"><i class="fas fa-search"></i> Find</button>
-                <button type="submit" class="btn btn-danger" name="action" value="replace"><i class="fab fa-searchengin"></i> Find &amp; Replace</button>
                 <div class="btn-group" role="group">
                     <button id="btnGroupDrop1" type="button" class="btn btn-light dropdown-toggle" disabled data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         History
@@ -49,15 +48,32 @@
                 <button type="submit" id="js--search-status-count-button" class="btn btn-light" disabled>
                     <strong id="js--search-status-count">0</strong> results found
                 </button>
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop2" type="button" class="btn btn-light dropdown-toggle" disabled data-toggle="dropdown" title="Undo" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-undo"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
+                        <a class="dropdown-item" href="#">D</a>
+                        <a class="dropdown-item" href="#">a</a>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <p>
-            <span class="text-muted">{% trans %}Example{% endtrans %}</span>:
-            The square <strong id="js--example-original"></strong> rhymes.
-            <i class="fas fa-long-arrow-alt-right"></i>
-            The square <strong id="js--example-replace"></strong> rhymes.
-        </p>
+        <div class="d-flex align-items-center mb-3">
+            <div class="col-md flex-fill flex-grow-1">
+                <span class="text-muted">{% trans %}Example{% endtrans %}</span>:
+                The square <strong id="js--example-original"></strong> rhymes.
+                <i class="fas fa-long-arrow-alt-right"></i>
+                The square <strong id="js--example-replace"></strong> rhymes.
+            </div>
+
+            <div class="col-md">
+                <div class="float-right">
+                    <button type="submit" id="js--replace-all" class="btn btn-danger btn-lg" name="action" value="replace" disabled><i class="fab fa-searchengin"></i> Replace All</button>
+                </div>
+            </div>
+        </div>
     </form>
 
     <div id="js--results-container">

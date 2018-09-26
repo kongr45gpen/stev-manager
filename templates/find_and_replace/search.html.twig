@@ -4,19 +4,26 @@
 
 {% block body %}
 <div id="js--results" data-count="{{ matches|length }}">
+    {{ form_start(form, {attr: {id: 'js--results-form'}}) }}
     {% for match in matches %}
-        <div class="media">
+        <div class="media search-result js--results-result" id="js--results-result-{{ match.class|split('\\')|last }}-{{ match.entity.id }}">
             {% set class = match.class|split('\\')|last %}
             <div class="mr-3 media-quickshow" aria-hidden="true" data-type="{{ class }}" title="{{ class|trans }}">
                 <span>{{ class|trans|first }}</span>
             </div>
             <div class="media-body">
-                <h5 class="mt-0">{{ match.entity }}<br>
+                <h5 class="mt-0 clearfix">{{ match.entity }}
+                    <aside class="float-right p-2">
+                        <button type="submit" class="btn btn-light" name="action" value="undo" disabled><i class="fas fa-undo"></i> Undo</button>
+                        <button type="submit" class="btn btn-danger" name="replace-entity" value="{{ match.class|split('\\')|last ~ '.' ~ match.entity.id }}"
+                        {% if match.willBeTheSame %}disabled{% endif %}><i class="fas fa-bolt"></i> Replace</button>
+                    </aside>
+                    <br>
                     <small class="text-muted">{{ class|trans }}</small>
                 </h5>
-                <div class="d-flex">
-                    <aside class="col-lg">
-                        <ul class="list-unstyled">
+                <div class="d-flex clearfix">
+                    <div class="col-lg">
+                        <ul class="list-unstyled list-properties">
                             {% for property in match.properties %}
                                 <li><strong>{{ property.name|humanize|trans }}:</strong>
                                 {% for part in property.parts -%}
@@ -30,20 +37,26 @@
                                 </li>
                             {% endfor %}
                         </ul>
-                    </aside>
-                    <aside class="col-lg">
-                        <ul class="list-unstyled">
+                    </div>
+                    <div class="col-lg">
+                        <ul class="list-unstyled list-properties">
                             {% for property in match.properties %}
-                                <li><strong>{{ property.name|humanize|trans }}:</strong>
+                                <li>
+                                    <aside class="float-right ml-1 mb-1">
+                                        <button type="submit" class="btn btn-light btn-sm" name="action" value="undo" title="Undo (this property)" disabled><i class="fas fa-undo"></i></button>
+                                        <button type="submit" class="btn btn-danger btn-sm" name="action" value="replace" title="Replace (this property)"><i class="fas fa-bolt"></i></button>
+                                    </aside>
+                                    <strong>{{ property.name|humanize|trans }}:</strong>
                                     {{ property.replacedValue }}
                                 </li>
                             {% endfor %}
                         </ul>
-                    </aside>
+                    </div>
                 </div>
             </div>
         </div>
     {% endfor %}
+    {{ form_end(form) }}
 </div>
 {% endblock %}
 

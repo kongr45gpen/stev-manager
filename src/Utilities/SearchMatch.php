@@ -134,5 +134,27 @@ class SearchMatch
         return $this->matchType;
     }
 
+    /**
+     * Perform all the replacing changes in entities
+     */
+    public function replaceAll()
+    {
+        foreach ($this->properties as $property) {
+            $property->performReplacement();
+        }
+    }
 
+    /**
+     * Find if entity will be the same, after a replace has been done
+     */
+    public function willBeTheSame() :bool
+    {
+        foreach ($this->properties as $property) {
+            if ($property->getValue() !== $property->getReplacedValue()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
