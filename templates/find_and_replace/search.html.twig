@@ -58,7 +58,8 @@
                                         {% else %}
                                         <button type="submit" class="btn btn-light btn-sm" name="undo-entity" value="{{ propIdentifier }}" title="Undo (this property)" disabled><i class="fas fa-undo"></i></button>
                                         {% endif %}
-                                        <button type="submit" class="btn btn-danger btn-sm" name="replace-entity" value="{{ propIdentifier }}" title="Replace (this property)"><i class="fas fa-bolt"></i></button>
+                                        <button type="submit" class="btn btn-danger btn-sm" name="replace-entity" value="{{ propIdentifier }}" title="Replace (this property)"
+                                                {% if property.willBeTheSame %}disabled{% endif %}><i class="fas fa-bolt"></i></button>
                                     </aside>
                                     <strong>{{ property.name|humanize|trans }}:</strong>
                                     {{ property.replacedValue }}

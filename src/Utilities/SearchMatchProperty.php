@@ -234,4 +234,16 @@ class SearchMatchProperty
             throw new \RuntimeException("Unknown search matching type $type");
         }
     }
+
+    /**
+     * Find if property will be the same, after a replace has been done
+     */
+    public function willBeTheSame() :bool
+    {
+        if ($this->value !== $this->replacedValue) {
+            return false;
+        }
+
+        return true;
+    }
 }

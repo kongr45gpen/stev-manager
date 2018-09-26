@@ -169,6 +169,7 @@ class SearchMatch
     public function replaceAll()
     {
         foreach ($this->properties as $property) {
+            dump("I replace property {$property->getName()}");
             $property->performReplacement();
         }
     }
@@ -179,7 +180,7 @@ class SearchMatch
     public function willBeTheSame() :bool
     {
         foreach ($this->properties as $property) {
-            if ($property->getValue() !== $property->getReplacedValue()) {
+            if (!$property->willBeTheSame()) {
                 return false;
             }
         }

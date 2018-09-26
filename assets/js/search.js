@@ -69,15 +69,16 @@ $(document).ready(function() {
     });
 
     $form.submit(function(e) {
-        e.preventDefault();
 
+        e.preventDefault();
         // Cancel previous request
+
         if (currentRequest) {
             currentRequest.abort();
         }
-
         // Display stuff
         $statusText.html('Loading&hellip;');
+
         $statusIcon.removeClass('fa-times fa-check fa-exclamation-triangle');
         $statusIcon.addClass('fa-spinner fa-spin');
         $statusButton.removeClass('btn-danger btn-warning btn-success');
@@ -85,7 +86,6 @@ $(document).ready(function() {
         $statusCounterButton.addClass('btn-light');
         $statusCounterButton.removeClass('btn-danger');
         $replaceAllButton.prop('disabled', true);
-
         currentRequest = $.ajax({
             type: $form.attr('method'),
             url: $form.attr('action'),
@@ -128,17 +128,32 @@ $(document).ready(function() {
         });
     });
 
+    $replaceAllButton.on('click', function(e) {
+        e.preventDefault();
+
+        let $button = $(this);
+
+        $("#js--results-form").trigger('submit', {
+            caller: {
+                name: 'replace-all',
+                value: '1',
+                selector: $button
+            }
+        });
+    });
+
     $resultsContainer.on('click', '.js--results-occurrence', function (e) {
         e.preventDefault();
 
         const name = 'replace-entity';
         const value = $(this).attr('data-target');
+        const $button = $(this);
 
         $("#js--results-form").trigger('submit', {
             caller: {
                 name: name,
                 value: value,
-                selector: $(this)
+                selector: $button
             }
         });
     });
@@ -166,9 +181,16 @@ $(document).ready(function() {
                 value: $pushedButton.attr('value')
             });
         }
+        const oldContent = $pushedButton.html();
+        const oldClasses = $pushedButton.attr('class');
         const $searchResult = $("#" + $pushedButton.parents('.js--results-result').attr('id'));
 
-        $pushedButton.html('<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Loading&hellip;');
+        if ($pushedButton.hasClass('btn-sm')) {
+            // Small spinners for small buttons
+            $pushedButton.html('<i class="fas fa-spinner fa-spin" title="Loading"></i>');
+        } else {
+            $pushedButton.html('<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Loading&hellip;');
+        }
         $pushedButton.prop('disabled', true);
 
         $.ajax({
@@ -176,10 +198,20 @@ $(document).ready(function() {
             url: $replaceForm.attr('action'),
             data: formData,
             success: function (data) {
-                $pushedButton.html('<i class="fas fa-times" aria-hidden="true"></i> Unknown Error');
+                // Revert the design
+                $pushedButton.html(oldContent);
+                $pushedButton.attr('class', oldClasses);
 
                 const $html = $(data);
-                $searchResult.html($html.find('.js--results-result').html());
+                if ($searchResult.length) {
+                    $searchResult.html($html.find('.js--results-result').html());
+                } else {
+                    // For each match, replace, keeping the initial order
+                    $html.find('.js--results-result').each(function() {
+                        const $this = $(this);
+                        $('#' + $this.attr('id')).html($this.html());
+                    })
+                }
             },
             error: function (rq) {
                 if (rq.statusText === 'abort') {
@@ -198,5 +230,5 @@ $(document).ready(function() {
             },
         });
     })
-});
 
+});

@@ -14,11 +14,13 @@ use Gedmo\Loggable\Entity\Repository\LogEntryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Cache\CacheItem;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -43,19 +45,7 @@ class FindAndReplaceController extends Controller
      */
     public function search(Instance $instance, Request $request)
     {
-        /** @var EntityManager $em */
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var Event[] $events */
-        $events = $instance->getEvents()->toArray();
-        $volunteers = $instance->getVolunteers()->toArray();
-        $spaces = $this->getDoctrine()->getRepository('App:Space')->findAll();
-
-        // TODO: Eager fetch?
-        $submitters = $this->getDoctrine()->getRepository('App:Submitter')->findByInstance($instance);
-        $repetitions = $this->getDoctrine()->getRepository('App:Repetition')->findByInstance($instance);
-
-        $entities = array_merge($events, $volunteers, $spaces, $submitters, $repetitions);
+        $entities = $this->fetchAllEntities($instance);
 
         $type = $this->typeStringToConst($request->query->get('options'));
 
@@ -98,61 +88,18 @@ class FindAndReplaceController extends Controller
         $em = $this->getDoctrine()->getManager();
         $logs = $em->getRepository('Gedmo\Loggable\Entity\LogEntry');
         $cache = $this->get('cache.app');
+        $matches = [];
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($input = $post->get('replace-entity')) {
+            if ($post->get('replace-all')) {
+                foreach ($this->fetchAllEntities($instance) as $entity) {
+                    $match = $this->replaceOneEntity($entity, $post);
+                    if ($match->matched) $matches[] = $match;
+                }
+            } elseif ($input = $post->get('replace-entity')) {
                 list($entity, $metadatum, $property, $occurrence) = $this->requestToEntity($input);
 
-                // Get the version of the entity
-                /** @var LogEntry $oldVersion */
-                $oldVersion = $logs->getLogEntriesQuery($entity)
-                    ->setMaxResults(1)
-                    ->getOneOrNullResult();
-
-                // Calculate the replacement
-                $match = new SearchMatch($entity, $post->get('query'), $this->typeStringToConst($post->get('options')), $post->get('replace'));
-                if ($property) {
-                    if ($occurrence) {
-                        $match->getProperty($property)->replaceOccurrence($occurrence);
-                    }
-                    $match->getProperty($property)->performReplacement();
-                } else {
-                    $match->replaceAll();
-                }
-                $em->persist($entity);
-                $em->flush();
-
-                // Get the changed version of the entity, after the flush
-                /** @var LogEntry $newVersion */
-                $newVersion = $logs->getLogEntriesQuery($entity)
-                    ->setMaxResults(1)
-                    ->getOneOrNullResult();
-
-                if ($newVersion && $oldVersion && $newVersion->getVersion() !== $oldVersion->getVersion()) {
-                    $item = $cache->getItem($this->getCacheKey('undo', $entity, $property))
-                        ->expiresAfter(CarbonInterval::hours(1))
-                        ->set($oldVersion->getVersion());
-                    $cache->save($item);
-                    if ($property) {
-                        foreach ($match->getProperties() as $currentProperty) {
-                            if ($cache->getItem($this->getCacheKey('undo', $entity, $currentProperty->getName()))->get()) {
-                                $currentProperty->setUndo(true);
-                            }
-                        }
-                    } else {
-                        // We have a new update
-                        $item = $cache->getItem($this->getCacheKey('undo', $entity))
-                            ->set($oldVersion->getVersion());
-                        $cache->save($item);
-                        $match->setUndo(true);
-                    }
-                }
-
-                return $this->render('find_and_replace/search.html.twig', [
-                    'form' => $form->createView(),
-                    'matches' => [$match],
-                    'instance' => $instance,
-                ]);
+                $matches[] = $this->replaceOneEntity($entity, $request->request, $property, $occurrence);
             } elseif ($input = $post->get('undo-entity')) {
                 list($entity, $metadatum, $property) = $this->requestToEntity($input);
 
@@ -168,17 +115,75 @@ class FindAndReplaceController extends Controller
                 $setToVersion->set(null); // Do not undo again
                 $cache->save($setToVersion);
 
-                $match = new SearchMatch($entity, $post->get('query'), $this->typeStringToConst($post->get('options')), $post->get('replace'));
-
-                return $this->render('find_and_replace/search.html.twig', [
-                    'form' => $form->createView(),
-                    'matches' => [$match],
-                    'instance' => $instance,
-                ]);
+                $matches[] = new SearchMatch($entity, $post->get('query'), $this->typeStringToConst($post->get('options')), $post->get('replace'));
+            } else {
+                throw new NotFoundHttpException("Unknown action.");
             }
         }
 
-        throw new NotFoundHttpException("Unknown action.");
+        return $this->render('find_and_replace/search.html.twig', [
+            'form' => $form->createView(),
+            'matches' => $matches,
+            'instance' => $instance,
+        ]);
+
+
+    }
+
+    private function replaceOneEntity($entity, ParameterBag $post, $property = null, $occurrence = null)
+    {
+        dump("I am ask to replace one entity {$entity->getId()}");
+
+        $em = $this->getDoctrine()->getManager();
+        $logs = $em->getRepository('Gedmo\Loggable\Entity\LogEntry');
+        $cache = $this->get('cache.app');
+
+        // Get the version of the entity
+        /** @var LogEntry $oldVersion */
+        $oldVersion = $logs->getLogEntriesQuery($entity)
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
+
+        // Calculate the replacement
+        $match = new SearchMatch($entity, $post->get('query'), $this->typeStringToConst($post->get('options')), $post->get('replace'));
+        if ($property) {
+            if ($occurrence) {
+                $match->getProperty($property)->replaceOccurrence($occurrence);
+            }
+            $match->getProperty($property)->performReplacement();
+        } else {
+            $match->replaceAll();
+        }
+        $em->persist($entity);
+        $em->flush();
+
+        // Get the changed version of the entity, after the flush
+        /** @var LogEntry $newVersion */
+        $newVersion = $logs->getLogEntriesQuery($entity)
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
+
+        if ($newVersion && $oldVersion && $newVersion->getVersion() !== $oldVersion->getVersion()) {
+            $item = $cache->getItem($this->getCacheKey('undo', $entity, $property))
+                ->expiresAfter(CarbonInterval::hours(1))
+                ->set($oldVersion->getVersion());
+            $cache->save($item);
+            if ($property) {
+                foreach ($match->getProperties() as $currentProperty) {
+                    if ($cache->getItem($this->getCacheKey('undo', $entity, $currentProperty->getName()))->get()) {
+                        $currentProperty->setUndo(true);
+                    }
+                }
+            } else {
+                // We have a new update
+                $item = $cache->getItem($this->getCacheKey('undo', $entity))
+                    ->set($oldVersion->getVersion());
+                $cache->save($item);
+                $match->setUndo(true);
+            }
+        }
+
+        return $match;
     }
 
     private function createReplaceForm(Instance $instance, Request $request): FormInterface
@@ -247,5 +252,22 @@ class FindAndReplaceController extends Controller
         if (!$entity) throw new NotFoundHttpException("Entity with such ID does not exist.");
 
         return [$entity, $metadatum, $property, $occurrence];
+    }
+
+    /**
+     * Get all the useful entities belonging to an instance
+     */
+    private function fetchAllEntities(Instance $instance)
+    {
+        /** @var Event[] $events */
+        $events = $instance->getEvents()->toArray();
+        $volunteers = $instance->getVolunteers()->toArray();
+        $spaces = $this->getDoctrine()->getRepository('App:Space')->findAll();
+
+        // TODO: Eager fetch?
+        $submitters = $this->getDoctrine()->getRepository('App:Submitter')->findByInstance($instance);
+        $repetitions = $this->getDoctrine()->getRepository('App:Repetition')->findByInstance($instance);
+
+        return array_merge($events, $volunteers, $spaces, $submitters, $repetitions);
     }
 }
