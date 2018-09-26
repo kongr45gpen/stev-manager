@@ -65,6 +65,13 @@ class SearchMatch
      */
     private $replace;
 
+    /**
+     * Whether this match contains an undo entry
+     *
+     * @var bool
+     */
+    private $undo = false;
+
     public function __construct($entity, $query, $type, $replace)
     {
         $this->entity = $entity;
@@ -136,6 +143,16 @@ class SearchMatch
     public function getReplace(): string
     {
         return $this->replace;
+    }
+
+    public function getUndo(): bool
+    {
+        return $this->undo;
+    }
+
+    public function setUndo(bool $undo): void
+    {
+        $this->undo = $undo;
     }
 
     /**

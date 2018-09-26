@@ -77,7 +77,6 @@ class FindAndReplaceController extends Controller
             'form' => $form->createView(),
             'matches' => $searchResults,
             'instance' => $instance,
-            'undo' => false
         ]);
     }
 
@@ -108,6 +107,10 @@ class FindAndReplaceController extends Controller
                 // Calculate the replacement
                 $match = new SearchMatch($entity, $post->get('query'), $this->typeStringToConst($post->get('options')), $post->get('replace'));
                 if ($property) {
+                    if ($occurrence) {
+                        dump("I NEED TO REPLACE THE OCCUR! $property -> $occurrence");
+                        $match->getProperty($property)->replaceOccurrence($occurrence);
+                    }
                     $match->getProperty($property)->performReplacement();
                 } else {
                     $match->replaceAll();
@@ -121,23 +124,23 @@ class FindAndReplaceController extends Controller
                     ->setMaxResults(1)
                     ->getSingleResult();
 
-                if ($undo = $newVersion->getVersion() !== $oldVersion->getVersion()) {
+                if ($newVersion->getVersion() !== $oldVersion->getVersion()) {
                     $item = $cache->getItem($this->getCacheKey('undo', $entity, $property))
                         ->expiresAfter(CarbonInterval::hours(1))
                         ->set($oldVersion->getVersion());
                     $cache->save($item);
                     if ($property) {
                         foreach ($match->getProperties() as $currentProperty) {
-                            if ($cache->getItem($this->getCacheKey('undo', $entity, $property))->get()) {
+                            if ($cache->getItem($this->getCacheKey('undo', $entity, $currentProperty->getName()))->get()) {
                                 $currentProperty->setUndo(true);
                             }
                         }
-                        $undo = false; // No global undo
                     } else {
                         // We have a new update
                         $item = $cache->getItem($this->getCacheKey('undo', $entity))
                             ->set($oldVersion->getVersion());
                         $cache->save($item);
+                        $match->setUndo(true);
                     }
                 }
 
@@ -145,12 +148,11 @@ class FindAndReplaceController extends Controller
                     'form' => $form->createView(),
                     'matches' => [$match],
                     'instance' => $instance,
-                    'undo' => $undo
                 ]);
             } elseif ($input = $post->get('undo-entity')) {
-                list($entity, $metadatum) = $this->requestToEntity($input);
+                list($entity, $metadatum, $property) = $this->requestToEntity($input);
 
-                $setToVersion = $cache->getItem($this->getCacheKey('undo', $entity));
+                $setToVersion = $cache->getItem($this->getCacheKey('undo', $entity, $property));
 
                 if (!$setToVersion->get()) {
                     throw new NotFoundHttpException("No undo action for this.");
@@ -168,12 +170,11 @@ class FindAndReplaceController extends Controller
                     'form' => $form->createView(),
                     'matches' => [$match],
                     'instance' => $instance,
-                    'undo' => false
                 ]);
             }
         }
 
-        return new Response('<html><head></head><body>hi</body>');
+        throw new NotFoundHttpException("Unknown action.");
     }
 
     private function createReplaceForm(Instance $instance, Request $request): FormInterface

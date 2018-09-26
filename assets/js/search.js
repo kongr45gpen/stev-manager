@@ -128,19 +128,48 @@ $(document).ready(function() {
         });
     });
 
-    $resultsContainer.on('submit', '#js--results-form', function (e) {
+    $resultsContainer.on('click', '.js--results-occurrence', function (e) {
+        e.preventDefault();
+
+        const name = 'replace-entity';
+        const value = $(this).attr('data-target');
+
+        console.log(name + '=>' + value);
+        $("#js--results-form").trigger('submit', {
+            caller: {
+                name: name,
+                value: value,
+                selector: $(this)
+            }
+        });
+    });
+
+
+    $resultsContainer.on('submit', '#js--results-form', function (e, params) {
+        console.log(params);
+
         e.preventDefault();
 
         if (currentRequest) currentRequest.abort();
 
+        let $pushedButton;
+
         const $replaceForm = $(this);
-        const $pushedButton = $replaceForm.find('button:focus'); // TODO: This is terrible
-        const $searchResult = $("#" + $pushedButton.parents('.js--results-result').attr('id'));
         let formData = $replaceForm.serializeArray();
-        formData.push({
-            name: $pushedButton.attr('name'),
-            value: $pushedButton.attr('value')
-        });
+        if (params !== undefined && params['caller'] !== undefined) {
+            $pushedButton = params['caller']['selector'];
+            formData.push({
+                name: params['caller']['name'],
+                value: params['caller']['value']
+            });
+        } else {
+            $pushedButton = $replaceForm.find('button:focus'); // TODO: This is terrible
+            formData.push({
+                name: $pushedButton.attr('name'),
+                value: $pushedButton.attr('value')
+            });
+        }
+        const $searchResult = $("#" + $pushedButton.parents('.js--results-result').attr('id'));
 
         $pushedButton.html('<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Loading&hellip;');
         $pushedButton.prop('disabled', true);
@@ -150,32 +179,10 @@ $(document).ready(function() {
             url: $replaceForm.attr('action'),
             data: formData,
             success: function (data) {
-                // console.log(data)
-
                 $pushedButton.html('<i class="fas fa-times" aria-hidden="true"></i> Unknown Error');
 
                 const $html = $(data);
                 $searchResult.html($html.find('.js--results-result').html());
-
-                // $("#js--results-container").html(data);
-                //
-                // // Display stuff (reset)
-                // $statusIcon.removeClass('fa-spinner fa-spin');
-                // $statusButton.removeClass('btn-light');
-                // const count = $("#js--results").attr('data-count');
-                // $statusCounter.text(count);
-                // if (count != 0) {
-                //     $replaceAllButton.prop('disabled', false);
-                // }
-                // if (count == 0 && $findInput.val().length !== 0) {
-                //     $statusButton.addClass('btn-warning');
-                //     $statusText.html('Not Found');
-                //     $statusIcon.addClass('fa-exclamation-triangle');
-                // } else {
-                //     $statusButton.addClass('btn-success');
-                //     $statusText.html('Ready');
-                //     $statusIcon.addClass('fa-check');
-                // }
             },
             error: function (rq) {
                 if (rq.statusText === 'abort') {

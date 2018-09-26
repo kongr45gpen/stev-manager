@@ -149,6 +149,31 @@ class SearchMatchProperty
         }
     }
 
+    /**
+     * Replace only the nth occurrence in this property's value
+     *
+     * Only stores the value, doesn't do any actual replacing in the entity
+     *
+     * @param int $n The number of the part (starting from 0, including non-matched parts)
+     */
+    public function replaceOccurrence(int $n)
+    {
+        $searchQuery = $this->parent->getQuery();
+        $replaceQuery = $this->parent->getReplace();
+
+        if ($this->parent->getMatchType() === SearchMatch::MATCH_REGEX) {
+            // Note: This most likely won't work with regex references
+            $this->parts[$n]['value'] = preg_replace("/$searchQuery/u", $replaceQuery, $this->parts[$n]['value']);
+        } elseif ($this->parent->getMatchType() === SearchMatch::MATCH_REGULAR) {
+            $this->parts[$n]['value'] = str_replace($searchQuery, $replaceQuery, $this->parts[$n]['value']);
+        }
+
+        dump("New value: " . $this->parts[$n]['value']);
+
+        // Join all the parts together again
+        $this->replacedValue = join('', array_column($this->parts, 'value'));
+    }
+
     /*
      * Store the replaced value in the entity
      */

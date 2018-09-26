@@ -15,7 +15,7 @@
             <div class="media-body">
                 <h5 class="mt-0 clearfix">{{ match.entity }}
                     <aside class="float-right p-2">
-                        {% if undo %}
+                        {% if match.undo %}
                         <button type="submit" class="btn btn-info" name="undo-entity" value="{{ identifier }}">
                         {% else %}
                         <button type="submit" class="btn btn-light" name="undo-entity" value="undo" disabled>
@@ -36,8 +36,8 @@
                                 <li><strong>{{ property.name|humanize|trans }}:</strong>
                                 {% for part in property.parts -%}
                                     {%- if part.matched -%}
-                                        <a class="badge badge-warning" href="#"
-                                        data-target="{{ propIdentifier ~ '.' ~ loop.index }}">{{- part.value -}}</a>
+                                        <a class="badge badge-warning js--results-occurrence" href="#"
+                                        data-target="{{ propIdentifier ~ '.' ~ loop.index0 }}">{{- part.value -}}</a>
                                     {%- else -%}
                                         {# TODO: Truncate me #}
                                         {{- part.value -}}
