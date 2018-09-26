@@ -17,13 +17,20 @@ class SearchMatchProperty
     private $replacedValue;
 
     /**
-     * Matched parts
+     * Matched or non-matched parts
      *
      * An array of [value=>(string)..., matched=>(bool)...] arrays
      *
      * @var array
      */
     private $parts;
+
+    /**
+     * The number of the matched parts
+     *
+     * @var int
+     */
+    private $matchedPartsCount;
 
     /**
      * The corresponding SearchMatch of this property
@@ -45,7 +52,7 @@ class SearchMatchProperty
         $this->value = $value;
         $this->parent = $parent;
 
-        $this->parts = $this->splitToParts($parent->getQuery());
+        $this->splitToParts($parent->getQuery());
         $this->replaceAll();
     }
 
@@ -69,6 +76,11 @@ class SearchMatchProperty
         return $this->parts;
     }
 
+    public function getMatchedPartsCount(): int
+    {
+        return $this->matchedPartsCount;
+    }
+
     /**
      * The value, after the replacement function has ran on it
      *
@@ -89,7 +101,7 @@ class SearchMatchProperty
         $this->undo = $undo;
     }
 
-    private function splitToParts($query)
+    private function splitToParts($query): void
     {
         $parts = [];
         $matchType = $this->parent->getMatchType();
@@ -125,7 +137,10 @@ class SearchMatchProperty
             throw new \RuntimeException("Unknown Search Match type {$matchType}");
         }
 
-        return $parts;
+        $this->parts = $parts;
+        $this->matchedPartsCount = array_reduce($parts, function($c,$i) {
+            return $i['matched'] ? ++$c : $c;
+        },0);
     }
 
     /**
@@ -185,7 +200,7 @@ class SearchMatchProperty
 
         // Show the new information here
         $this->value = $this->replacedValue;
-        $this->parts = $this->splitToParts($this->parent->getQuery());
+        $this->splitToParts($this->parent->getQuery());
         $this->replaceAll();
     }
 

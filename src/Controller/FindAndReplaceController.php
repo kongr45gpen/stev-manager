@@ -73,6 +73,11 @@ class FindAndReplaceController extends Controller
 
         $form = $this->createReplaceForm($instance, $request);
 
+        // Sort results by relevance
+        usort($searchResults, function(SearchMatch $a, SearchMatch $b) {
+            return $b->countMatches() <=> $a->countMatches();
+        });
+
         return $this->render('find_and_replace/search.html.twig', [
             'form' => $form->createView(),
             'matches' => $searchResults,

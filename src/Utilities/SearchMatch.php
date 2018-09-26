@@ -186,4 +186,20 @@ class SearchMatch
 
         return true;
     }
+
+    /**
+     * Count the amount of substring matches in the property
+     *
+     * @return int
+     */
+    public function countMatches()
+    {
+        $count = 0;
+
+        foreach($this->getProperties() as $property) {
+            $count += $property->getMatchedPartsCount();
+        }
+
+        return $count;
+    }
 }
