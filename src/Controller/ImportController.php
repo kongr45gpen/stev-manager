@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ImportController extends Controller
@@ -29,10 +30,10 @@ class ImportController extends Controller
         $factory = $this->get('form.factory');
         $em = $this->getDoctrine()->getManager();
 
-
         $form = $this->createFormBuilder()
             ->add('file', FileType::class)
-            ->add('import', SubmitType::class)
+            ->add('import_events', SubmitType::class)
+            ->add('import_volunteers', SubmitType::class)
             ->getForm();
         $form->handleRequest($request);
 
@@ -42,10 +43,20 @@ class ImportController extends Controller
             /** @var UploadedFile $file */
             $file = $form->get('file')->getData();
 
-            if ($instance->getType() === 3) {
-                $parser = $this->get('App\Parser\CityWeekEventParser');
+            if ($form->get('import_events')->isClicked()) {
+                if ($instance->getType() === 3) {
+                    $parser = $this->get('App\Parser\CityWeekEventParser');
+                } else {
+                    throw new \Exception("Import for this instance type undefined");
+                }
+            } elseif ($form->get('import_volunteers')->isClicked()) {
+                if ($instance->getType() === 3) {
+                    $parser = $this->get('App\Parser\CityWeekVolunteerParser');
+                } else {
+                    throw new \Exception("Import for this instance type undefined");
+                }
             } else {
-                throw new \Exception("Import for this instance type undefined");
+                throw new BadRequestHttpException("Unknown type of entity to process.");
             }
 
             $entities = $parser->parse($file->getPathname(), $instance);

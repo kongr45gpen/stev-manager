@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Annotations as App;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -107,25 +109,25 @@ class Volunteer
      * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
-    private $subscription;
+    private $subscription = false;
 
     /**
      * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
-    private $updates;
+    private $updates = false;
 
     /**
      * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
-    private $joined;
+    private $joined = false;
 
     /**
      * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
-    private $preparation;
+    private $preparation = false;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
@@ -134,10 +136,32 @@ class Volunteer
     private $gender;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="string", length=24, nullable=true)
      * @Gedmo\Versioned
      */
-    private $availability = [];
+    private $shirtSize;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $original_data = [];
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\VolunteerAvailability", mappedBy="volunteer", orphanRemoval=true, cascade={"persist"})
+     */
+    private $availabilities;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $uniqueId;
+
+    public function __construct()
+    {
+        $this->availabilities = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -363,5 +387,79 @@ class Volunteer
     public function __toString(): string
     {
         return $this->getName() . " " . $this->getSurname();
+    }
+
+    public function getShirtSize(): ?string
+    {
+        return $this->shirtSize;
+    }
+
+    public function setShirtSize(?string $shirtSize): self
+    {
+        $this->shirtSize = $shirtSize;
+
+        return $this;
+    }
+
+    public function getOriginalData(): ?array
+    {
+        return $this->original_data;
+    }
+
+    public function setOriginalData(?array $original_data): self
+    {
+        $this->original_data = $original_data;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|VolunteerAvailability[]
+     */
+    public function getAvailabilities(): Collection
+    {
+        return $this->availabilities;
+    }
+
+    public function addAvailability(VolunteerAvailability $availability): self
+    {
+        if (!$this->availabilities->contains($availability)) {
+            $this->availabilities[] = $availability;
+            $availability->setVolunteer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvailability(VolunteerAvailability $availability): self
+    {
+        if ($this->availabilities->contains($availability)) {
+            $this->availabilities->removeElement($availability);
+            // set the owning side to null (unless already changed)
+            if ($availability->getVolunteer() === $this) {
+                $availability->setVolunteer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeAvailabilities(): self
+    {
+        $this->availabilities->clear();
+
+        return $this;
+    }
+
+    public function getUniqueId(): ?int
+    {
+        return $this->uniqueId;
+    }
+
+    public function setUniqueId(?int $uniqueId): self
+    {
+        $this->uniqueId = $uniqueId;
+
+        return $this;
     }
 }

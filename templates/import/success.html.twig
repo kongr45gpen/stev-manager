@@ -14,12 +14,13 @@
             <th scope="col">Type</th>
             <th scope="col">Team</th>
             <th scope="col">Title</th>
-            <th scope="col">Surname</th>
             <th scope="col">Name</th>
-            <th scope="col">Full Description</th>
-            <th scope="col">E-mail address</th>
+            <th scope="col">Full Desc.</th>
+            <th scope="col">E-mail</th>
             <th scope="col">Phone</th>
-            <th scope="col">Short Description</th>
+            <th scope="col">Short Desc.</th>
+            <th scope="col">Start</th>
+            <th scope="col">End</th>
         </tr>
         </thead>
         <tbody>
@@ -29,12 +30,13 @@
                 <th>{#TODO: Add this#}</th>
                 <td>{{ entity.team|default }}</td>
                 <td>{{ entity.title|default }}</td>
-                <td>{{ entity.surname|default }}</td>
-                <td>{{ entity.name|default }}</td>
+                <td>{{ entity.surname|default }} {{ entity.name|default }}</td>
                 <td>{{ entity.describe|default }}</td>
                 <td>{{ entity.email|default }}</td>
                 <td>{{ entity.phone|default }}</td>
                 <td>{{ entity.shortDescription|default|truncate }}</td>
+                <td>{{ entity.start|default }}</td>
+                <td>{{ entity.end|default }}</td>
                 {#<td>{{ entity.data }}</td>#}
             </tr>
         {% endfor %}

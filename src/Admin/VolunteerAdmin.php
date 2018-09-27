@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\CoreBundle\Form\Type\CollectionType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\BooleanType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -22,26 +23,37 @@ class VolunteerAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('instance', EntityType::class, [
-                'class' => Instance::class,
-            ])
-            ->add('surname', TextType::class)
-            ->add('name', TextType::class)
-            ->add('father_name', TextType::class, ['required' => false])
-            ->add('email', TextType::class, ['required' => false])
-            ->add('age', IntegerType::class, ['required' => false])
-            ->add('phone', TextType::class, ['required' => false])
-            ->add('property', TextType::class, ['required' => false])
-            ->add('school', TextType::class, ['required' => false])
-            ->add('level', TextType::class, ['required' => false])
+            ->with('Basics')
+                ->add('instance', EntityType::class, [
+                    'class' => Instance::class,
+                ])
+            ->end()
+            ->with('Personal Details', ['class' => 'col-md-6'])
+                ->add('surname', TextType::class)
+                ->add('name', TextType::class)
+                ->add('father_name', TextType::class, ['required' => false])
+                ->add('email', TextType::class, ['required' => false])
+                ->add('age', IntegerType::class, ['required' => false])
+                ->add('phone', TextType::class, ['required' => false])
+            ->end()
+            ->with('Volunteer Details', ['class' => 'col-md-6'])
+                ->add('property', TextType::class, ['required' => false])
+                ->add('school', TextType::class, ['required' => false])
+                ->add('level', TextType::class, ['required' => false])
+                ->add('subscription', CheckboxType::class, ['required' => false])
+                ->add('updates', CheckboxType::class, ['required' => false])
+                ->add('joined', CheckboxType::class, ['required' => false])
+                ->add('preparation', CheckboxType::class, ['required' => false])
+            ->end()
             ->add('health', TextareaType::class, ['required' => false])
             ->add('interests', TextareaType::class, ['required' => false])
-            ->add('subscription', CheckboxType::class, ['required' => false])
-            ->add('updates', CheckboxType::class, ['required' => false])
-            ->add('joined', CheckboxType::class, ['required' => false])
-            ->add('preparation', CheckboxType::class, ['required' => false])
             ->add('gender', IntegerType::class, ['required' => false])
-//            ->add('availability', TextareaType::class, ['disabled' => true])
+            ->add('availabilities', CollectionType::class, [
+                'required' => false,
+            ], [
+                'edit' => 'inline',
+                'inline' => 'table',
+            ])
         ;
     }
 
@@ -93,7 +105,7 @@ class VolunteerAdmin extends AbstractAdmin
                 ->add('health')
                 ->add('interests')
                 ->add('gender')
-                ->add('availability')
+                ->add('availabilities')
             ->end()
         ;
     }
