@@ -48,7 +48,7 @@ class Token
 
     public function __construct()
     {
-        $this->code = bin2hex(bin2hex(random_bytes(32)));
+        $this->code = bin2hex(random_bytes(32));
         $this->expiry = Carbon::now();
         $this->expiry->addMonths(3);
     }

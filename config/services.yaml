@@ -77,6 +77,13 @@ services:
         - { name: sonata.admin, manager_type: orm, label: Repetition }
         public: true
 
+    admin.token:
+        class: App\Admin\TokenAdmin
+        arguments: [~, App\Entity\Token, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Token }
+        public: true
+
     admin.gedmo_loggable_logentry:
         class: App\Admin\LogEntryAdmin
         arguments: [~, Gedmo\Loggable\Entity\LogEntry, ~]
