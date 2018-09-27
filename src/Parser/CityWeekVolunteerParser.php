@@ -33,7 +33,7 @@ class CityWeekVolunteerParser extends BaseEventParser
         $entities = [];
 
         foreach ($records as $record) {
-            if (empty('webform_sid') && empty($record['webform_uid']) && empty($record['surname'])) {
+            if (empty($record['webform_sid']) && empty($record['webform_uid']) && empty($record['epitheto'])) {
                 // Empty record, or useless row before header
                 continue;
             }
@@ -75,7 +75,7 @@ class CityWeekVolunteerParser extends BaseEventParser
 
             $volunteer
                 ->setHealth(
-                    ( (!empty($record['ehete_kapoio_iatriko_thema'])) ? '(Ναι) ' : '' ) .
+                    ( ($record['ehete_kapoio_iatriko_thema'] !== 'ΟΧΙ') ? '(Ναι) ' : '' ) .
                     $record['parakalo_dieykriniste'])
                 ->setShirtSize(explode(' ', $record['noymero_mployzas'])[0])
                 ->setSubscription($record['notifications'] === 'ΝΑΙ');

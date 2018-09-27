@@ -25,4 +25,5 @@ return [
     Sonata\UserBundle\SonataUserBundle::class => ['all' => true],
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
     Translation\Bundle\TranslationBundle::class => ['dev' => true],
+    Ornicar\GravatarBundle\OrnicarGravatarBundle::class => ['all' => true],
 ];

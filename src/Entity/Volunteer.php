@@ -204,6 +204,11 @@ class Volunteer
         return $this;
     }
 
+    public function getFullName(): string
+    {
+        return $this->getName() . ' ' . $this->getSurname();
+    }
+
     public function getAge(): ?int
     {
         return $this->age;

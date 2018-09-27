@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{% import _self as self %}
+
+{% block title %}Volunteers{% endblock %}
+
+{% block body %}
+    <h1>Volunteer index</h1>
+
+    {% for volunteer in volunteers %}
+        <hr>
+        <div class="media">
+            <div class="media-left volunteer-icon">
+                <img src="{{ gravatar(volunteer.email, 64) }}" alt="" title="User Avatar">
+            </div>
+            <div class="media-body">
+                <h2 class="media-heading">
+                    {{ volunteer.fullName }}
+                    <small class="media-subtitle">
+                        {{ volunteer.age }}
+                        {% trans %}years old{% endtrans %},
+                        {{ volunteer.level }}
+                        {{ volunteer.property }}
+                    </small>
+                </h2>
+
+                {% if volunteer.originalData %}
+                    {# TODO: Lazy load this - it might be a lot of data #}
+                    <div class="collapse" id="volunteer-original-data-{{ volunteer.id }}">
+                        <pre class="card card-body">
+                            <code class="language-yaml">
+                                {{- volunteer.originalData|yaml_dump(2, true) -}}
+                            </code>
+                        </pre>
+                    </div>
+                {% endif %}
+
+                <p>{{ volunteer.interests }}</p>
+
+                {% if volunteer.health is not empty %}
+                    <p>
+                        <i class="fas fa-exclamation-triangle " aria-hidden="true"></i>
+                        <strong>{{ volunteer.health }}</strong>
+                    </p>
+                {% endif %}
+
+                {% if not volunteer.availabilities.empty %}
+                    <div class="list-group list-group-compact">
+                        {% for availability in volunteer.availabilities %}
+                            <div class="list-group-item">
+                                <i class="far fa-calendar-alt mr-3" title="Volunteer Available Date"></i>
+
+                                {{ self.easyDate(availability.start) }}
+                                {% if availability.end %}
+                                    &mdash;
+                                    {{ self.easyDate(availability.end) }}
+                                {% endif %}
+
+                                <span class="float-right">
+                                     {% if availability.end %}
+                                         <span class="badge badge-info">
+                                             {{- availability.end.copy.diffInHours(availability.start) }}
+                                             {% trans %}hours.short{% endtrans -%}
+                                         </span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <p class="contact">
+                    <em>{% trans %}Contact{% endtrans %}:
+                        {{ volunteer.phone }},
+                        <a href="mailto:{{ volunteer.email }}">
+                            {{ volunteer.email }}
+                        </a>
+                        ({{ volunteer.property }}
+                        {{ volunteer.school }})
+                    </em>
+                </p>
+            </div>
+            <div class="media-right event-no">
+                #{{ loop.index }} (<code>{{ volunteer.id }}</code>)
+                <a href="{{ path('admin_app_volunteer_show', {id: volunteer.id}) }}"
+                   title="{% trans %}Edit{% endtrans %}"
+                   class="btn btn-secondary btn-sm lh-100"><img class="img-invert m-1"
+                                                              src="{{ asset('assets/icons/magnifying-glass.svg') }}"
+                                                              alt="" aria-hidden="true"
+                                                              width="14" height="14"></a>
+                <a href="{{ path('admin_app_volunteer_edit', {id: volunteer.id}) }}"
+                   title="{% trans %}Edit{% endtrans %}"
+                   class="btn btn-primary btn-sm lh-100"><img class="img-invert m-1"
+                                                              src="{{ asset('assets/icons/edit.svg') }}"
+                                                              alt="" aria-hidden="true"
+                                                              width="14" height="14"></a>
+                {% if volunteer.originalData %}<a class="btn bg-purple btn-sm lh-000" data-toggle="collapse"
+                                              href="#volunteer-original-data-{{ volunteer.id }}" role="button"
+                                              aria-expanded="false"
+                                              aria-controls="volunteer-original-data-{{ volunteer.id }}" title="{% trans %}Show original data{% endtrans %}">
+                    <img class="img-invert m-1" src="{{ asset('assets/icons/settings.svg') }}"
+                         alt="" aria-hidden="true"
+                         width="14" height="14"><br>
+                    <span class="btn-subtitle" title="{% trans %}Original{% endtrans %}">{% trans %}original.short{% endtrans %}</span>
+                    </a>{% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('build/events.js') }}"></script>
+{% endblock %}
+
+{% macro easyDate(carbon) -%}
+    {{- carbon.format('F') }} <strong>{{ carbon.format('d') }}</strong>, {{ carbon.format('Y') }}
+    <strong>{{ carbon.format('H') }}</strong>:<strong>{{ carbon.format('i') }}</strong>
+{%- endmacro %}

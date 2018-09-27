@@ -194,7 +194,7 @@
                 {% endif %}
             </div>
             <div class="media-right event-no">
-                #{{ loop.index }}
+                #{{ loop.index }} (<code>{{ event.id }}</code>)
                 <a href="{{ path('admin_app_event_edit', {id: event.id}) }}"
                    title="{% trans %}Edit{% endtrans %}"
                    class="btn btn-primary btn-sm lh-100"><img class="img-invert m-1"

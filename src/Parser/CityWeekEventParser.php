@@ -29,7 +29,7 @@ class CityWeekEventParser extends BaseEventParser
         $events = [];
 
         foreach ($records as $record) {
-            if (empty('webform_sid') && empty($record['webform_uid']) && empty($record['title'])) {
+            if (empty($record['webform_sid']) && empty($record['webform_uid']) && empty($record['title'])) {
                 // Empty record, or useless row before header
                 continue;
             }

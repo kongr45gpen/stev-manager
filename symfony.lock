@@ -122,6 +122,9 @@
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },
+    "ornicar/gravatar-bundle": {
+        "version": "1.3.0"
+    },
     "pclzip/pclzip": {
         "version": "2.8.2"
     },

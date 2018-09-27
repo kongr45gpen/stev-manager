@@ -39,7 +39,16 @@ $primary: darken(#428bca, 20%);
     overflow: auto;
 }
 
+.media-left {
+    margin-right: 3rem;
+}
+
 .media-right {
+}
+
+.media-subtitle {
+    font-size: 50%;
+    color: $text-muted;
 }
 
 .media-quickshow {
