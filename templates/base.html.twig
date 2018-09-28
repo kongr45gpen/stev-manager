@@ -43,7 +43,7 @@
                     <a class="nav-link" href="{{ path('volunteer_index', {instance: instance.id}) }}">{% trans %}Volunteers{% endtrans %}</a>
                 </li>
                 <li class="nav-item {% if 'CalendarController' in controller %}active{% endif %}">
-                    <a class="nav-link" href="{{ path('calendar', {instance: instance.id}) }}">{% trans %}Calendar{% endtrans %}</a>
+                    <a class="nav-link" href="{{ path('calendar_events', {instance: instance.id}) }}">{% trans %}Calendar{% endtrans %}</a>
                 </li>
                 <li class="nav-item {% if 'FindAndReplaceController' in controller %}active{% endif %}">
                     <a class="nav-link" href="{{ path('find_and_replace', {instance: instance.id}) }}">{% trans %}Find & Replace{% endtrans %}</a>

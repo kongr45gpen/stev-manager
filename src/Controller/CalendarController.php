@@ -9,13 +9,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class CalendarController extends AbstractController
 {
     /**
-     * @Route("/instance/{instance}/calendar", name="calendar")
+     * @Route("/instance/{instance}/calendar", name="calendar_events")
      */
-    public function index(Instance $instance)
+    public function events(Instance $instance)
     {
-        return $this->render('calendar/index.html.twig', [
-            'controller_name' => 'CalendarController',
+        return $this->render('calendar/events.html.twig', [
             'events' => $instance->getEvents(),
+            'instance' => $instance
+        ]);
+    }
+
+    /**
+     * @Route("/instance/{instance}/calendar/volunteers", name="calendar_volunteers")
+     */
+    public function volunteers(Instance $instance)
+    {
+        return $this->render('calendar/volunteers.html.twig', [
+            'volunteers' => $instance->getVolunteers(),
             'instance' => $instance
         ]);
     }

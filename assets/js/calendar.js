@@ -17,8 +17,17 @@ console.log('Loaded calendar file');
 //     }
 // });
 
+let params = {
+    view: 'day',
+    date: new Date()
+};
+
+if (typeof getParams === 'function') {
+    params = Object.assign(params, getParams());
+}
+
 let calendar = new Calendar(document.getElementById('calendar'), {
-    defaultView: 'day',
+    defaultView: params['view'],
     taskView: true,    // can be also ['milestone', 'task']
     scheduleView: true,  // can be also ['allday', 'time']
     template: {
@@ -32,7 +41,7 @@ let calendar = new Calendar(document.getElementById('calendar'), {
             return '&nbsp;&nbsp;#' + schedule.title;
         },
         taskTitle: function() {
-            return '<label><input type="checkbox" />Task</label>';
+            return '';
         },
         allday: function(schedule) {
             return schedule.title + ' <i class="fa fa-refresh"></i>';
@@ -46,14 +55,28 @@ let calendar = new Calendar(document.getElementById('calendar'), {
     },
     month: {
         daynames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        startDayOfWeek: 0,
-        narrowWeekend: true
+        startDayOfWeek: 1,
+        narrowWeekend: false
     },
     week: {
         daynames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        startDayOfWeek: 0,
-        narrowWeekend: true
+        startDayOfWeek: 1,
+        narrowWeekend: false
     }
 });
 
+calendar.setDate(params['date']);
+
 createSchedules(calendar);
+
+$(document).ready(function() {
+    $("#js--calendar-prev").click(function() {
+        calendar.prev()
+    });
+    $("#js--calendar-next").click(function() {
+        calendar.next()
+    });
+    $("#js--calendar-date").click(function() {
+        calendar.setDate(params['date']);
+    });
+});

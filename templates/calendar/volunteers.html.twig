@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Calendar{% endblock %}
+
+{% block body %}
+    <div id="calendarMenu" class="mb-3">
+        <button type="button" id="js--calendar-date"
+                class="btn btn-primary mr-2">{{ instance.startDate.format('Y/m/d') }}</button>
+        <button id="js--calendar-prev"
+                type="button" class="btn btn-default mr-2" title="Next Day"><i
+                    class="fas fa-arrow-left"></i></button>
+        <button type="button" id="js--calendar-next"
+                class="btn btn-default mr-2"><i
+                    class="fas fa-arrow-right" title="Previous Day"></i></button>
+    </div>
+    <div id="calendar" style="height: 800px;"></div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var stringToColour = function (str) {
+            str = str.repeat(27);
+            var hash = 0;
+            for (var i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            var colour = '#';
+            for (var i = 0; i < 3; i++) {
+                var value = (hash >> (i * 8)) & 0xFF;
+                colour += ('00' + value.toString(16)).substr(-2);
+            }
+            return colour;
+        };
+
+        function getParams() {
+            return {
+                view: 'day',
+                date: new Date({{ instance.startDate.year }}, {{ instance.startDate.month - 1 }}, {{ instance.startDate.day }})
+            };
+        }
+
+        function createSchedules(calendar) {
+            calendar.createSchedules([
+                {% for volunteer in volunteers %}
+                {% for availability in volunteer.availabilities if availability.end %}
+                {
+                    id: '{{ availability.id }}',
+                    calendarId: '{{ volunteer.id }}',
+                    title: '{{ volunteer.fullName }}',
+                    color: '#ffffff',
+                    bgColor: stringToColour('{{ volunteer.id }}'),
+                    category: 'time',
+                    dueDateClass: '',
+                    start: '{{ availability.start.toRfc3339String }}',
+                    end: '{{ availability.end.toRfc3339String }}'
+                },
+                {% endfor %}
+                {% endfor %}
+            ]);
+        }
+    </script>
+    <script type="text/javascript" src="{{ asset('build/calendar.js') }}"></script>
+{% endblock %}
+

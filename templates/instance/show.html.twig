@@ -22,25 +22,35 @@
         </a>
 
         <a class="d-flex align-items-center p-3 my-3 mx-3 text-white-50 bg-primary rounded box-shadow col-lg-3"
-           href="{{ path('calendar', {instance: instance.id}) }}">
+           href="{{ path('calendar_events', {instance: instance.id}) }}">
             <img class="mr-3 img-invert" src="{{ asset('assets/icons/calendar.svg') }}" alt=""
                  width="48" height="48">
             <div class="lh-100">
                 <h6 class="mb-0 text-white lh-100">Calendar</h6>
             </div>
         </a>
-
     </div>
 
-    <a class="d-flex align-items-center p-3 my-3 text-white-50 bg-green rounded box-shadow"
-        href="{{ path('volunteer_index', {instance: instance.id}) }}">
-        <img class="mr-3 img-invert" src="{{ asset('assets/icons/avatar.svg') }}" alt=""
-             width="48" height="48">
-        <div class="lh-100">
-            <h6 class="mb-0 text-white lh-100">Volunteers</h6>
-            <small>{{ instance.volunteers.count }} volunteers</small>
-        </div>
-    </a>
+    <div class="row">
+        <a class="d-flex align-items-center p-3 my-3 mx-3 text-white-50 bg-green rounded box-shadow col-lg"
+            href="{{ path('volunteer_index', {instance: instance.id}) }}">
+            <img class="mr-3 img-invert" src="{{ asset('assets/icons/avatar.svg') }}" alt=""
+                 width="48" height="48">
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Volunteers</h6>
+                <small>{{ instance.volunteers.count }} volunteers</small>
+            </div>
+        </a>
+
+        <a class="d-flex align-items-center p-3 my-3 mx-3 text-white-50 bg-primary rounded box-shadow col-lg-3"
+           href="{{ path('calendar_volunteers', {instance: instance.id}) }}">
+            <img class="mr-3 img-invert" src="{{ asset('assets/icons/calendar.svg') }}" alt=""
+                 width="48" height="48">
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Calendar</h6>
+            </div>
+        </a>
+    </div>
 
     <a class="d-flex align-items-center p-3 my-3 text-white-50 bg-yellow rounded box-shadow"
        href="{{ path('import', {instance: instance.id}) }}">
