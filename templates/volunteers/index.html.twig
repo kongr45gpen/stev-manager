@@ -5,6 +5,11 @@
 {% block title %}Volunteers{% endblock %}
 
 {% block body %}
+    <p>
+    <a href="{{ path('volunteer_availability', {instance: instance.id}) }}" class="btn btn-secondary">{% trans %}Availability{% endtrans %}
+        <i class="fas fa-caret-right ml-1" aria-hidden="true"></i></a>
+    </p>
+
     <h1>Volunteer index</h1>
 
     {% for volunteer in volunteers %}
