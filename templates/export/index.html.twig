@@ -34,6 +34,14 @@
             </div>
 
             <div class="card-body">
+                {#<div class="btn-group w-100 d-flex btn-group-lg" role="group" aria-label="Basic example">#}
+                    {#<button type="button" class="btn btn-outline-light" disabled>Volunteers <i class="fas fa-users"></i></button>#}
+                    {#<a href="{{ path('export_volunteers_emails_csv', {instance: instance.id}) }}" class="btn btn-outline-light flex-fill">Emails</a>#}
+                {#</div>#}
+                <a class="btn btn-outline-light btn-lg btn-block"
+                   href="{{ path('export_volunteers_emails_csv', {instance: instance.id}) }}">
+                    <i class="fas fa-envelope mr-1" aria-hidden="true"></i>
+                    {% trans %}Export emails as CSV{% endtrans %}</a>
             </div>
         </div>
     </div>

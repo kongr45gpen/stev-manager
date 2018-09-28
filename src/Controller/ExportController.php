@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Instance;
+use App\Exporter\VolunteerEmailCsvExporter;
 use Carbon\Carbon;
 use Gedmo\Loggable\Entity\LogEntry;
 use Gedmo\Loggable\Entity\Repository\LogEntryRepository;
@@ -28,6 +29,29 @@ class ExportController extends Controller
             'instance' => $instance,
             'version' => $this->getVersion()
         ]);
+    }
+
+    /**
+     * @Route("/instance/{instance}/export/volunteers/emails.csv", name="export_volunteers_emails_csv")
+     */
+    public function exportVolunteerEmailsToCsv(Instance $instance, string $name = null, array $volunteers = null)
+    {
+        if ($volunteers === null) {
+            $volunteers = $instance->getVolunteers();
+        }
+        if ($name === null) {
+            // TODO: Path-safe name
+            $name = $instance->getName();
+        }
+
+        $exporter = new VolunteerEmailCsvExporter();
+
+        $fileName = tempnam(sys_get_temp_dir(), 'StevManager');
+        file_put_contents($fileName, $exporter->export($volunteers));
+
+        $response = $this->file($fileName, 'emails volunteers ' . $name . ' ' . Carbon::now()->format('Ymd') . '.csv');
+        $response->headers->set('Content-Type', 'text/csv');
+        return $response;
     }
 
     /**
@@ -114,6 +138,7 @@ class ExportController extends Controller
         $objWriter->save($fileName);
 
         // TODO: Mime type should be recognized from file?
+        // TODO: Path-safe name
         $response = $this->file($fileName, $instance->getName() . ' ' . Carbon::now()->format('Ymd') . '.docx');
         $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
         return $response;
