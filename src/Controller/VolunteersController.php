@@ -80,8 +80,6 @@ class VolunteersController extends AbstractController
 
         $average = $sum/((float) ($count ?: 1));
 
-        dump($count, $average);
-
         return $this->render('volunteers/availability.html.twig', [
             'availabilities' => $results,
             'average' => $average,
