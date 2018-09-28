@@ -39,11 +39,22 @@
                 <li class="nav-item {% if 'EventController' in controller %}active{% endif %}">
                     <a class="nav-link" href="{{ path('event_index', {instance: instance.id}) }}">{% trans %}Events{% endtrans %}</a>
                 </li>
-                <li class="nav-item {% if 'VolunteerController' in controller %}active{% endif %}">
+                <li class="nav-item {% if 'VolunteersController' in controller %}active{% endif %}">
                     <a class="nav-link" href="{{ path('volunteer_index', {instance: instance.id}) }}">{% trans %}Volunteers{% endtrans %}</a>
                 </li>
-                <li class="nav-item {% if 'CalendarController' in controller %}active{% endif %}">
-                    <a class="nav-link" href="{{ path('calendar_events', {instance: instance.id}) }}">{% trans %}Calendar{% endtrans %}</a>
+                <li class="nav-item dropdown {% if 'CalendarController' in controller %}active{% endif %}">
+                    <a class="nav-link dropdown-toggle" href="{{ path('calendar_events', {instance: instance.id}) }}" id="dropdown-calendar"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans %}Calendar{% endtrans %}</a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-calendar">
+                        <a
+                                class="dropdown-item"
+                                href="{{ path('calendar_events', {instance: instance.id}) }}">{% trans %}Events{% endtrans %}
+                        </a>
+                        <a
+                                class="dropdown-item"
+                                href="{{ path('calendar_volunteers', {instance: instance.id}) }}">{% trans %}Volunteers{% endtrans %}
+                        </a>
+                    </div>
                 </li>
                 <li class="nav-item {% if 'FindAndReplaceController' in controller %}active{% endif %}">
                     <a class="nav-link" href="{{ path('find_and_replace', {instance: instance.id}) }}">{% trans %}Find & Replace{% endtrans %}</a>
