@@ -35,6 +35,7 @@ class ExportController extends Controller
      */
     public function exportEventsToDocx(Instance $instance, TranslatorInterface $translator)
     {
+        // TODO: Create exporter class
         $phpWord = new PhpWord();
 
         $section = $phpWord->addSection(['breakType' => 'continuous']);

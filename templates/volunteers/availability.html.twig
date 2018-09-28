@@ -8,22 +8,33 @@
     <h1>Volunteer availability</h1>
 
     {% set oldDate = null %}
-    <div class="list-group mb-4">
+    {{ form_start(form) }}
+    <div class="list-group mb-4 js--availability-day">
         {% for date in availabilities %}
             {% if oldDate and not date.isSameDay(oldDate) %}
-                </div><div class="list-group mb-4">
+                </div><div class="list-group mb-4 js--availability-day">
             {% endif %}
             {% if not date.isSameDay(oldDate) %}
                 <div class="list-group-item list-group-item-primary pb-1">
-                    <h5><i class="far fa-calendar-alt mr-3" title="Volunteer Available Date"></i>
-                        {{ date.format('F d, Y') }}</h5>
+                    <h5><div class="custom-control custom-checkbox d-inline-block">
+                            <input type="checkbox" class="custom-control-input js--availability-choose-day" id="checkbox-day-{{ date.format('y-m-d') }}">
+                            <label class="custom-control-label" for="checkbox-day-{{ date.format('y-m-d') }}">&nbsp;</label>
+                        </div>
+                        <i class="far fa-calendar-alt mr-3" title="Volunteer Available Date"></i>
+                        {{ date.format('F d, Y') }}
+                        </h5>
                 </div>
             {% endif %}
 
             {% set volunteers = availabilities[date] %}
-            <div class="list-group-item">
+            <div class="list-group-item js--availability-time">
                 <div class="row">
                     <div class="col-md-2">
+                        <div class="custom-control custom-checkbox d-inline-block">
+                            <input type="checkbox" class="custom-control-input js--availability-choose-time" id="checkbox-time-{{ date.toISOString }}">
+                            <label class="custom-control-label" for="checkbox-time-{{ date.toISOString }}">&nbsp;</label>
+                        </div>
+
                         <i class="far fa-clock mr-3" title="Volunteer Available Date"></i>
                         {{ self.easyDate(date) }}
                     </div>
@@ -34,7 +45,7 @@
 
                     <div class="col-md-9 text-justify">
                         {% for volunteer in volunteers %}
-                        <span class="badge badge-secondary">{{ volunteer.fullName }}</span>
+                        <span class="badge badge-secondary js--availability-volunteer" data-id="{{ volunteer.id }}">{{ volunteer.fullName }}</span>
                         {% endfor %}
                     </div>
                 </div>
@@ -42,11 +53,12 @@
             {% set oldDate = date %}
         {% endfor %}
     </div>
+    {{ form_end(form) }}
 
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('build/events.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('build/availability.js') }}"></script>
 {% endblock %}
 
 {% macro easyDate(carbon) -%}

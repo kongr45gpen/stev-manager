@@ -26,7 +26,7 @@ class VolunteersController extends AbstractController
     /**
      * @Route("/instance/{instance}/volunteers/availability", name="volunteer_availability")
      */
-    public function availability(Instance $instance, VolunteerRepository $volunteerRepository): Response
+    public function availability(Instance $instance): Response
     {
         /** @var VolunteerAvailability[] $availabilities */
         $availabilities = [];
@@ -80,12 +80,15 @@ class VolunteersController extends AbstractController
 
         $average = $sum/((float) ($count ?: 1));
 
+        $form = $this->createFormBuilder()->getForm(); // ???
+
         return $this->render('volunteers/availability.html.twig', [
             'availabilities' => $results,
             'average' => $average,
             'p25' => $average + 0.25 * ($max-$min),
             'p75' => $average - 0.25 * ($max-$min),
-            'instance'=> $instance
+            'instance'=> $instance,
+            'form' => $form->createView()
         ]);
     }
 }
