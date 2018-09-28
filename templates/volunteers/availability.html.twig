@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% import _self as self %}
+
+{% block title %}Volunteers{% endblock %}
+
+{% block body %}
+    <h1>Volunteer availability</h1>
+
+    {% set oldDate = null %}
+    <div class="list-group mb-4">
+        {% for date in availabilities %}
+            {% if oldDate and not date.isSameDay(oldDate) %}
+                </div><div class="list-group mb-4">
+            {% endif %}
+            {% if not date.isSameDay(oldDate) %}
+                <div class="list-group-item list-group-item-primary pb-1">
+                    <h5><i class="far fa-calendar-alt mr-3" title="Volunteer Available Date"></i>
+                        {{ date.format('F d, Y') }}</h5>
+                </div>
+            {% endif %}
+
+            {% set volunteers = availabilities[date] %}
+            <div class="list-group-item">
+                <div class="row">
+                    <div class="col-md-2">
+                        <i class="far fa-clock mr-3" title="Volunteer Available Date"></i>
+                        {{ self.easyDate(date) }}
+                    </div>
+
+                    <div class="col-md-1">
+                        <span class="badge {% if volunteers|length > p25 %}badge-success{% elseif volunteers|length > p75 %}badge-warning{% else %}badge-danger{% endif %} badge-pill badge-lg">{{ volunteers|length }}</span>
+                    </div>
+
+                    <div class="col-md-9 text-justify">
+                        {% for volunteer in volunteers %}
+                        <span class="badge badge-secondary">{{ volunteer.fullName }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% set oldDate = date %}
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('build/events.js') }}"></script>
+{% endblock %}
+
+{% macro easyDate(carbon) -%}
+    {#{{- carbon.format('F') }} <strong>{{ carbon.format('d') }}</strong>, {{ carbon.format('Y') }}#}
+    <strong>{{ carbon.format('H') }}</strong>:<strong>{{ carbon.format('i') }}</strong>
+{%- endmacro %}

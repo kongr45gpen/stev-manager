@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -54,26 +55,26 @@ class VolunteerAvailability
         return $this;
     }
 
-    public function getStart(): ?\DateTimeInterface
+    public function getStart(): ?Carbon
     {
         return $this->start;
     }
 
     public function setStart(\DateTimeInterface $start): self
     {
-        $this->start = $start;
+        $this->start = Carbon::instance($start);
 
         return $this;
     }
 
-    public function getEnd(): ?\DateTimeInterface
+    public function getEnd(): ?Carbon
     {
         return $this->end;
     }
 
     public function setEnd(?\DateTimeInterface $end): self
     {
-        $this->end = $end;
+        $this->end = $end ? Carbon::instance($end) : null;
 
         return $this;
     }
