@@ -318,4 +318,9 @@ class Submitter
 
         return implode(', ', $details);
     }
+
+    public function getFullName()
+    {
+        return $this->name . ' ' . $this->surname;
+    }
 }

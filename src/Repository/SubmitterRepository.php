@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Instance;
 use App\Entity\Submitter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -19,6 +20,10 @@ class SubmitterRepository extends ServiceEntityRepository
         parent::__construct($registry, Submitter::class);
     }
 
+    /**
+     * @param int|Instance $instance
+     * @return Submitter[]
+     */
     public function findByInstance($instance)
     {
         return $this->createQueryBuilder('s')

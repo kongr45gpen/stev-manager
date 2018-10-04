@@ -3,6 +3,11 @@
 {% block title %}Event index{% endblock %}
 
 {% block body %}
+    <p>
+        <a href="{{ path('event_stats', {instance: instance.id}) }}" class="btn btn-secondary">{% trans %}Stats{% endtrans %}
+            <i class="fas fa-caret-right ml-1" aria-hidden="true"></i></a>
+    </p>
+
     <h1>Event index</h1>
 
     {% for event in events %}

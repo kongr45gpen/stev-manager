@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Instance;
 use App\Entity\Repetition;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -19,6 +20,10 @@ class RepetitionRepository extends ServiceEntityRepository
         parent::__construct($registry, Repetition::class);
     }
 
+    /**
+     * @param int|Instance $instance
+     * @return Repetition[]
+     */
     public function findByInstance($instance)
     {
         return $this->createQueryBuilder('r')

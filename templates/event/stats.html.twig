@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event index{% endblock %}
+
+{% block body %}
+    <dl class="row">
+        <dt class="col-sm-3">{% trans %}Event Count{% endtrans %}</dt>
+        <dd class="col-sm-9">{{ stats.count }}</dd>
+
+        <dt class="col-sm-3">{% trans %}Submitter Count{% endtrans %}</dt>
+        <dd class="col-sm-9">{{ stats.submitters.count }}</dd>
+
+
+        <dt class="col-sm-3">{% trans %}Unique Submitter Count{% endtrans %}</dt>
+        <dd class="col-sm-9">{{ stats.submitters.unique_count }}</dd>
+
+        <dt class="col-sm-3">{% trans %}Event Types{% endtrans %}</dt>
+        <dd class="col-sm-9">
+            <dl class="row">
+                {% for kind,count in stats.categories %}
+                    <dt class="col-sm-4">{{ kind|trans }}</dt>
+                    <dd class="col-sm-8">{{ count }}</dd>
+                {% endfor %}
+            </dl>
+        </dd>
+
+        <dt class="col-sm-3">{% trans %}Combined Hours{% endtrans %}</dt>
+        <dd class="col-sm-9">{{ stats.combined_hours }}{% trans %}hours.short{% endtrans %}</dd>
+
+        <dt class="col-sm-3">{% trans %}Volunteer Count{% endtrans %}</dt>
+        <dd class="col-sm-9">{{ stats.volunteers }}</dd>
+
+        <dt class="col-sm-3">{% trans %}Event Actor Count{% endtrans %}</dt>
+        <dd class="col-sm-9">{{ stats.humans }}</dd>
+
+        <dt class="col-sm-3">{% trans %}Faculties{% endtrans %}</dt>
+        <dd class="col-sm-9">
+            <dl class="row">
+                {% for kind,count in stats.submitters.faculties %}
+                    <dt class="col-sm-4">{{ kind|trans }}</dt>
+                    <dd class="col-sm-8">{{ count }}</dd>
+                {% endfor %}
+            </dl>
+        </dd>
+
+        <dt class="col-sm-3">{% trans %}Schools{% endtrans %}</dt>
+        <dd class="col-sm-9">
+            <dl class="row">
+                {% for kind,count in stats.submitters.schools %}
+                    <dt class="col-sm-4">{{ kind|trans }}</dt>
+                    <dd class="col-sm-8">{{ count }}</dd>
+                {% endfor %}
+            </dl>
+        </dd>
+    </dl>
+{% endblock %}
