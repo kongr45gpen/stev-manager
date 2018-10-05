@@ -43,8 +43,7 @@ class EventAdmin extends AbstractAdmin
                     ->add('title', TextType::class)
                     ->add('space', ModelListType::class, [
                         'class' => Space::class,
-                        'required' => false,
-                        'btn_delete' => false
+                        'required' => false
                     ])
                 ->end()
                 ->with('Status information', ['class' => 'col-md-3'])

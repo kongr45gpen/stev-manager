@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\Instance;
 use App\Entity\Repetition;
+use App\Entity\Space;
 use App\Parser\BaseEventParser;
+use App\Repository\SpaceRepository;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -71,6 +73,7 @@ class ImportController extends Controller
             ->add('createRepetitions', SubmitType::class, ['attr'=>['class'=>'btn-primary']])
             ->add('deleteAndCreateRepetitions', SubmitType::class, ['attr'=>['class'=>'btn-danger']])
             ->add('backupOriginalData', SubmitType::class, ['attr'=>['class'=>'btn-success']])
+            ->add('addPavilionSpaces', SubmitType::class, ['attr'=>['class'=>'btn-default']])
             ->getForm();
         $actionForm->handleRequest($request);
 
@@ -98,6 +101,31 @@ class ImportController extends Controller
 
                 $em->flush();
                 $this->addFlash('success', "$count original data packs added.");
+            } elseif ($actionForm->get('addPavilionSpaces')->isClicked()) {
+                $index = 1;
+                /** @var SpaceRepository $spaceRepository */
+                $spaceRepository = $this->getDoctrine()->getRepository('App:Space');
+
+                foreach ($instance->getEvents() as $event) {
+                    if ($event->getSpace() === null) {
+                        // TODO: A way to customise the name
+                        $name = 'Π' . $index;
+                        $space = $spaceRepository->findOneByName($name);
+                        if (!$space) {
+                            $space = new Space();
+                            $space->setName($name);
+                            $em->persist($space);
+                        }
+
+                        $event->setSpace($space);
+                        $em->persist($event);
+
+                        $index++;
+                    }
+                }
+
+                $em->flush();
+                $this->addFlash('success', ($index - 1) . " spaces added.");
             }
         }
 
