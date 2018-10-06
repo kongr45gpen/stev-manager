@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event timeline{% endblock %}
+
+{% block container_class %}container-fluid{% endblock %}
+
+{% block body %}
+    {% for dayName, day in days %}
+        <h4>{{ dayName }}</h4>
+        <div class="timeline-container">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col"><i class="far fa-clock" title="{% trans %}Time{% endtrans %}"></i></th>
+                    {% for event in events %}
+                        <th class="timeline-heading timeline-column" scope="col">
+                            <div class="badge badge-primary badge-lg" style="background-color: hsl({{ event.hue }}, 50%, 20%)">{{ (event.space) ? event.space.name : '' }}</div>
+                            <br>{{ event.title }}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for timeName, time in day %}
+                    <tr>
+                        <th scope="row">{{ timeName }}<br>
+                            <div class="text-unbold"><div class="badge badge-info">{{ time|length }}</div> {% trans %}events{% endtrans %}
+                            </div></th>
+                        {% for event in events %}
+                            <td class="timeline-column">
+                                {% if time[event.id] is defined %}
+                                    {% set repetition = time[event.id] %}
+                                    <div class="card text-white card-timeline m-1"
+                                         data-toggle="tooltip" data-placement="top" title="{{ event.title }}">
+                                        <div class="card-header p-1 text-center" style="background-color: hsl({{ event.hue }}, 50%, 30%)">
+                                            <div class="badge badge-primary badge-lg" style="background-color: hsl({{ event.hue }}, 50%, 20%)">{{ (event.space) ? event.space.name : '' }}</div>
+                                            {#{{ event.title|truncate(30) }}#}
+                                        </div>
+                                        <div class="card-body py-3 px-0" style="background-color: hsl({{ event.hue }}, 50%, 40%)">
+                                            <div><span class="keep-line">{{ repetition.date.format('H:i') }}</span><br><span class="keep-line">{{ repetition.endTime.format('H:i') }}</span></div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th scope="col"><i class="far fa-clock" title="{% trans %}Time{% endtrans %}"></i></th>
+                    {% for event in events %}
+                        <th class="timeline-heading timeline-column" scope="col">
+                            <br>{{ event.title }}
+                            <div class="badge badge-primary badge-lg" style="background-color: hsl({{ event.hue }}, 50%, 20%)">{{ (event.space) ? event.space.name : '' }}</div>
+                        </th>
+                    {% endfor %}
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('build/timeline.js') }}"></script>
+{% endblock %}

@@ -29,6 +29,10 @@ $primary: darken(#428bca, 20%);
     font-size: 10pt;
 }
 
+.text-unbold {
+    font-weight: normal !important;
+}
+
 // Bootstrap's default custom file input doesn't work great
 .custom-file-input {
     //opacity: 1;
@@ -127,6 +131,41 @@ pre {
     max-width: 100%;
 }
 
+.keep-line {
+    white-space: nowrap;
+}
+
 .badge-lg {
     font-size: 90%;
+}
+
+.timeline-heading {
+    //white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.timeline-column {
+    max-width: 2rem;
+    padding: 0.1rem !important;
+    text-align: center;
+}
+
+.timeline-container {
+    min-width: 1600px;
+    overflow: auto;
+}
+
+.card-timeline {
+    width: 100%;
+
+    .card-header {
+        font-size: 13pt;
+        hyphens: auto;
+        font-weight: bold;
+    }
+
+    .card-body {
+        font-size: 10pt;
+    }
 }

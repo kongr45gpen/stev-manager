@@ -31,6 +31,58 @@ class EventController extends AbstractController
     }
 
     /**
+     * @Route("instance/{instance}/events/timeline", name="event_timeline", methods="GET")
+     */
+    public function timeline(Instance $instance, EventRepository $eventRepository): Response
+    {
+        /** @var Event[] $events */
+        $events = $eventRepository->findByInstance($instance);
+
+        $days = [];
+
+        foreach ($events as $event) {
+            if (!isset($event->hue)) {
+                $event->hue = $this->eventHue($event);
+            }
+
+            foreach ($event->getRepetitions() as $repetition) {
+                // TODO: This needs better date handling
+                $startingHour = $repetition->getDate()->hour;
+                for ($hour = $startingHour; $hour < $startingHour + $repetition->getDuration() / Carbon::MINUTES_PER_HOUR; $hour++) {
+                    $time = ($hour % 24) . ":00 – " . (($hour+1) % 24) . ":00";
+                    $day = $repetition->getDate()->format('Y/m/d');
+
+                    $days[$day][$time][$event->getId()] = $repetition;
+                }
+            }
+        }
+
+        foreach ($days as &$day) {
+            ksort($day);
+        }
+        ksort($days);
+
+        return $this->render('event/timeline.html.twig', [
+            'events' => $events,
+            'days' => $days,
+            'instance'=> $instance
+        ]);
+    }
+
+    /**
+     * Get a colour corresponding to an event
+     * @todo Move this to a utility class
+     */
+    private function eventHue(Event $event)
+    {
+        $id = $event->getId() . 'salt123';
+        $md5 = md5($id, true);
+        $hue = (ord($md5[3]) + ord($md5[10])) / 510.0 * 360.0;
+
+        return $hue;
+    }
+
+    /**
      * @Route("instance/{instance}/events/stats", name="event_stats", methods="GET")
      */
     public function stats(Instance $instance, EventRepository $eventRepository): Response
